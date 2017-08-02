@@ -5,6 +5,7 @@
 profileParameters <- function(technique) {
   parameters <- new('ProfileParameters',
                     technique = technique,
+                    infoName = 'runinfo.csv',
                     processingParameters = list()
                     )
   
@@ -14,18 +15,41 @@ profileParameters <- function(technique) {
   
   if (technique == 'GCMS-XCMS') {
     parameters@processingParameters <- list(
-     peakDetection = list(method = 'matchedFilter',fwhm = 3, snthresh = 1,sclass = 'class',nSlaves = detectCores()),
-     grouping = list(bw = 5,minfrac = 2/3)
+     peakDetection = list(method = 'matchedFilter',
+                          fwhm = 3, 
+                          snthresh = 1,
+                          snames = 'names', 
+                          sclass = 'class',
+                          nSlaves = detectCores()
+                          ),
+     grouping = list(bw = 5,
+                     minfrac = 2/3
+                     )
     )
   }
   
-  if (technique == 'LCMS-C18' | technique == 'LCMS-HILIC') {
+  if (technique == 'LCMS-RP' | technique == 'LCMS-NP') {
     parameters@processingParameters <- list(
-      peakDetection = list(method.pd = "centWave", ppm = 1.5, peakwidth = c(2,40),
-                    snthresh = 3.0, mzCenterFun = "apex", mzdiff = 0.05, fitgauss = FALSE,
-                    integrate = 2, nSlaves = detectCores()), 
-      retentionTimeCorrection = list(method.rt = "obiwarp", profStep = 1.0),
-      grouping = list(bw = 5 ,mzwid = 0.015, minfrac = 2/3)
+      modes = c('neg','pos'),
+      peakDetection = list(method = "centWave",
+                           ppm = 1.5,
+                           peakwidth = c(2,40),
+                    snthresh = 3.0,
+                    snames = 'names', 
+                    sclass = 'class',
+                    mzCenterFun = "apex", 
+                    mzdiff = 0.05, 
+                    fitgauss = FALSE,
+                    integrate = 2
+                    ), 
+      retentionTimeCorrection = list(method = "obiwarp", 
+                                     profStep = 1.0
+                                     ),
+      grouping = list(bw = 5 ,
+                      mzwid = 0.015, 
+                      minfrac = 2/3
+                      ),
+      nCores = detectCores()
       )
   }
   

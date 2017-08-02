@@ -11,11 +11,12 @@ profilingMethods <- function(method = NULL){
       
     },
     
-    `LCMS-C18` = function(x){
-      
+    `LCMS-RP` = function(x){
+      parameters <- x@processingParameters
+      # peak_det <- 
     },
     
-    `LCMS-HILIC` = function(x){
+    `LCMS-NP` = function(x){
       
     }
   )
