@@ -1,6 +1,7 @@
 #' profileProcess
 #' @importFrom readr read_csv
 #' @importFrom tibble tibble
+#' @importFrom methods new
 #' @export
 
 profileProcess <- function(files,parameters) {

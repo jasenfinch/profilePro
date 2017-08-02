@@ -10,6 +10,7 @@ setClass('ProfileParameters',
 
 
 #' @export
+
 setClass('MetaboProfile',
          slots = list(
            log = 'character',
