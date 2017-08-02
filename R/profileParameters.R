@@ -7,7 +7,7 @@ profileParameters <- function(technique) {
                     processingParameters = list()
                     )
   
-  if (technique == 'GCMS-erah') {
+  if (technique == 'GCMS-eRah') {
     
   }
   
@@ -19,7 +19,7 @@ profileParameters <- function(technique) {
     
   }
   
-  if (technique == 'LCMS - HILIC') {
+  if (technique == 'LCMS-HILIC') {
     
   }
   
