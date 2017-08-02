@@ -3,7 +3,8 @@
 setClass('ProfileParameters',
          slots = list(
            technique = 'character',
-           parameters = 'list'
+           infoName = 'character',
+           processingParameters = 'list'
          )
 )
 
@@ -12,6 +13,8 @@ setClass('ProfileParameters',
 setClass('MetaboProfile',
          slots = list(
            log = 'character',
+           files = 'character',
+           processingParameters = 'ProfileParameters',
            Info = 'tbl_df',
            Data = 'list',
            processingResults = 'list'
