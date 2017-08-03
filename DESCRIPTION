@@ -1,4 +1,4 @@
-Package: profileProc
+Package: profilePro
 Title: Wrappers for processing metabolomic profiling experiments
 Version: 0.0.0.9000
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
@@ -6,7 +6,10 @@ Description: Wrapper methods to allow consistent output of data processing resul
 Depends: R (>= 3.4.1)
 Imports: readr,
     tibble,
-    methods
+    methods,
+    purrr,
+    xcms,
+    BiocParallel
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

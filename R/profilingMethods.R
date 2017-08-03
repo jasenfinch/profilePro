@@ -12,12 +12,11 @@ profilingMethods <- function(method = NULL){
     },
     
     `LCMS-RP` = function(x){
-      parameters <- x@processingParameters
-      # peak_det <- 
+      XCMSlcProcessing(x)
     },
     
     `LCMS-NP` = function(x){
-      
+      XCMSlcProcessing(x)
     }
   )
   
