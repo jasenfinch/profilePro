@@ -11,13 +11,9 @@ profilingMethods <- function(method = NULL){
       
     },
     
-    `LCMS-RP` = function(x){
-      XCMSlcProcessing(x)
-    },
+    `LCMS-RP` = XCMSlcProcessing,
     
-    `LCMS-NP` = function(x){
-      XCMSlcProcessing(x)
-    }
+    `LCMS-NP` = XCMSlcProcessing
   )
   
   if (is.null(method)) {
