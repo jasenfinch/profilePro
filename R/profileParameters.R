@@ -19,12 +19,12 @@ profileParameters <- function(technique) {
                           fwhm = 3, 
                           snthresh = 1,
                           snames = 'names', 
-                          sclass = 'class',
-                          nSlaves = detectCores()
+                          sclass = 'class'
                           ),
      grouping = list(bw = 5,
                      minfrac = 2/3
-                     )
+                     ),
+     nCores = detectCores()
     )
   }
   

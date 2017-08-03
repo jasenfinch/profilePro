@@ -20,7 +20,7 @@ profilingMethods <- function(method = NULL){
       para@.xData$workers <- parameters@processingParameters$nCores
       formals(peakDet)$BPPARAM <- para
       
-      peakDetection <- peakDet(files = files)
+      peakDetection <- peakDet(files = x@files)
       
       suppressMessages(groups <- group(peakDetection,
                                        bw = parameters@processingParameters$grouping$bw,
@@ -29,11 +29,11 @@ profilingMethods <- function(method = NULL){
       
       suppressMessages(filled <- fillPeaks(groups))
       
-      pt <- peakTable(Data[[mode]]) %>% 
+      pt <- peakTable(filled) %>% 
         as_tibble() %>%
         mutate(rt = rt/60,rtmin = rtmin/60,rtmax = rtmax/60)
       ID <- pt %>% 
-        mutate(ID = str_c(m,round(mz,5),'@',round(rt,3))) %>%
+        mutate(ID = str_c(mz,'@',round(rt,3))) %>%
         select(ID)
       pt <- bind_cols(ID,pt)
       
@@ -43,7 +43,7 @@ profilingMethods <- function(method = NULL){
       colnames(Data) <- Data$ID
       Data <- as_tibble(Data)
       
-      x@Data <- list(Data)
+      x@Data <- list(Data = Data)
       x@processingResults <- list(peakDetection = peakDetection, 
                                   retentionTimeCorrection = retentionTimeCorrection, 
                                   groups = groups,
