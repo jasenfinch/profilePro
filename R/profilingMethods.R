@@ -8,7 +8,49 @@ profilingMethods <- function(method = NULL){
     },
     
     `GCMS-XCMS` = function(x){
+      parameters <- x@processingParameters
       
+      peakDet <- xcmsSet
+      parameters@processingParameters$peakDetection$snames <- unlist(info[,parameters@processingParameters$peakDetection$snames])
+      parameters@processingParameters$peakDetection$sclass <- unlist(info[,parameters@processingParameters$peakDetection$sclass])
+      f <- formals(peakDet)
+      f[names(parameters@processingParameters$peakDetection)] <- parameters@processingParameters$peakDetection
+      formals(peakDet) <- f
+      para <- bpparam()
+      para@.xData$workers <- parameters@processingParameters$nCores
+      formals(peakDet)$BPPARAM <- para
+      
+      peakDetection <- peakDet(files = files)
+      
+      suppressMessages(groups <- group(peakDetection,
+                                       bw = parameters@processingParameters$grouping$bw,
+                                       minfrac = parameters@processingParameters$grouping$minfrac
+      ))
+      
+      suppressMessages(filled <- fillPeaks(groups))
+      
+      pt <- peakTable(Data[[mode]]) %>% 
+        as_tibble() %>%
+        mutate(rt = rt/60,rtmin = rtmin/60,rtmax = rtmax/60)
+      ID <- pt %>% 
+        mutate(ID = str_c(m,round(mz,5),'@',round(rt,3))) %>%
+        select(ID)
+      pt <- bind_cols(ID,pt)
+      
+      ncls <- length(unique(unlist(info[,parameters@processingParameters$peakDetection$sclass])))
+      Data <- pt[,(9 + ncls):ncol(.)] %>%
+        t()
+      colnames(Data) <- Data$ID
+      Data <- as_tibble(Data)
+      
+      x@Data <- list(Data)
+      x@processingResults <- list(peakDetection = peakDetection, 
+                                  retentionTimeCorrection = retentionTimeCorrection, 
+                                  groups = groups,
+                                  filled = filled,
+                                  peakTable = pt
+      )
+      return(x)
     },
     
     `LCMS-RP` = XCMSlcProcessing,
