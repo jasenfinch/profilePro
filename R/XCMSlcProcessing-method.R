@@ -11,8 +11,8 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             suppressPackageStartupMessages(peakDetection <- map(modes, ~{
               files <- x@files[grepl(.,x@files)]
               peakDet <- xcmsSet
-              parameters@processingParameters$peakDetection$snames <- unlist(info[,parameters@processingParameters$peakDetection$snames])
-              parameters@processingParameters$peakDetection$sclass <- unlist(info[,parameters@processingParameters$peakDetection$sclass])
+              parameters@processingParameters$peakDetection$snames <- unlist(x@Info[,parameters@processingParameters$peakDetection$snames])
+              parameters@processingParameters$peakDetection$sclass <- unlist(x@Info[,parameters@processingParameters$peakDetection$sclass])
               f <- formals(peakDet)
               f[names(parameters@processingParameters$peakDetection)] <- parameters@processingParameters$peakDetection
               formals(peakDet) <- f
@@ -42,7 +42,7 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             names(pt) <- modes
             
             Data <- map(pt,~{
-              ncls <- length(unique(unlist(info[,parameters@processingParameters$peakDetection$sclass])))
+              ncls <- length(unique(unlist(x@Info[,parameters@processingParameters$peakDetection$sclass])))
               dat <- .[,(9 + ncls):ncol(.)] %>%
                 t()
               colnames(dat) <- .$ID
