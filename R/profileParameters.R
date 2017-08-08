@@ -22,8 +22,9 @@ profileParameters <- function(technique) {
                           sclass = 'class'
                           ),
      grouping = list(bw = 5,
-                     minfrac = 2/3
+                     minfrac = 0
                      ),
+     retentionTimeCorrection = list(method = "loess"),
      nCores = detectCores()
     )
   }
@@ -47,7 +48,7 @@ profileParameters <- function(technique) {
                                      ),
       grouping = list(bw = 5 ,
                       mzwid = 0.015, 
-                      minfrac = 2/3
+                      minfrac = 0
                       ),
       nCores = detectCores()
       )

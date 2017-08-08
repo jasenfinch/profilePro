@@ -9,7 +9,7 @@ profilingMethods <- function(method = NULL){
     
     `GCMS-XCMS` = function(x){
       parameters <- x@processingParameters
-      
+      info <- x@Info
       peakDet <- xcmsSet
       parameters@processingParameters$peakDetection$snames <- unlist(info[,parameters@processingParameters$peakDetection$snames])
       parameters@processingParameters$peakDetection$sclass <- unlist(info[,parameters@processingParameters$peakDetection$sclass])
@@ -27,9 +27,17 @@ profilingMethods <- function(method = NULL){
                                        minfrac = parameters@processingParameters$grouping$minfrac
       ))
       
-      suppressMessages(filled <- fillPeaks(groups))
+      suppressMessages(retentionTimeCorrection <- retcor(groups, 
+                                                         method = parameters@processingParameters$retentionTimeCorrection$method))
       
-      pt <- peakTable(filled) %>% 
+      suppressMessages(groups <- group(retentionTimeCorrection,
+                                       bw = parameters@processingParameters$grouping$bw,
+                                       minfrac = parameters@processingParameters$grouping$minfrac
+      ))
+      
+      # suppressMessages(filled <- fillPeaks(groups))
+      
+      pt <- peakTable(groups) %>% 
         as_tibble() %>%
         mutate(rt = rt/60,rtmin = rtmin/60,rtmax = rtmax/60)
       ID <- pt %>% 
@@ -37,17 +45,19 @@ profilingMethods <- function(method = NULL){
         select(ID)
       pt <- bind_cols(ID,pt)
       
-      ncls <- length(unique(unlist(info[,parameters@processingParameters$peakDetection$sclass])))
-      Data <- pt[,(9 + ncls):ncol(.)] %>%
+      
+      ncls <- length(unique(unlist(parameters@processingParameters$peakDetection$sclass)))
+      Data <- pt[,(9 + ncls):ncol(pt)] %>%
         t()
-      colnames(Data) <- Data$ID
+      colnames(Data) <- pt$ID
+      Data[is.na(Data)] <- 0
       Data <- as_tibble(Data)
       
       x@Data <- list(Data = Data)
       x@processingResults <- list(peakDetection = peakDetection, 
-                                  retentionTimeCorrection = retentionTimeCorrection, 
+                                  retentionTimeCorrection = retentionTimeCorrection,
                                   groups = groups,
-                                  filled = filled,
+                                  # filled = filled,
                                   peakTable = pt
       )
       return(x)

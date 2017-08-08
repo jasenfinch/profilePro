@@ -35,7 +35,8 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
                                            minfrac = parameters@processingParameters$grouping$minfrac
             ))
             
-            suppressMessages(filled <- map(groups,fillPeaks))
+            #suppressMessages(filled <- map(groups,fillPeaks))
+            filled <- groups
             
             pt <- map(modes,createXCMSpeakTable,Data = filled)
             names(pt) <- modes
@@ -45,6 +46,7 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
               dat <- .[,(9 + ncls):ncol(.)] %>%
                 t()
               colnames(dat) <- .$ID
+              dat[is.na(dat)] <- 0
               dat <- as_tibble(dat)
               return(dat)
             })
@@ -53,7 +55,7 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             x@processingResults <- list(peakDetection = peakDetection, 
                                         retentionTimeCorrection = retentionTimeCorrection, 
                                         groups = groups,
-                                        filled = filled,
+                                        # filled = filled,
                                         peakTable = pt
             )
             return(x)
