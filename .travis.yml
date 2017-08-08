@@ -3,8 +3,18 @@
 language: R
 sudo: false
 cache: packages
-
+warnings_are_errors: true
 bioc_required: true
+
+apt_packages:
+ - libnetcdf-dev
+ - udunits-bin
+ - libudunits2-dev
 
 bioc_packages:
     - xcms
+
+notifications:
+    email:
+    on_success: change
+    on_failure: change
