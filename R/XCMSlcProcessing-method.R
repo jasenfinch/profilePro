@@ -1,6 +1,7 @@
 #' @importFrom purrr map
-#' @importFrom xcms xcmsSet retcor group fillPeaks
-#' @importFrom BiocParallel bpparam
+#' @importFrom MSnbase readMSData2
+#' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks
+#' @importFrom BiocParallel bpparam register
 #' @importFrom utils capture.output
 
 setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
@@ -8,32 +9,28 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             parameters <- x@processingParameters
             modes <- parameters@processingParameters$modes
             
-            suppressPackageStartupMessages(peakDetection <- map(modes, ~{
+            info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names],sample_groups = x@Info[,parameters@processingParameters$info$cls],stringsAsFactors = F))
+            
+            parameters@processingParameters$grouping@sampleGroups <- info@data$Status
+            
+            para <- bpparam()
+            para@.xData$workers <- parameters@processingParameters$nCores
+            register(para)
+            
+            processed <- map(modes, ~{
               files <- x@files[grepl(.,x@files)]
-              peakDet <- xcmsSet
-              parameters@processingParameters$peakDetection$snames <- unlist(x@Info[,parameters@processingParameters$peakDetection$snames])
-              parameters@processingParameters$peakDetection$sclass <- unlist(x@Info[,parameters@processingParameters$peakDetection$sclass])
-              f <- formals(peakDet)
-              f[names(parameters@processingParameters$peakDetection)] <- parameters@processingParameters$peakDetection
-              formals(peakDet) <- f
-              para <- bpparam()
-              para@.xData$workers <- parameters@processingParameters$nCores
-              formals(peakDet)$BPPARAM <- para
-              x <- peakDet(files = files)
+              rawData <- readMSData2(files,pdata = info)
+              x <- findChromPeaks(rawData,parameters@processingParameters$peakDetection)
               return(x)
-            }))
-            names(peakDetection) <- modes
+              }) %>%
+              map(adjustRtime,
+                  param = parameters@processingParameters$retentionTimeCorrection
+              ) %>%
+              map(groupChromPeaks,
+                  param = parameters@processingParameters$grouping
+              )
             
-            suppressMessages(capture.output(retentionTimeCorrection <- map(peakDetection,retcor, 
-                                                                           method = parameters@processingParameters$retentionTimeCorrection$method, 
-                                                                           profStep = parameters@processingParameters$retentionTimeCorrection$profStep
-            )))
-            
-            suppressMessages(groups <- map(retentionTimeCorrection,group,
-                                           bw = parameters@processingParameters$grouping$bw,
-                                           mzwid = parameters@processingParameters$grouping$mzwid,
-                                           minfrac = parameters@processingParameters$grouping$minfrac
-            ))
+            names(processed) <- modes
             
             #suppressMessages(filled <- map(groups,fillPeaks))
             filled <- groups

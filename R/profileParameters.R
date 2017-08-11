@@ -1,5 +1,6 @@
 #' profileParameters
 #' @importFrom parallel detectCores
+#' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam
 #' @export
 
 profileParameters <- function(technique) {
@@ -7,7 +8,7 @@ profileParameters <- function(technique) {
                     technique = technique,
                     infoName = 'runinfo.csv',
                     processingParameters = list()
-                    )
+  )
   
   if (technique == 'GCMS-eRah') {
     
@@ -15,43 +16,43 @@ profileParameters <- function(technique) {
   
   if (technique == 'GCMS-XCMS') {
     parameters@processingParameters <- list(
-     peakDetection = list(method = 'matchedFilter',
-                          fwhm = 3, 
-                          snthresh = 1,
-                          snames = 'names', 
-                          sclass = 'class'
-                          ),
-     grouping = list(bw = 5,
-                     minfrac = 0
-                     ),
-     retentionTimeCorrection = list(method = "loess"),
-     nCores = detectCores()
+      info = list(names = 'names', cls = 'class'),
+      peakDetection = MatchedFilterParam(
+        fwhm = 3, 
+        snthresh = 1
+      ),
+      grouping = PeakDensityParam(
+        bw = 5,
+        minFraction = 0
+      ),
+      retentionTimeCorrection = PeakGroupsParam(
+        smooth = 'loess'
+      ),
+      nCores = detectCores()
     )
   }
   
   if (technique == 'LCMS-RP' | technique == 'LCMS-NP') {
     parameters@processingParameters <- list(
       modes = c('neg','pos'),
-      peakDetection = list(method = "centWave",
-                           ppm = 1.5,
-                           peakwidth = c(2,40),
-                    snthresh = 3.0,
-                    snames = 'names', 
-                    sclass = 'class',
-                    mzCenterFun = "apex", 
-                    mzdiff = 0.05, 
-                    fitgauss = FALSE,
-                    integrate = 2
-                    ), 
-      retentionTimeCorrection = list(method = "obiwarp", 
-                                     profStep = 1.0
-                                     ),
-      grouping = list(bw = 5 ,
-                      mzwid = 0.015, 
-                      minfrac = 0
-                      ),
-      nCores = detectCores()
-      )
+      info = list(names = 'names', cls = 'class'),
+      peakDetection = CentWaveParam(
+        ppm = 1.5,
+        peakwidth = c(2,40),
+        snthresh = 3.0,
+        mzCenterFun = "apex", 
+        mzdiff = 0.05, 
+        fitgauss = FALSE,
+        integrate = 2
+      ), 
+      retentionTimeCorrection = ObiwarpParam(),
+      grouping = PeakDensityParam(
+        bw = 5,
+        binSize = 0.015, 
+        minFraction = 0
+      ),
+    nCores = detectCores()
+    )
   }
   
   return(parameters)
