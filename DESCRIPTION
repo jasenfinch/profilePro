@@ -12,7 +12,8 @@ Imports: readr,
     BiocParallel,
     dplyr,
     magrittr,
-    stringr
+    stringr,
+    MSnbase
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

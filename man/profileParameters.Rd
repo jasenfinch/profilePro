@@ -6,6 +6,9 @@
 \usage{
 profileParameters(technique)
 }
+\arguments{
+\item{technique}{the profiling technique for which to initiate parameters}
+}
 \description{
-profileParameters
+Initiate default processing parameters for a given profiling technique.
 }

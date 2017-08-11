@@ -1,4 +1,6 @@
 #' profileParameters
+#' @description Initiate default processing parameters for a given profiling technique.
+#' @param technique the profiling technique for which to initiate parameters
 #' @importFrom parallel detectCores
 #' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam
 #' @export

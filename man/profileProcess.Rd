@@ -6,6 +6,11 @@
 \usage{
 profileProcess(files, parameters)
 }
+\arguments{
+\item{files}{character vector of file paths to use for processing along with the info file path}
+
+\item{parameters}{object of class ProfileParameters containing the parameters for processing}
+}
 \description{
-profileProcess
+process metabolomic profiling data
 }
