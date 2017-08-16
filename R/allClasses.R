@@ -8,7 +8,6 @@
 setClass('ProfileParameters',
          slots = list(
            technique = 'character',
-           infoName = 'character',
            processingParameters = 'list'
          )
 )
@@ -16,7 +15,7 @@ setClass('ProfileParameters',
 #' MetaboProfile
 #' @description An S4 class to store the profile processing results
 #' @slot log date and time of the initiation of processing
-#' @slot files character vector of file paths to used for processing
+#' @slot files list of file paths to used for processing. Vectors of files form different aquisition modes should be labelled accordingly. 
 #' @slot processingParameters object of class ProfileParameters containing the parameters for processing
 #' @slot Info tibble containing runinfo data
 #' @slot Data list containing tibbles of processed data
@@ -26,7 +25,7 @@ setClass('ProfileParameters',
 setClass('MetaboProfile',
          slots = list(
            log = 'character',
-           files = 'character',
+           files = 'list',
            processingParameters = 'ProfileParameters',
            Info = 'tbl_df',
            Data = 'list',

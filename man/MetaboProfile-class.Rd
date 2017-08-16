@@ -12,7 +12,7 @@ An S4 class to store the profile processing results
 \describe{
 \item{\code{log}}{date and time of the initiation of processing}
 
-\item{\code{files}}{character vector of file paths to used for processing}
+\item{\code{files}}{list of file paths to used for processing. Vectors of files form different aquisition modes should be labelled accordingly.}
 
 \item{\code{processingParameters}}{object of class ProfileParameters containing the parameters for processing}
 

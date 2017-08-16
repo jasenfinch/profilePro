@@ -4,10 +4,12 @@
 \alias{profileProcess}
 \title{profileProcess}
 \usage{
-profileProcess(files, parameters)
+profileProcess(files, info, parameters)
 }
 \arguments{
-\item{files}{character vector of file paths to use for processing along with the info file path}
+\item{files}{character vector of file paths to use for processing}
+
+\item{info}{file path for info file}
 
 \item{parameters}{object of class ProfileParameters containing the parameters for processing}
 }

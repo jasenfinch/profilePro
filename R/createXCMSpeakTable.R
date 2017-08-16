@@ -12,12 +12,15 @@ createXCMSpeakTable <- function(Data,mode = NULL){
   if (grepl('p',m)) {
     m <- 'p'
   }
-  p <- peakTable(Data[[mode]]) %>% 
+  p <- featureDefinitions(Data[[mode]]) %>%
     as_tibble() %>%
-    mutate(rt = rt/60,rtmin = rtmin/60,rtmax = rtmax/60)
-  ID <- p %>% 
-    mutate(ID = str_c(m,round(mz,5),'@',round(rt,3))) %>%
+    mutate(rt = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
+  
+  ID <- p %>%
+    mutate(ID = str_c(m,round(mzmed,5),'@',round(rtmed,3))) %>%
     select(ID)
+  
   p <- bind_cols(ID,p)
+  p <- p[!duplicated(select(p,ID,sample)),] 
   return(p)
 }

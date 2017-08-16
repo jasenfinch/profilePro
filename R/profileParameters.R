@@ -8,7 +8,6 @@
 profileParameters <- function(technique) {
   parameters <- new('ProfileParameters',
                     technique = technique,
-                    infoName = 'runinfo.csv',
                     processingParameters = list()
   )
   
@@ -36,7 +35,6 @@ profileParameters <- function(technique) {
   
   if (technique == 'LCMS-RP' | technique == 'LCMS-NP') {
     parameters@processingParameters <- list(
-      modes = c('neg','pos'),
       info = list(names = 'names', cls = 'class'),
       peakDetection = CentWaveParam(
         ppm = 1.5,
@@ -49,6 +47,7 @@ profileParameters <- function(technique) {
       ), 
       retentionTimeCorrection = ObiwarpParam(),
       grouping = PeakDensityParam(
+        sampleGroups = 'class',
         bw = 5,
         binSize = 0.015, 
         minFraction = 0
