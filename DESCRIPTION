@@ -3,7 +3,7 @@ Title: Wrappers for processing metabolomic profiling experiments
 Version: 0.0.0.9000
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent output of data processing results from multiple metabolomic profiling techniques.
-Depends: R (>= 3.4.1)
+Depends: R (>= 3.4.0)
 Imports: readr,
     tibble,
     methods,
