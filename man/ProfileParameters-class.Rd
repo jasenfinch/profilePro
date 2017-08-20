@@ -12,8 +12,6 @@ An S4 class to store profile processing parameters.
 \describe{
 \item{\code{technique}}{the profiling technique to use}
 
-\item{\code{infoName}}{name of file containing run information}
-
 \item{\code{processingParameters}}{a list containing the parameters to use for processing}
 }}
 

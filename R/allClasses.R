@@ -1,7 +1,6 @@
 #' ProfileParameters
 #' @description An S4 class to store profile processing parameters.
 #' @slot technique the profiling technique to use
-#' @slot infoName name of file containing run information
 #' @slot  processingParameters a list containing the parameters to use for processing
 #' @export
 
