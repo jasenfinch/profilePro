@@ -1,4 +1,4 @@
-#' @importFrom xcms peakTable
+#' @importFrom xcms featureValues featureDefinitions
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate select bind_cols
 #' @importFrom stringr str_c
@@ -12,15 +12,14 @@ createXCMSpeakTable <- function(Data,mode = NULL){
   if (grepl('p',m)) {
     m <- 'p'
   }
-  p <- featureDefinitions(Data[[mode]]) %>%
-    as_tibble() %>%
-    mutate(rt = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
+  values <- featureValues(Data[[mode]]) %>% t() %>% as_tibble
+  definitions <- featureDefinitions(Data[[mode]]) %>% 
+    as_tibble() %>% 
+    mutate(ID = colnames(values),rtmed = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
   
-  ID <- p %>%
-    mutate(ID = str_c(m,round(mzmed,5),'@',round(rtmed,3))) %>%
-    select(ID)
+  ID <- str_c(m, round(definitions$mzmed,5), '@', round(definitions$rtmed,3))
   
-  p <- bind_cols(ID,p)
-  p <- p[!duplicated(select(p,ID,sample)),] 
-  return(p)
+  colnames(values) <- ID
+  values[is.na(values)] <- 0
+  return(list(values = values, definitions = definitions))
 }

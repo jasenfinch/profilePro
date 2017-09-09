@@ -19,7 +19,7 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             
             processed <- map(modes, ~{
               files <- x@files[[grepl(.,names(x@files))]]
-              rawData <- readMSData2(files,pdata = info)
+              rawData <- readMSData(files,pdata = info, mode = 'onDisk')
               x <- findChromPeaks(rawData,parameters@processingParameters$peakDetection)
               return(x)
             }) %>%
@@ -36,19 +36,12 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             names(pt) <- modes
             
             Data <- map(pt,~{
-              d <- .
-              d <- d %>%
-                select(ID,into,sample) %>%
-                group_by(sample) %>%
-                spread(ID,into,fill = 0) %>%
-                tbl_df() %>%
-                select(-sample)
-              return(d)
+              .$values
             })
             
             x@Data <- Data
             x@processingResults <- list(processed = processed,
-                                        peakTable = pt
+                                        peakInfo = pt
             )
             return(x)
           }
