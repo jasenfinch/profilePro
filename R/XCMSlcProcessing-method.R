@@ -18,7 +18,7 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             register(para)
             
             processed <- map(modes, ~{
-              files <- x@files[[grepl(.,names(x@files))]]
+              files <- x@files[[grep(.,names(x@files))]]
               rawData <- readMSData(files,pdata = info, mode = 'onDisk')
               x <- findChromPeaks(rawData,parameters@processingParameters$peakDetection)
               return(x)
