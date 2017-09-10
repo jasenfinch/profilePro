@@ -7,7 +7,12 @@
 setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
           function(x){
             parameters <- x@processingParameters
-            modes <- names(x@files)
+            if (is.null(names(x@files))) {
+              modes <- NA
+            } else {
+              modes <- names(x@files)
+            }
+            
             
             info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names],sample_groups = x@Info[,parameters@processingParameters$info$cls],stringsAsFactors = F))
             

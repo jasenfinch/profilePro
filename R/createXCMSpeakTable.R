@@ -4,13 +4,15 @@
 #' @importFrom stringr str_c
 #' @importFrom magrittr %>%
 
-createXCMSpeakTable <- function(Data,mode = NULL){
-  m <- mode
-  if (grepl('n',m)) {
+createXCMSpeakTable <- function(Data,mode = NA){
+  if (grepl('n',mode)) {
     m <- 'n'
   }
-  if (grepl('p',m)) {
+  if (grepl('p',mode)) {
     m <- 'p'
+  }
+  if (is.na(mode)) {
+    m <- ''
   }
   values <- featureValues(Data[[mode]]) %>% t() %>% as_tibble
   definitions <- featureDefinitions(Data[[mode]]) %>% 
