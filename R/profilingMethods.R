@@ -33,9 +33,9 @@ profilingMethods <- function(method = NULL){
         mslib <- golm.database
       }
       
-      capture.output(ex <- identifyComp(ex))
+      capture.output(ex <- identifyComp(ex,id.database = mslib))
       
-      id.list <- idList(ex)
+      id.list <- idList(ex,id.database = mslib)
       
       feat <- suppressMessages(left_join(ex@Results@Alignment,id.list))
       feat <- str_c(feat$Factor,'|',feat$Name.1,sep = ' ')
