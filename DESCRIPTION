@@ -13,7 +13,8 @@ Imports: readr,
     dplyr,
     magrittr,
     stringr,
-    MSnbase
+    MSnbase,
+    erah
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8

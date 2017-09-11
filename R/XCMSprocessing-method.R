@@ -4,7 +4,7 @@
 #' @importFrom BiocParallel bpparam register
 #' @importFrom utils capture.output
 
-setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
+setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
             parameters <- x@processingParameters
             if (is.null(names(x@files))) {
@@ -12,7 +12,6 @@ setMethod('XCMSlcProcessing',signature = 'MetaboProfile',
             } else {
               modes <- names(x@files)
             }
-            
             
             info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names],sample_groups = x@Info[,parameters@processingParameters$info$cls],stringsAsFactors = F))
             

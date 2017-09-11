@@ -2,7 +2,8 @@
 #' @description Initiate default processing parameters for a given profiling technique.
 #' @param technique the profiling technique for which to initiate parameters
 #' @importFrom parallel detectCores
-#' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam
+#' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam PeakGroupsParam
+#' @importFrom erah setDecPar setAlPar
 #' @export
 
 profileParameters <- function(technique) {
@@ -12,7 +13,23 @@ profileParameters <- function(technique) {
   )
   
   if (technique == 'GCMS-eRah') {
-    
+    parameters@processingParameters <- list(
+      info = list(cls = 'class'),
+      deconvolution = setDecPar(min.peak.width = 1, avoid.processing.mz = c(54:69,73:75,147:149)),
+      alignment = setAlPar(min.spectra.cor = 0.90, max.time.dist = 1, mz.range = 70:600),
+      identification = list(DB = 'golm',
+                            path = 'GMD_20111121_VAR5_ALK_MSP.txt',
+                            DBname = 'GMD', 
+                            DBversion = 'GMD_20111121',
+                            DBinfo = "GOLM Metabolome Database
+                                      ------------------------
+                                      Kopka, J., Schauer, N., Krueger, S., Birkemeyer, C., Usadel, B., Bergmuller, E., Dor-
+                                      mann, P., Weckwerth, W., Gibon, Y., Stitt, M., Willmitzer, L., Fernie, A.R. and Stein-
+                                      hauser, D. (2005) GMD.CSB.DB: the Golm Metabolome Database, Bioinformatics, 21, 1635-
+                                      1638.",
+                            type = 'VAR5.ALK'
+                            )
+    )
   }
   
   if (technique == 'GCMS-XCMS') {

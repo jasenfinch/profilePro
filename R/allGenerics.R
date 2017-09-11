@@ -1,4 +1,4 @@
 
-setGeneric("XCMSlcProcessing", function(x) {
-  standardGeneric('XCMSlcProcessing')
+setGeneric("XCMSprocessing", function(x) {
+  standardGeneric('XCMSprocessing')
 })
