@@ -1,5 +1,5 @@
 #' @importFrom stringr str_split
-#' @importFrom erah importGMD identifyComp idList
+#' @importFrom erah importGMD identifyComp idList createdt newExp deconvolveComp alignComp
 #' @importFrom dplyr left_join
 #' @importFrom utils capture.output
 
