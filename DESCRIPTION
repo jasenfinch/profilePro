@@ -25,5 +25,5 @@ Collate:
       'profileParameters.R'
       'profileProcess.R'
       'profilingMethods.R'
-      'XCMSlcProcessing-method.R'
+      'XCMSprocessing-method.R'
       'createXCMSpeakTable.R'
