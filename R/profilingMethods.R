@@ -10,26 +10,29 @@ profilingMethods <- function(method = NULL){
     
     `GCMS-eRah` = function(x){
       folder <- unlist(x@files)[1] %>%
-        str_split('/')
-      folder <- folder[[1]][-length(folder[[1]])] 
-      folderName <- folder[length(folder) - 1]
+        str_split('/') %>% 
+        unlist()
+      folder <- folder[!folder == '']
+      folder <- folder[-length(folder)]
+      folderName <- folder[length(folder)]
       folder <- str_c(folder,collapse = '/')
+      folder <- str_c('/',folder)
       
       createdt(folder)
       
-      ex <- newExp(instrumental = str_c(folder,str_c(folderName,'_inst.csv')), 
-                   phenotype = str_c(folder,str_c(folderName,'_pheno.csv')))
+      ex <- newExp(instrumental = str_c(folder,str_c(folderName,'_inst.csv'),sep = '/'), 
+                   phenotype = str_c(folder,str_c(folderName,'_pheno.csv'),sep = '/'))
       
       capture.output(ex <- deconvolveComp(ex, x@processingParameters@processingParameters$deconvolution))
       
       capture.output(ex <- alignComp(ex, x@processingParameters@processingParameters$alignment))
       
       if (x@processingParameters@processingParameters$identification$DB == 'golm') {
-        golm.database <- importGMD(filename = x@processingParameters@processingParameters$identification$path, 
+        suppressWarnings(golm.database <- importGMD(filename = x@processingParameters@processingParameters$identification$path, 
                                    DB.name = x@processingParameters@processingParameters$identification$DBname, 
                                    DB.version = x@processingParameters@processingParameters$identification$DBversion, 
                                    DB.info = x@processingParameters@processingParameters$identification$DBinfo, 
-                                   type = x@processingParameters@processingParameters$identification$type)
+                                   type = x@processingParameters@processingParameters$identification$type))
         mslib <- golm.database
       }
       
