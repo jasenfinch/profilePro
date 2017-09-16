@@ -48,8 +48,8 @@ profilingMethods <- function(method = NULL){
         as_tibble()
       colnames(Data) <- feat
       
-      system(str_c('rm ',folder,str_c(folderName,'_inst.csv')))
-      system(str_c('rm ',folder,str_c(folderName,'_pheno.csv')))
+      system(str_c('rm ',str_c(folder,str_c(folderName,'_inst.csv')),sep = '/'))
+      system(str_c('rm ',str_c(folder,str_c(folderName,'_pheno.csv')),sep = '/'))
       
       x@Data <- Data
       x@processingResults <- list(processed = ex)
