@@ -17,7 +17,7 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             
             parameters@processingParameters$grouping@sampleGroups <- unlist(x@Info[,parameters@processingParameters$info$cls])
             
-            if (length(x@files[1]) < parameters@processingParameters$nCores) {
+            if (length(x@files[[1]]) < parameters@processingParameters$nCores) {
               nCores <- length(x@files[1])
             } else {
               nCores <- parameters@processingParameters$nCores
