@@ -4,7 +4,7 @@
 \alias{profileParameters}
 \title{profileParameters}
 \usage{
-profileParameters(technique)
+profileParameters(technique = NULL)
 }
 \arguments{
 \item{technique}{the profiling technique for which to initiate parameters}
