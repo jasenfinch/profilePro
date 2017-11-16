@@ -1,6 +1,6 @@
 #' @importFrom purrr map
 #' @importFrom MSnbase readMSData
-#' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks
+#' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
 #' @importFrom BiocParallel bpparam register
 #' @importFrom utils capture.output
 
@@ -37,7 +37,9 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
               ) %>%
               map(groupChromPeaks,
                   param = parameters@processingParameters$grouping
-              )
+              ) %>%
+              map(fillChromPeaks,
+                  param = parameters@processingParameters$infilling)
             
             names(processed) <- modes
             

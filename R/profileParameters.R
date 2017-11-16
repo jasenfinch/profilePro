@@ -2,7 +2,7 @@
 #' @description Initiate default processing parameters for a given profiling technique.
 #' @param technique the profiling technique for which to initiate parameters
 #' @importFrom parallel detectCores
-#' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam PeakGroupsParam
+#' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam PeakGroupsParam FillChromPeaksParam
 #' @importFrom erah setDecPar setAlPar
 #' @export
 
@@ -53,6 +53,7 @@ profileParameters <- function(technique = NULL) {
         retentionTimeCorrection = PeakGroupsParam(
           smooth = 'loess'
         ),
+        infilling = FillChromPeaksParam(),
         nCores = detectCores()
       )
     }
@@ -74,8 +75,9 @@ profileParameters <- function(technique = NULL) {
           sampleGroups = 'class',
           bw = 5,
           binSize = 0.015, 
-          minFraction = 0
+          minFraction = 2/3
         ),
+        infilling = FillChromPeaksParam(),
         nCores = detectCores()
       )
     }
