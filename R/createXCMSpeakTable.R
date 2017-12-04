@@ -14,7 +14,7 @@ createXCMSpeakTable <- function(Data,mode = NA){
   if (is.na(mode)) {
     m <- ''
   }
-  values <- featureValues(Data[[mode]]) %>% t() %>% as_tibble
+  values <- featureValues(Data[[mode]],value = 'into') %>% t() %>% as_tibble
   definitions <- featureDefinitions(Data[[mode]]) %>% 
     as_tibble() %>% 
     mutate(ID = colnames(values),rtmed = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
