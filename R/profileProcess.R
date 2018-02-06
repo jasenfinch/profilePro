@@ -1,7 +1,7 @@
 #' profileProcess
 #' @description process metabolomic profiling data
 #' @param files character vector of file paths to use for processing
-#' @param info file path for info file
+#' @param info tibble containing sample info
 #' @param parameters object of class ProfileParameters containing the parameters for processing
 #' @examples 
 #' \dontrun{
@@ -21,11 +21,8 @@
 #'               batchBlock = rep(1,length(files)), 
 #'               names = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
 #'               class = filesSplit[,ncol(filesSplit)-1])
-#' system('mkdir .tmp')
-#' write_csv(info,'.tmp/runinfo.csv')
 #'
 #' files <- list(pos = files)
-#' info <- '.tmp/runinfo.csv'
 #' 
 #' # prepare parameters
 #' parameters <- profileParameters('LCMS-RP')
@@ -35,17 +32,12 @@
 #' # run processing
 #' processedData <- profileProcess(files,info,parameters)
 #'
-#' # tidy up
-#' system('rm -r .tmp')
 #' }
-#' @importFrom readr read_csv
 #' @importFrom tibble tibble
 #' @importFrom methods new
 #' @export
 
 profileProcess <- function(files,info,parameters) {
-  
-  info <- suppressMessages(read_csv(info))
   
   x <- new('MetaboProfile',
            log = date(),

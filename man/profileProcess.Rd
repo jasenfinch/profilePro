@@ -9,7 +9,7 @@ profileProcess(files, info, parameters)
 \arguments{
 \item{files}{character vector of file paths to use for processing}
 
-\item{info}{file path for info file}
+\item{info}{tibble containing sample info}
 
 \item{parameters}{object of class ProfileParameters containing the parameters for processing}
 }
@@ -34,11 +34,8 @@ info <- tibble(fileOrder = 1:length(files),
               batchBlock = rep(1,length(files)), 
               names = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
               class = filesSplit[,ncol(filesSplit)-1])
-system('mkdir .tmp')
-write_csv(info,'.tmp/runinfo.csv')
 
 files <- list(pos = files)
-info <- '.tmp/runinfo.csv'
 
 # prepare parameters
 parameters <- profileParameters('LCMS-RP')
@@ -48,7 +45,5 @@ parameters@processingParameters$grouping <- PeakDensityParam(maxFeatures = 300,m
 # run processing
 processedData <- profileProcess(files,info,parameters)
 
-# tidy up
-system('rm -r .tmp')
 }
 }
