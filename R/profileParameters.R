@@ -41,7 +41,7 @@ profileParameters <- function(technique = NULL) {
     
     if (technique == 'GCMS-XCMS') {
       parameters@processingParameters <- list(
-        info = list(names = 'names', cls = 'class'),
+        info = list(names = 'name', cls = 'class'),
         peakDetection = MatchedFilterParam(
           fwhm = 3, 
           snthresh = 1
@@ -60,7 +60,7 @@ profileParameters <- function(technique = NULL) {
     
     if (technique == 'LCMS-RP' | technique == 'LCMS-NP') {
       parameters@processingParameters <- list(
-        info = list(names = 'names', cls = 'class'),
+        info = list(names = 'name', cls = 'class'),
         peakDetection = CentWaveParam(
           ppm = 1.5,
           peakwidth = c(2,40),
