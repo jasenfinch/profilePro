@@ -66,7 +66,7 @@ profileParameters <- function(technique = NULL) {
           peakwidth = c(2,40),
           snthresh = 3.0,
           mzCenterFun = "apex", 
-          mzdiff = 0.05, 
+          mzdiff = 0.001, 
           fitgauss = FALSE,
           integrate = 2
         ), 
