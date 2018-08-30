@@ -15,7 +15,7 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             
             info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names],sample_groups = x@Info[,parameters@processingParameters$info$cls],stringsAsFactors = F))
             
-            parameters@processingParameters$grouping@sampleGroups <- unlist(x@Info[,parameters@processingParameters$info$cls])
+            parameters@processingParameters$grouping@sampleGroups <- info$sample_groups
             
             if (length(x@files[[1]]) < parameters@processingParameters$nCores) {
               nCores <- length(x@files[[1]])
