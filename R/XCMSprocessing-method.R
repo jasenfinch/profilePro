@@ -13,7 +13,7 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
               modes <- names(x@files)
             }
             
-            info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names],sample_groups = x@Info[,parameters@processingParameters$info$cls],stringsAsFactors = F))
+            info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),stringsAsFactors = F))
             
             parameters@processingParameters$grouping@sampleGroups <- info$sample_groups
             
