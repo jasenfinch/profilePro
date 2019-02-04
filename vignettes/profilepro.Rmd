@@ -15,12 +15,69 @@ vignette: >
 
 ## Introduction
 
+```{r,message=FALSE}
+library(xcms)
+library(profilePro)
+```
+
 ## Basic Usage
 
 ### Sample Information
 
+```{r}
+files <- list.files(system.file("cdf", package = "faahKO"),
+                    full.names = TRUE,
+                    recursive = T)
+
+filesSplit <- stringr::str_split_fixed(files,'/',
+                                       stringr::str_count(files[1],'/') + 1) 
+info <- tibble::tibble(fileOrder = 1:length(files),
+               injOrder = 1:length(files),
+               fileName = filesSplit[,ncol(filesSplit)], 
+               batch = rep(1,length(files)), 
+               batchBlock = rep(1,length(files)), 
+               name = stringr::str_replace_all(filesSplit[,ncol(filesSplit)],
+                                               '.CDF',
+                                               ''), 
+               class = filesSplit[,ncol(filesSplit) - 1])
+
+files <- list(pos = files)
+```
+
 ### Parameter selection
+
+```{r}
+profileParameters()
+```
+
+```{r}
+parameters <- profileParameters('LCMS-RP')
+```
+
+```{r}
+parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20,
+                                                               noise = 1000)
+parameters@processingParameters$retentionTimeCorrection <- ObiwarpParam()
+parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,
+                                                             maxFeatures = 300,
+                                                             minFraction = 2/3)
+```
 
 ### Processing
 
+```{r}
+processed <- profileProcess(files,info,parameters)
+
+processed
+```
+
 ### Data extraction
+
+```{r}
+sampleInfo(processed)
+```
+
+```{r}
+processedData(processed)
+```
+
