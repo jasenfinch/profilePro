@@ -15,7 +15,8 @@ Imports: readr,
     magrittr,
     stringr,
     MSnbase,
-    erah
+    erah,
+    crayon
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8
@@ -31,3 +32,4 @@ Collate:
       'createXCMSpeakTable.R'
       'access.R'
       'profilePro.R'
+      'show-method.R'

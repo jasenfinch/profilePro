@@ -37,12 +37,13 @@
 #' }
 #' @importFrom tibble tibble
 #' @importFrom methods new
+#' @importFrom utils packageVersion
 #' @export
 
 profileProcess <- function(files,info,parameters) {
   
   x <- new('MetaboProfile',
-           log = date(),
+           log = list(date = date(),version = packageVersion('profilePro')),
            files = files,
            processingParameters = parameters,
            Info = info,

@@ -17,11 +17,11 @@ setGeneric('processedData',function(x){
   standardGeneric('processedData')
 })
 
-#' @rdname extractXCMSnExp
+#' @rdname extractProcObject
 #' @export
 
-setGeneric('extractXCMSnExp',function(x){
-  standardGeneric('extractXCMSnExp')
+setGeneric('extractProcObject',function(x){
+  standardGeneric('extractProcObject')
 })
 
 #' @rdname peakInfo
