@@ -32,7 +32,7 @@ info <- tibble(fileOrder = 1:length(files),
               fileName = filesSplit[,ncol(filesSplit)], 
               batch = rep(1,length(files)), 
               batchBlock = rep(1,length(files)), 
-              names = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
+              name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
               class = filesSplit[,ncol(filesSplit)-1])
 
 files <- list(pos = files)
@@ -41,7 +41,7 @@ files <- list(pos = files)
 parameters <- profileParameters('LCMS-RP')
 parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
 parameters@processingParameters$retentionTimeCorrection <- ObiwarpParam()
-parameters@processingParameters$grouping <- PeakDensityParam(maxFeatures = 300,minFraction = 2/3)
+parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,maxFeatures = 300,minFraction = 2/3)
 # run processing
 processedData <- profileProcess(files,info,parameters)
 
