@@ -1,0 +1,26 @@
+---
+title: "profilePro"
+subtitle: "v`r packageVersion('profilePro')`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+## Basic Usage
+
+### Sample Information
+
+### Parameter selection
+
+### Processing
+
+### Data extraction

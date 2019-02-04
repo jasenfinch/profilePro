@@ -3,7 +3,7 @@ Title: Wrappers for processing metabolomic profiling experiments
 Version: 0.3.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent output of data processing results from multiple metabolomic profiling techniques.
-biocViews:  MassSpectrometry, Metabolomics
+biocViews: MassSpectrometry, Metabolomics
 Depends: R (>= 3.4.0)
 Imports: readr,
     tibble,
@@ -16,7 +16,11 @@ Imports: readr,
     stringr,
     MSnbase,
     erah
-Suggests: faahKO
+Suggests: 
+    faahKO,
+    knitr,
+    rmarkdown,
+    prettydoc
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -31,3 +35,4 @@ Collate:
       'createXCMSpeakTable.R'
       'access.R'
       'profilePro.R'
+VignetteBuilder: knitr
