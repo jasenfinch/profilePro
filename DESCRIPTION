@@ -29,3 +29,5 @@ Collate:
       'profilingMethods.R'
       'XCMSprocessing-method.R'
       'createXCMSpeakTable.R'
+      'access.R'
+      'profilePro.R'

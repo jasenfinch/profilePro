@@ -41,7 +41,9 @@ files <- list(pos = files)
 parameters <- profileParameters('LCMS-RP')
 parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
 parameters@processingParameters$retentionTimeCorrection <- ObiwarpParam()
-parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,maxFeatures = 300,minFraction = 2/3)
+parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,
+                                                             maxFeatures = 300,
+                                                             minFraction = 2/3)
 # run processing
 processedData <- profileProcess(files,info,parameters)
 
