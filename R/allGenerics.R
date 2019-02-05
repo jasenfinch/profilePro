@@ -38,3 +38,10 @@ setGeneric('plotChromatogram',function(processed, cls = NULL, group = F, alpha =
   standardGeneric('plotChromatogram')
 })
 
+#' @rdname plotTIC
+#' @export
+
+setGeneric('plotTIC',function(processed,by = 'injOrder', colour = 'block'){
+  standardGeneric('plotTIC')
+})
+
