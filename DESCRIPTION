@@ -1,6 +1,6 @@
 Package: profilePro
 Title: Wrappers for processing metabolomic profiling experiments
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent output of data processing results from multiple metabolomic profiling techniques.
 biocViews:  MassSpectrometry, Metabolomics
@@ -16,7 +16,10 @@ Imports: readr,
     stringr,
     MSnbase,
     erah,
-    crayon
+    crayon,
+    ggthemes,
+    patchwork,
+    ggplot2
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8
@@ -33,3 +36,4 @@ Collate:
       'access.R'
       'profilePro.R'
       'show-method.R'
+      'plotting.R'
