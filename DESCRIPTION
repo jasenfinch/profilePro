@@ -18,7 +18,8 @@ Imports: readr,
     erah,
     crayon,
     ggthemes,
-    patchwork
+    patchwork,
+    ggplot2
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8

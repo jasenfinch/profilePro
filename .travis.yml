@@ -13,7 +13,10 @@ apt_packages:
  - netcdf-bin
 
 bioc_packages:
-    - xcms
+ - xcms
+
+r_github_packages:
+ - thomasp85/patchwork
 
 notifications:
     email:
