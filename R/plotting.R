@@ -10,7 +10,8 @@
 #' @importFrom xcms chromatogram
 #' @importFrom magrittr set_names
 #' @importFrom patchwork wrap_plots plot_layout
-#' @importFrom ggplot2 ggplot geom_line theme_bw
+#' @importFrom ggplot2 ggplot geom_line theme_bw aes labs theme element_text
+#' @importFrom dplyr bind_rows group_by summarise
 
 setMethod('plotChromatogram',signature = 'MetaboProfile',
           function(processed, cls = NULL, group = F, alpha = 1, aggregationFun = 'max'){
