@@ -1,2 +1,2 @@
 
-globalVariables(c('rtmed','rtmin','rtmax'))
+globalVariables(c('rtmed','rtmin','rtmax','.'))

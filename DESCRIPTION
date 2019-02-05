@@ -16,7 +16,9 @@ Imports: readr,
     stringr,
     MSnbase,
     erah,
-    crayon
+    crayon,
+    ggthemes,
+    patchwork
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8
@@ -33,3 +35,4 @@ Collate:
       'access.R'
       'profilePro.R'
       'show-method.R'
+      'plotting.R'

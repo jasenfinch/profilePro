@@ -31,3 +31,10 @@ setGeneric('peakInfo',function(x){
   standardGeneric('peakInfo')
 })
 
+#' @rdname plotChromatogram
+#' @export
+
+setGeneric('plotChromatogram',function(processed, cls = NULL, group = F, alpha = 1, aggregationFun = 'max'){
+  standardGeneric('plotChromatogram')
+})
+
