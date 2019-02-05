@@ -12,9 +12,6 @@ apt_packages:
  - libudunits2-dev
  - netcdf-bin
 
-bioc_packages:
- - xcms
-
 r_github_packages:
  - thomasp85/patchwork
 
