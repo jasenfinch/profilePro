@@ -18,7 +18,7 @@
 #'               injOrder = 1:length(files),
 #'               fileName = filesSplit[,ncol(filesSplit)], 
 #'               batch = rep(1,length(files)), 
-#'               batchBlock = rep(1,length(files)), 
+#'               block = rep(1,length(files)), 
 #'               name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
 #'               class = filesSplit[,ncol(filesSplit)-1])
 #'
