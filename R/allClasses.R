@@ -24,7 +24,7 @@ setClass('ProfileParameters',
 setClass('MetaboProfile',
          slots = list(
            log = 'list',
-           files = 'list',
+           files = 'character',
            processingParameters = 'ProfileParameters',
            Info = 'tbl_df',
            Data = 'list',
