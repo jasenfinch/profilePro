@@ -22,8 +22,6 @@
 #'               name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
 #'               class = filesSplit[,ncol(filesSplit)-1])
 #'
-#' files <- list(pos = files)
-#' 
 #' # prepare parameters
 #' parameters <- profileParameters('LCMS-RP')
 #' parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
