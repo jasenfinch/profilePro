@@ -1,5 +1,5 @@
 #' @importFrom purrr map
-#' @importFrom MSnbase readMSData polarity filterPolarity
+#' @importMethodsFrom MSnbase filterPolarity polarity
 #' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
 #' @importFrom BiocParallel bpparam register
 #' @importFrom utils capture.output
