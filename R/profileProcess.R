@@ -36,9 +36,14 @@
 #' @importFrom tibble tibble
 #' @importFrom methods new
 #' @importFrom utils packageVersion
+#' @importFrom dplyr arrange
 #' @export
 
 profileProcess <- function(files,info,parameters) {
+  
+  files <- files[order(info$injOrder)]
+  info <- info %>%
+    arrange(injOrder)
   
   x <- new('MetaboProfile',
            log = list(date = date(),version = packageVersion('profilePro')),
