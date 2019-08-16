@@ -15,8 +15,10 @@ install:
 environment:
   global:
    USE_RTOOLS: true
+   PKGTYPE: both
 
 build_script:
+  - travis-tool.sh install_github thomasp85/patchwork
   - travis-tool.sh install_bioc_deps
 
 test_script:

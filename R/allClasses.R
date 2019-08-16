@@ -23,8 +23,8 @@ setClass('ProfileParameters',
 
 setClass('MetaboProfile',
          slots = list(
-           log = 'character',
-           files = 'list',
+           log = 'list',
+           files = 'character',
            processingParameters = 'ProfileParameters',
            Info = 'tbl_df',
            Data = 'list',

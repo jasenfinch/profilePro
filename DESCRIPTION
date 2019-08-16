@@ -1,10 +1,11 @@
 Package: profilePro
-Title: Wrappers for processing metabolomic profiling experiments
-Version: 0.3.0
+Title: Unifying Input And Output For Processing Of Metabolomic Profiling Experiments
+Version: 0.5.8
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
-Description: Wrapper methods to allow consistent output of data processing results from multiple metabolomic profiling techniques.
-biocViews: MassSpectrometry, Metabolomics
-Depends: R (>= 3.4.0)
+Description: Wrapper methods to allow consistent input and output of data processing results from multiple metabolomic profiling techniques.
+biocViews:  MassSpectrometry, Metabolomics
+Depends: R (>= 3.4.0),
+    MSnbase
 Imports: readr,
     tibble,
     methods,
@@ -14,13 +15,12 @@ Imports: readr,
     dplyr,
     magrittr,
     stringr,
-    MSnbase,
-    erah
-Suggests: 
-    faahKO,
-    knitr,
-    rmarkdown,
-    prettydoc
+    erah,
+    crayon,
+    ggthemes,
+    patchwork,
+    ggplot2
+Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -35,4 +35,5 @@ Collate:
       'createXCMSpeakTable.R'
       'access.R'
       'profilePro.R'
-VignetteBuilder: knitr
+      'show-method.R'
+      'plotting.R'

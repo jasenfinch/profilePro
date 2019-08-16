@@ -1,5 +1,6 @@
 #' @importFrom purrr map
 #' @importFrom MSnbase readMSData
+#' @importMethodsFrom MSnbase polarity filterPolarity
 #' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
 #' @importFrom BiocParallel bpparam register
 #' @importFrom utils capture.output
@@ -7,18 +8,16 @@
 setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
             parameters <- x@processingParameters
-            if (is.null(names(x@files))) {
-              modes <- NA
-            } else {
-              modes <- names(x@files)
-            }
             
-            info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),stringsAsFactors = F))
+            info <- new('NAnnotatedDataFrame',
+                        data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),
+                                   sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),
+                                   stringsAsFactors = F))
             
             parameters@processingParameters$grouping@sampleGroups <- info$sample_groups
             
-            if (length(x@files[[1]]) < parameters@processingParameters$nCores) {
-              nCores <- length(x@files[[1]])
+            if (length(x@files) < parameters@processingParameters$nCores) {
+              nCores <- length(x@files)
             } else {
               nCores <- parameters@processingParameters$nCores
             }
@@ -26,25 +25,31 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             para@.xData$workers <- nCores
             register(para)
             
+            rawData <- readMSData(x@files,pdata = info, mode = 'onDisk')
+            
+            modes <- rawData %>%
+              polarity() %>%
+              unique() %>%
+              {.[. != -1]}
+            
             processed <- map(modes, ~{
-              files <- x@files[[grep(.,names(x@files))]]
-              rawData <- readMSData(files,pdata = info, mode = 'onDisk')
-              x <- findChromPeaks(rawData,parameters@processingParameters$peakDetection)
-              return(x)
-            }) %>%
-              map(adjustRtime,
-                  param = parameters@processingParameters$retentionTimeCorrection
-              ) %>%
-              map(groupChromPeaks,
-                  param = parameters@processingParameters$grouping
-              ) %>%
-              map(fillChromPeaks,
-                  param = parameters@processingParameters$infilling)
+              m <- .
+              rawData %>%
+                filterPolarity(polarity = m) %>%
+                findChromPeaks(parameters@processingParameters$peakDetection) %>%
+                adjustRtime(parameters@processingParameters$retentionTimeCorrection) %>%
+                groupChromPeaks(parameters@processingParameters$grouping) %>%
+                fillChromPeaks(parameters@processingParameters$infilling)
+            }) 
             
-            names(processed) <- modes
+            ms <- modes
+            ms[ms == 0] <- 'n'
+            ms[ms == 1] <- 'p'
             
-            pt <- map(modes,createXCMSpeakTable,Data = processed)
-            names(pt) <- modes
+            names(processed) <- ms
+            
+            pt <- map(ms,createXCMSpeakTable,Data = processed) %>%
+              set_names(ms)
             
             Data <- map(pt,~{
               .$values

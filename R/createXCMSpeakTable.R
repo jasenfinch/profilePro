@@ -23,5 +23,10 @@ createXCMSpeakTable <- function(Data,mode = NA){
   
   colnames(values) <- ID
   values[is.na(values)] <- 0
+  
+  definitions <- definitions %>%
+    mutate(Feature = !!ID) %>%
+    select(Feature,mzmin:ID)
+  
   return(list(values = values, definitions = definitions))
 }

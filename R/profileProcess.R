@@ -18,12 +18,10 @@
 #'               injOrder = 1:length(files),
 #'               fileName = filesSplit[,ncol(filesSplit)], 
 #'               batch = rep(1,length(files)), 
-#'               batchBlock = rep(1,length(files)), 
+#'               block = rep(1,length(files)), 
 #'               name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
 #'               class = filesSplit[,ncol(filesSplit)-1])
 #'
-#' files <- list(pos = files)
-#' 
 #' # prepare parameters
 #' parameters <- profileParameters('LCMS-RP')
 #' parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
@@ -37,12 +35,18 @@
 #' }
 #' @importFrom tibble tibble
 #' @importFrom methods new
+#' @importFrom utils packageVersion
+#' @importFrom dplyr arrange
 #' @export
 
 profileProcess <- function(files,info,parameters) {
   
+  files <- files[order(info$injOrder)]
+  info <- info %>%
+    arrange(injOrder)
+  
   x <- new('MetaboProfile',
-           log = date(),
+           log = list(date = date(),version = packageVersion('profilePro')),
            files = files,
            processingParameters = parameters,
            Info = info,

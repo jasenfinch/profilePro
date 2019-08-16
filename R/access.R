@@ -20,12 +20,12 @@ setMethod('processedData',signature = 'MetaboProfile',
           }
 )
 
-#' extractXCMSnExp
-#' @description Extract XCMSnExp objects from an object of class MetaboProfile
+#' extractProcObject
+#' @description Extract processing package object from an object of class MetaboProfile
 #' @param x S4 object of class MetaboProfile
-#' @rdname extractXCMSnExp
+#' @rdname extractProcObject
 
-setMethod('extractXCMSnExp',signature = 'MetaboProfile',
+setMethod('extractProcObject',signature = 'MetaboProfile',
           function(x){
             x@processingResults$processed
           }

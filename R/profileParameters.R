@@ -54,7 +54,7 @@ profileParameters <- function(technique = NULL) {
           smooth = 'loess'
         ),
         infilling = FillChromPeaksParam(),
-        nCores = detectCores()
+        nCores = {detectCores() * 0.75} %>% round()
       )
     }
     
@@ -78,7 +78,7 @@ profileParameters <- function(technique = NULL) {
           minFraction = 2/3
         ),
         infilling = FillChromPeaksParam(),
-        nCores = detectCores()
+        nCores = {detectCores() * 0.75} %>% round()
       )
     }
     
