@@ -106,6 +106,7 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
 #' @param colour info column to provide colour labels  
 #' @importFrom ggplot2 geom_hline geom_point facet_wrap guides guide_legend
 #' @importFrom stats median IQR
+#' @importFrom ggthemes scale_fill_ptol
 
 setMethod('plotTIC',signature = 'MetaboProfile',
           function(processed,by = 'injOrder', colour = 'block'){
@@ -131,13 +132,13 @@ setMethod('plotTIC',signature = 'MetaboProfile',
                 
                 TICmedian[TICmedian < 0] <- 0
                 
-                pl <- ggplot(d,aes(x = Index,y = TIC,colour = Colour)) +
+                pl <- ggplot(d,aes(x = Index,y = TIC,fill = Colour)) +
                   geom_hline(data = TICmedian,aes(yintercept = Median)) +
                   geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
                   geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
                   geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
                   geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
-                  geom_point() +
+                  geom_point(shape = 21) +
                   theme_bw() +
                   theme(plot.title = element_text(face = 'bold'),
                         axis.title = element_text(face = 'bold'),
@@ -153,7 +154,7 @@ the dotted line shows the outlier boundary (1.5 X IQR).',
                 
                 if (length(unique(d$Colour)) <= 12) {
                   pl <- pl +
-                    scale_colour_ptol()
+                    scale_fill_ptol()
                 }
                 return(pl)
           }
