@@ -1,6 +1,6 @@
 Package: profilePro
 Title: Wrappers for processing metabolomic profiling experiments
-Version: 0.5.7
+Version: 0.5.8
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent output of data processing results from multiple metabolomic profiling techniques.
 biocViews:  MassSpectrometry, Metabolomics
