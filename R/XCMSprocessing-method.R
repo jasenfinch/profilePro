@@ -9,7 +9,10 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
             parameters <- x@processingParameters
             
-            info <- new('NAnnotatedDataFrame',data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),stringsAsFactors = F))
+            info <- new('NAnnotatedDataFrame',
+                        data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),
+                                   sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),
+                                   stringsAsFactors = F))
             
             parameters@processingParameters$grouping@sampleGroups <- info$sample_groups
             
@@ -26,7 +29,8 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             
             modes <- rawData %>%
               polarity() %>%
-              unique()
+              unique() %>%
+              {.[. != -1]}
             
             processed <- map(modes, ~{
               m <- .
