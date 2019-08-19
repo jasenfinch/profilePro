@@ -13,8 +13,10 @@ apt_packages:
 - udunits-bin
 - libudunits2-dev
 - netcdf-bin
+
 r_github_packages:
 - thomasp85/patchwork
+- xdomingoal/erah-devel@devel
 
 notifications:
   slack:
