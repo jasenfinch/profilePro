@@ -25,9 +25,7 @@ setMethod('erahProcessing',signature = 'MetaboProfile',
                             parallel = x@processingParameters@processingParameters$parallel) %>%
              alignComp(x@processingParameters@processingParameters$alignment) %>%
              recMissComp(min.samples = x@processingParameters@processingParameters$compoundRecovery$min.samples,
-                         free.model = x@processingParameters@processingParameters$compoundRecovery$free.model) 
-           
-           ex <- ex %>%
+                         free.model = x@processingParameters@processingParameters$compoundRecovery$free.model) %>%
              identifyComp(id.database = mslib)
            
            Data <- dataList(ex) %>%
