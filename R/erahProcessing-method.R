@@ -26,9 +26,9 @@ setMethod('erahProcessing',signature = 'MetaboProfile',
              alignComp(x@processingParameters@processingParameters$alignment) %>%
              recMissComp(min.samples = x@processingParameters@processingParameters$compoundRecovery$min.samples,
                          free.model = x@processingParameters@processingParameters$compoundRecovery$free.model) %>%
-             identifyComp(id.database = mslib)
+             identifyComp(id.database = golm.database)
            
-           Data <- dataList(ex) %>%
+           Data <- dataList(ex,, id.database = mslib) %>%
              mutate(Name = str_c('Feature ',AlignID,' ',Name.1)) %>%
              select(Name,phenotype$sampleID[1]:phenotype$sampleID[nrow(phenotype)]) %>%
              gather(Sample,Intensity,-Name) %>%
