@@ -19,7 +19,8 @@ Imports: readr,
     crayon,
     ggthemes,
     patchwork,
-    ggplot2
+    ggplot2,
+    tidyr
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8

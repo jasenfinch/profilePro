@@ -34,7 +34,8 @@ setMethod('erahProcessing',signature = 'MetaboProfile',
              mutate(Name = str_c('Feature ',AlignID,' ',Name.1)) %>%
              select(Name,phenotype$sampleID[1]:phenotype$sampleID[nrow(phenotype)]) %>%
              gather(Sample,Intensity,-Name) %>%
-             spread(Name,Intensity)
+             spread(Name,Intensity) %>%
+             select(-Sample)
            
            x@Data <- Data
            x@processingResults <- list(processed = ex)
