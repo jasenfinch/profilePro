@@ -20,10 +20,17 @@ profileParameters <- function(technique = NULL) {
     )
     
     if (technique == 'GCMS-eRah') {
+      
+      cr <- formals(recMissComp)[-1]
+      cr$min.samples <- 1
+        
       parameters@processingParameters <- list(
+        cls = 'class',
+        parallel = list(nCores = detectCores() * 0.75,clusterType = cltype()),
         info = list(cls = 'class'),
         deconvolution = setDecPar(min.peak.width = 1, avoid.processing.mz = c(54:69,73:75,147:149)),
         alignment = setAlPar(min.spectra.cor = 0.90, max.time.dist = 1, mz.range = 70:600),
+        compoundRecovery = cr,
         identification = list(DB = 'golm',
                               path = 'GMD_20111121_VAR5_ALK_MSP.txt',
                               DBname = 'GMD', 
@@ -84,4 +91,13 @@ profileParameters <- function(technique = NULL) {
     
     return(parameters)
   }
+}
+
+cltype <- function(){
+  if (.Platform$OS.type == 'windows') {
+    type <- 'PSOCK'
+  } else {
+    type <- 'FORK'
+  }
+  return(type)
 }

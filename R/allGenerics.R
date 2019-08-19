@@ -3,6 +3,11 @@ setGeneric("XCMSprocessing", function(x) {
   standardGeneric('XCMSprocessing')
 })
 
+setGeneric("erahProcessing", function(x) {
+  standardGeneric('erahProcessing')
+})
+
+
 #' @rdname sampleInfo
 #' @export
 
