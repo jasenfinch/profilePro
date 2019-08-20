@@ -38,8 +38,20 @@ setMethod('extractProcObject',signature = 'MetaboProfile',
 
 setMethod('peakInfo',signature = 'MetaboProfile',
           function(x){
-            map(x@processingResults$peakInfo,~{
-              .$definitions
-            })
+            
+            if (str_detect(x@processingParameters@technique,'eRah')) {
+              x@processingResults$processed %>%
+                idList(
+                  id.database = importGMD(filename = x@processingParameters@processingParameters$identification$path, 
+                                          DB.name = x@processingParameters@processingParameters$identification$DBname, 
+                                          DB.version = x@processingParameters@processingParameters$identification$DBversion, 
+                                          DB.info = x@processingParameters@processingParameters$identification$DBinfo, 
+                                          type = x@processingParameters@processingParameters$identification$type)
+                )
+            } else {
+              map(x@processingResults$peakInfo,~{
+                .$definitions
+              }) 
+            }
           }
 )

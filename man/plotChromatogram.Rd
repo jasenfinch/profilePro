@@ -7,10 +7,10 @@
 \title{plotChromatogram}
 \usage{
 plotChromatogram(processed, cls = NULL, group = F, alpha = 1,
-  aggregationFun = "max")
+  aggregationFun = "max", ...)
 
 \S4method{plotChromatogram}{MetaboProfile}(processed, cls = NULL,
-  group = F, alpha = 1, aggregationFun = "max")
+  group = F, alpha = 1, aggregationFun = "max", ...)
 }
 \arguments{
 \item{processed}{S4 object of class MetaboProfile}
@@ -22,6 +22,8 @@ plotChromatogram(processed, cls = NULL, group = F, alpha = 1,
 \item{alpha}{plot line transparancy alpha}
 
 \item{aggregationFun}{value to pass to \code{xcms::chromatogram()} for chromatogram type. Defaults to base peak ("max").}
+
+\item{...}{arguments to pass to \code{erah::plotChr()}}
 }
 \description{
 Plot ion chromatogram from MetaboProfile.
