@@ -26,20 +26,31 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
               x <- processed %>%
                 extractProcObject()
               
-              nam <- processed %>%
-                sampleInfo() %>%
-                .$name
-              
               if (is.list(x)) {
                 pls <- names(x) %>%
-                  map(chromPlot,cls = cls, group = group, alpha = alpha,aggregationFun = aggregationFun)
+                  map(~{
+                    m <- .
+                    chromPlot(x[[m]],
+                              processed %>%
+                                sampleInfo(),
+                              mode = m,
+                              cls = cls, 
+                              group = group,
+                              alpha = alpha,
+                              aggregationFun = aggregationFun)
+                  })
                 
                 pls <- wrap_plots(pls)
                 
                 pls <- pls + plot_layout(ncol = 1)
               } else {
                 pls  <- x %>%
-                  chromPlot(cls = cls, group = group, alpha = alpha,aggregationFun = aggregationFun)
+                  chromPlot(info = processed %>%
+                              sampleInfo(),
+                            cls = cls, 
+                            group = group, 
+                            alpha = alpha,
+                            aggregationFun = aggregationFun)
               }
               
               return(pls)
@@ -48,14 +59,14 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
           }
 )
 
-chromPlot <- function(x,cls = NULL, group = F, alpha = 1, aggregationFun = 'max') {
+chromPlot <- function(x,info,mode = NA,cls = NULL, group = F, alpha = 1, aggregationFun = 'max') {
   chrom <- x %>%
     chromatogram(aggregationFun = aggregationFun) %>%
     map(~{
       tibble(rtime = .@rtime,
              intensity = .@intensity)
     }) %>%
-    set_names(nam) %>%
+    set_names(info$name) %>%
     bind_rows(.id = 'Sample') %>%
     mutate(rtime = rtime/60)
   
@@ -66,8 +77,7 @@ chromPlot <- function(x,cls = NULL, group = F, alpha = 1, aggregationFun = 'max'
   
   if (!is.null(cls)) {
     chrom <- chrom %>%
-      left_join(processed %>%
-                  sampleInfo() %>%
+      left_join(info %>%
                   select(name,Class = cls),by = c('Sample' = 'name'))
     if (group == TRUE) {
       chrom <- chrom %>%
@@ -88,9 +98,16 @@ chromPlot <- function(x,cls = NULL, group = F, alpha = 1, aggregationFun = 'max'
   } else {
     pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Sample))
   }
+  
+  if (is.na(mode)) {
+    title <- ''  
+  } else {
+    title <- mode
+  }
+  
   pl <- pl +
     theme_bw() +
-    labs(title = m,
+    labs(title = title,
          x = 'Retention Time (minutes)',
          y = 'Intensity') +
     theme(plot.title = element_text(face = 'bold'),
