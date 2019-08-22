@@ -23,7 +23,7 @@ profileParameters <- function(technique = NULL) {
       
       cr <- formals(recMissComp)[-1]
       cr$min.samples <- 1
-        
+      
       parameters@processingParameters <- list(
         cls = 'class',
         parallel = list(nCores = detectCores() * 0.75,clusterType = cltype()),
@@ -51,14 +51,16 @@ profileParameters <- function(technique = NULL) {
         info = list(names = 'name', cls = 'class'),
         peakDetection = MatchedFilterParam(
           fwhm = 3, 
-          snthresh = 1
+          snthresh = 1,
         ),
         grouping = PeakDensityParam(
+          sampleGroups = 'class',
           bw = 5,
-          minFraction = 0
+          minFraction = 0,
         ),
         retentionTimeCorrection = PeakGroupsParam(
-          smooth = 'loess'
+          smooth = 'loess',
+          minFraction = 0
         ),
         infilling = FillChromPeaksParam(),
         nCores = {detectCores() * 0.75} %>% round()

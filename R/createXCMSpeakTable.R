@@ -14,10 +14,20 @@ createXCMSpeakTable <- function(Data,mode = NA){
   if (is.na(mode)) {
     m <- ''
   }
-  values <- featureValues(Data[[mode]],value = 'into') %>% t() %>% as_tibble
-  definitions <- featureDefinitions(Data[[mode]]) %>% 
-    as_tibble() %>% 
-    mutate(ID = colnames(values),rtmed = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
+  
+  if (!is.na(mode)) {
+    values <- featureValues(Data[[mode]],value = 'into') %>% t() %>% as_tibble   
+    definitions <- featureDefinitions(Data[[mode]]) %>% 
+      as_tibble() %>% 
+      mutate(ID = colnames(values),rtmed = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
+  } else {
+    values <- featureValues(Data,value = 'into') %>% t() %>% as_tibble
+    definitions <- featureDefinitions(Data) %>% 
+      as_tibble() %>% 
+      mutate(ID = colnames(values),rtmed = rtmed/60, rtmin = rtmin/60, rtmax = rtmax/60)
+  }
+ 
+  
   
   ID <- str_c(m, round(definitions$mzmed,5), '@', round(definitions$rtmed,3))
   
