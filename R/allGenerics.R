@@ -3,6 +3,10 @@ setGeneric("XCMSprocessing", function(x) {
   standardGeneric('XCMSprocessing')
 })
 
+setGeneric("GCMSprocessing", function(x) {
+  standardGeneric('GCMSprocessing')
+})
+
 setGeneric("erahProcessing", function(x) {
   standardGeneric('erahProcessing')
 })

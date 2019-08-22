@@ -5,7 +5,7 @@ profilingMethods <- function(method = NULL){
     
     `GCMS-eRah` = erahProcessing,
     
-    `GCMS-XCMS` = XCMSprocessing,
+    `GCMS-XCMS` = GCMSprocessing,
     
     `LCMS-RP` = XCMSprocessing,
     

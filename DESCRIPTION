@@ -39,3 +39,4 @@ Collate:
       'show-method.R'
       'plotting.R'
       'erahProcessing-method.R'
+      'GCMSprocessing-method.R'

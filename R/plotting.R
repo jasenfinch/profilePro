@@ -18,7 +18,7 @@
 setMethod('plotChromatogram',signature = 'MetaboProfile',
           function(processed, cls = NULL, group = F, alpha = 1, aggregationFun = 'max', ...){
             
-            if (str_detect(processed@processingParameters@technique,'GCMS')) {
+            if (str_detect(processed@processingParameters@technique,'eRah')) {
             processed %>%
                 extractProcObject() %>%
                 plotChr(...)
@@ -30,82 +30,89 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
                 sampleInfo() %>%
                 .$name
               
-              pls <- names(x) %>%
-                map(~{
-                  m <- .
-                  d <- x[[m]]
-                  chrom <- d %>%
-                    chromatogram(aggregationFun = 'max') %>%
-                    map(~{
-                      tibble(rtime = .@rtime,
-                             intensity = .@intensity)
-                    }) %>%
-                    set_names(nam) %>%
-                    bind_rows(.id = 'Sample') %>%
-                    mutate(rtime = rtime/60)
-                  
-                  if (group == TRUE) {
-                    chrom <- chrom %>%
-                      mutate(rtime = round(rtime,1))
-                  }
-                  
-                  if (!is.null(cls)) {
-                    chrom <- chrom %>%
-                      left_join(processed %>%
-                                  sampleInfo() %>%
-                                  select(name,Class = cls),by = c('Sample' = 'name'))
-                    if (group == TRUE) {
-                      chrom <- chrom %>%
-                        group_by(Class,rtime) %>%
-                        summarise(intensity = mean(intensity))
-                    }
-                  } else {
-                    if (group == TRUE) {
-                      chrom <- chrom %>%
-                        group_by(rtime) %>%
-                        summarise(intensity = mean(intensity)) %>%
-                        mutate(Sample = 1)
-                    }
-                  }
-                  
-                  if (!is.null(cls) & group == TRUE) {
-                    pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Class))
-                  } else {
-                    pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Sample))
-                  }
-                  pl <- pl +
-                    theme_bw() +
-                    labs(title = m,
-                         x = 'Retention Time (minutes)',
-                         y = 'Intensity') +
-                    theme(plot.title = element_text(face = 'bold'),
-                          axis.title = element_text(face = 'bold'),
-                          legend.title = element_text(face = 'bold'),
-                          legend.position = 'bottom')
-                  
-                  if (!is.null(cls)) {
-                    pl <- pl +
-                      geom_line(aes(colour = Class),alpha = alpha)
-                    
-                    if (length(unique(chrom$Class)) < 12) {
-                      pl <- pl +
-                        scale_colour_ptol()
-                    }
-                  } else {
-                    pl <- pl +
-                      geom_line(alpha = alpha)
-                  }
-                  
-                  return(pl)
-                })
+              if (is.list(x)) {
+                pls <- names(x) %>%
+                  map(chromPlot,cls = cls, group = group, alpha = alpha,aggregationFun = aggregationFun)
+                
+                pls <- wrap_plots(pls)
+                
+                pls <- pls + plot_layout(ncol = 1)
+              } else {
+                pls  <- x %>%
+                  chromPlot(cls = cls, group = group, alpha = alpha,aggregationFun = aggregationFun)
+              }
               
-              pls <- wrap_plots(pls)
-              
-              return(pls + plot_layout(ncol = 1))
+              return(pls)
             }
             
           }
 )
+
+chromPlot <- function(x,cls = NULL, group = F, alpha = 1, aggregationFun = 'max') {
+  chrom <- x %>%
+    chromatogram(aggregationFun = aggregationFun) %>%
+    map(~{
+      tibble(rtime = .@rtime,
+             intensity = .@intensity)
+    }) %>%
+    set_names(nam) %>%
+    bind_rows(.id = 'Sample') %>%
+    mutate(rtime = rtime/60)
+  
+  if (group == TRUE) {
+    chrom <- chrom %>%
+      mutate(rtime = round(rtime,1))
+  }
+  
+  if (!is.null(cls)) {
+    chrom <- chrom %>%
+      left_join(processed %>%
+                  sampleInfo() %>%
+                  select(name,Class = cls),by = c('Sample' = 'name'))
+    if (group == TRUE) {
+      chrom <- chrom %>%
+        group_by(Class,rtime) %>%
+        summarise(intensity = mean(intensity))
+    }
+  } else {
+    if (group == TRUE) {
+      chrom <- chrom %>%
+        group_by(rtime) %>%
+        summarise(intensity = mean(intensity)) %>%
+        mutate(Sample = 1)
+    }
+  }
+  
+  if (!is.null(cls) & group == TRUE) {
+    pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Class))
+  } else {
+    pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Sample))
+  }
+  pl <- pl +
+    theme_bw() +
+    labs(title = m,
+         x = 'Retention Time (minutes)',
+         y = 'Intensity') +
+    theme(plot.title = element_text(face = 'bold'),
+          axis.title = element_text(face = 'bold'),
+          legend.title = element_text(face = 'bold'),
+          legend.position = 'bottom')
+  
+  if (!is.null(cls)) {
+    pl <- pl +
+      geom_line(aes(colour = Class),alpha = alpha)
+    
+    if (length(unique(chrom$Class)) < 12) {
+      pl <- pl +
+        scale_colour_ptol()
+    }
+  } else {
+    pl <- pl +
+      geom_line(alpha = alpha)
+  }
+  
+  return(pl)
+}
 
 #' plotTIC
 #' @rdname plotTIC
