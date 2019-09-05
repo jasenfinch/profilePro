@@ -52,15 +52,14 @@ profileParameters <- function(technique = NULL) {
         peakDetection = MatchedFilterParam(
           fwhm = 3, 
           snthresh = 1,
+          max = 50
         ),
+        retentionTimeCorrection = ObiwarpParam(),
         grouping = PeakDensityParam(
           sampleGroups = 'class',
-          bw = 5,
+          bw = 3,
           minFraction = 0,
-        ),
-        retentionTimeCorrection = PeakGroupsParam(
-          smooth = 'loess',
-          minFraction = 0
+          maxFeatures = 62
         ),
         infilling = FillChromPeaksParam(),
         nCores = {detectCores() * 0.75} %>% round()

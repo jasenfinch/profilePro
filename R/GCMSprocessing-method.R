@@ -23,7 +23,6 @@ setMethod('GCMSprocessing',signature = 'MetaboProfile',
             
             processed <- rawData %>%
               findChromPeaks(parameters@processingParameters$peakDetection) %>%
-              groupChromPeaks(parameters@processingParameters$grouping) %>%
               adjustRtime(parameters@processingParameters$retentionTimeCorrection) %>%
               groupChromPeaks(parameters@processingParameters$grouping) %>%
               fillChromPeaks(parameters@processingParameters$infilling)
