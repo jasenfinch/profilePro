@@ -66,23 +66,55 @@ profileParameters <- function(technique = NULL) {
       )
     }
     
-    if (technique == 'LCMS-RP' | technique == 'LCMS-NP') {
+    if (technique == 'LCMS-RP') {
       parameters@processingParameters <- list(
         info = list(names = 'name', cls = 'class'),
         peakDetection = CentWaveParam(
-          ppm = 1.5,
-          peakwidth = c(2,40),
-          snthresh = 3.0,
+          ppm = 8.2,
+          peakwidth = c(16,43),
+          snthresh = 7,
           mzCenterFun = "apex", 
           mzdiff = 0.001, 
           fitgauss = FALSE,
           integrate = 2
         ), 
-        retentionTimeCorrection = ObiwarpParam(),
+        retentionTimeCorrection = ObiwarpParam(
+          gapInit = 2.9,
+          gapExtend = 2.7,
+          binSize = 0.7
+            ),
         grouping = PeakDensityParam(
           sampleGroups = 'class',
-          bw = 5,
-          binSize = 0.015, 
+          bw = 1,
+          binSize = 0.00775, 
+          minFraction = 2/3
+        ),
+        infilling = FillChromPeaksParam(),
+        nCores = {detectCores() * 0.75} %>% round()
+      )
+    } 
+    
+    if (technique == 'LCMS-NP') {
+      parameters@processingParameters <- list(
+        info = list(names = 'name', cls = 'class'),
+        peakDetection = CentWaveParam(
+          ppm = 7.9,
+          peakwidth = c(27,63),
+          snthresh = 7.6,
+          mzCenterFun = "apex", 
+          mzdiff = 0.001, 
+          fitgauss = FALSE,
+          integrate = 2
+        ), 
+        retentionTimeCorrection = ObiwarpParam(
+          gapInit = 2.9,
+          gapExtend = 2.7,
+          binSize = 1
+        ),
+        grouping = PeakDensityParam(
+          sampleGroups = 'class',
+          bw = 1,
+          binSize = 0.00685, 
           minFraction = 2/3
         ),
         infilling = FillChromPeaksParam(),
