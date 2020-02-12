@@ -3,14 +3,13 @@ Title: Unifying Input And Output For Processing Of Metabolomic Profiling Experim
 Version: 0.6.3
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent input and output of data processing results from multiple metabolomic profiling techniques.
-biocViews:  MassSpectrometry, Metabolomics
+biocViews: MassSpectrometry, Metabolomics
 Depends: R (>= 3.4.0),
-    MSnbase
+    xcms
 Imports: readr,
     tibble,
     methods,
     purrr,
-    xcms,
     BiocParallel,
     dplyr,
     magrittr,
@@ -20,12 +19,13 @@ Imports: readr,
     ggthemes,
     patchwork,
     ggplot2,
-    tidyr
+    tidyr,
+    MSnbase
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Collate:
       'allGenerics.R'
       'allClasses.R'
