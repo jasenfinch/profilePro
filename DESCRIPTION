@@ -1,5 +1,5 @@
 Package: profilePro
-Title: Unifying Input And Output For Processing Of Metabolomic Profiling Experiments
+Title: Unifying Input and Output for Processing of Metabolomic Profiling Experiments
 Version: 0.6.5
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent input and output of data processing results from multiple metabolomic profiling techniques.
