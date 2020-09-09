@@ -21,6 +21,7 @@ Imports: readr,
     ggplot2,
     tidyr,
     MSnbase
+Remotes: xdomingoal/erah-devel
 Suggests: faahKO
 License: GPL-3
 Encoding: UTF-8
