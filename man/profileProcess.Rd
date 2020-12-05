@@ -18,7 +18,7 @@ process metabolomic profiling data
 }
 \examples{
 \dontrun{
-# Get sample information and use the first three injections
+# Get sample information and use only the three injection for this example
 info <- metaboData::runinfo('RP-UHPLC-HRMS','BdistachyonEcotypes') \%>\%
   dplyr::filter(injOrder \%in\% seq_len(3))
 

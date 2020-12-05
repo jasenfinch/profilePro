@@ -4,6 +4,7 @@
 #' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
 #' @importFrom BiocParallel bpparam register
 #' @importFrom utils capture.output
+#' @importFrom crayon green
 
 setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
@@ -25,6 +26,8 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             para@.xData$workers <- nCores
             register(para)
             
+            message('Reading data')
+            
             rawData <- readMSData(x@files,pdata = info, mode = 'onDisk')
             
             modes <- rawData %>%
@@ -33,13 +36,34 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
               {.[. != -1]}
             
             processed <- map(modes, ~{
-              m <- .
-              rawData %>%
-                filterPolarity(polarity = m) %>%
-                findChromPeaks(parameters@processingParameters$peakDetection) %>%
-                adjustRtime(parameters@processingParameters$retentionTimeCorrection) %>%
-                groupChromPeaks(parameters@processingParameters$grouping) %>%
+              message()
+              
+              if (.x == 0) {
+                message(blue('Negative mode'))
+              } else {
+                message(red('Positive mode'))
+              }
+              
+              d <- rawData %>%
+                filterPolarity(polarity = .x)
+              
+              message(green('Peak picking'))
+              d <- d %>%
+                findChromPeaks(parameters@processingParameters$peakDetection)
+              
+              message(green('Retention time correction'))
+              d <- d %>%
+                adjustRtime(parameters@processingParameters$retentionTimeCorrection)
+              
+              message(green('Grouping'))
+              d <- d %>%
+                groupChromPeaks(parameters@processingParameters$grouping)
+              
+              message(green('Infilling'))
+              d <- d %>%
                 fillChromPeaks(parameters@processingParameters$infilling)
+              
+              return(d)
             }) 
             
             ms <- modes
