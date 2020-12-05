@@ -5,33 +5,21 @@
 #' @param parameters object of class ProfileParameters containing the parameters for processing
 #' @examples 
 #' \dontrun{
-#' library(stringr)
-#' library(faahKO)
-#' library(tibble)
-#' library(readr)
-#'
-#' files <- list.files(system.file("cdf", package = "faahKO"),full.names = TRUE,recursive = T)
-#'
-#' # make runinfo file
-#' filesSplit <- str_split_fixed(files,'/',str_count(files[1],'/') + 1) 
-#' info <- tibble(fileOrder = 1:length(files),
-#'               injOrder = 1:length(files),
-#'               fileName = filesSplit[,ncol(filesSplit)], 
-#'               batch = rep(1,length(files)), 
-#'               block = rep(1,length(files)), 
-#'               name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
-#'               class = filesSplit[,ncol(filesSplit)-1])
-#'
-#' # prepare parameters
+#' # Get sample information and use the first three injections
+#' info <- metaboData::runinfo('RP-UHPLC-HRMS','BdistachyonEcotypes') %>%
+#'   dplyr::filter(injOrder %in% seq_len(3))
+#' 
+#' # Retrieve file paths
+#' files <- metaboData::filePaths('RP-UHPLC-HRMS','BdistachyonEcotypes') %>%
+#'   {
+#'     .[base::basename(.) %in% info$fileName] 
+#'   }
+#' 
+#' # Prepare parameters
 #' parameters <- profileParameters('LCMS-RP')
-#' parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
-#' parameters@processingParameters$retentionTimeCorrection <- ObiwarpParam()
-#' parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,
-#'                                                              maxFeatures = 300,
-#'                                                              minFraction = 2/3)
-#' # run processing
-#' processedData <- profileProcess(files,info,parameters)
-#'
+#' 
+#' # Run processing
+#' pd <- profileProcess(files,info,parameters)
 #' }
 #' @importFrom tibble tibble
 #' @importFrom methods new
