@@ -12,3 +12,15 @@ test_that('processingParameters can be set and returned',{
   expect_equal(processingParameters(p) %>%
                  names(),'test')
 })
+
+d <- new('MetaboProfile',
+         technique = 'LCMS-RP')
+
+test_that('file paths can be set and returned',{
+  files(d) <- 'test.mzML'
+  expect_equal(files(d),'test.mzML')
+})
+
+test_that('Error given when incorrect sample information specified',{
+  expect_error({sampleInfo(d) <- tibble()})
+})
