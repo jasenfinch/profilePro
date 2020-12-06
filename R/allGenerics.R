@@ -26,6 +26,18 @@ setGeneric('processedData',function(x){
   standardGeneric('processedData')
 })
 
+#' @rdname processingParameters
+
+setGeneric('processingParameters',function(x){
+  standardGeneric('processingParameters')
+})
+
+#' @rdname processingParameters
+
+setGeneric('processingParameters<-',function(x,value){
+  standardGeneric('processingParameters<-')
+})
+
 #' @rdname extractProcObject
 #' @export
 

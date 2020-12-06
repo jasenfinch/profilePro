@@ -8,7 +8,7 @@
 
 setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
-            parameters <- x@processingParameters
+            parameters <- processingParameters(x)
             
             info <- new('NAnnotatedDataFrame',
                         data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),

@@ -20,6 +20,28 @@ setMethod('processedData',signature = 'MetaboProfile',
           }
 )
 
+#' Get or set processing parameters
+#' @rdname processingParameters
+#' @description Get or set processing parameters for an S4 object of class MetaboProfile.
+#' @param x S4 object of class MetaboProfile
+#' @param value list object of parameters to set
+#' @return A list containing processing parameter objects.
+#' @export
+
+setMethod('processingParameters',signature = 'MetaboProfile',
+          function(x){
+            x@processingParameters
+          })
+
+#' @rdname processingParameters
+#' @export
+
+setMethod('processingParameters<-',signature = 'MetaboProfile',
+          function(x,value){
+            x@processingParameters <- value
+            return(x)
+          })
+
 #' extractProcObject
 #' @description Extract processing package object from an object of class MetaboProfile
 #' @param x S4 object of class MetaboProfile
