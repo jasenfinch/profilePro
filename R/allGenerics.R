@@ -30,6 +30,16 @@ setGeneric('processingParameters<-',function(x,value)
 
 #' @rdname processed
 
+setGeneric('version',function(x) 
+  standardGeneric('version'))
+
+#' @rdname processed
+
+setGeneric('creationDate',function(x) 
+  standardGeneric('creationDate'))
+
+#' @rdname processed
+
 setGeneric('sampleInfo',function(x) 
   standardGeneric('sampleInfo'))
 

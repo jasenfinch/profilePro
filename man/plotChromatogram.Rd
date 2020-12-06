@@ -8,7 +8,7 @@
 plotChromatogram(
   processed,
   cls = NULL,
-  group = F,
+  group = FALSE,
   alpha = 1,
   aggregationFun = "max",
   ...

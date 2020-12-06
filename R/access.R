@@ -24,7 +24,7 @@ setMethod('technique<-',signature = 'ProfileParameters',
 
 setMethod('processingParameters',signature = 'ProfileParameters',
           function(x){
-            x@processingParameters
+            x@processing_parameters
           })
 
 #' @rdname parameters
@@ -32,7 +32,7 @@ setMethod('processingParameters',signature = 'ProfileParameters',
 
 setMethod('processingParameters<-',signature = 'ProfileParameters',
           function(x,value){
-            x@processingParameters <- value
+            x@processing_parameters <- value
             return(x)
           })
 
@@ -41,6 +41,22 @@ setMethod('processingParameters<-',signature = 'ProfileParameters',
 #' @description Retrieve or set information for a MetaboProfile object.
 #' @param x S4 object of class MetaboProfile
 #' @param value value to set
+#' @export
+
+setMethod('version',signature = 'MetaboProfile',
+          function(x){
+           x@version 
+          })
+
+#' @rdname processed
+#' @export
+
+setMethod('creationDate',signature = 'MetaboProfile',
+          function(x){
+            x@creation_date
+          })
+
+#' @rdname processed
 #' @export
 
 setMethod('sampleInfo',signature = 'MetaboProfile',
