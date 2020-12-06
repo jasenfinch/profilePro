@@ -14,8 +14,9 @@ setMethod('technique',signature = 'ProfileParameters',
 #' @export
 
 setMethod('technique<-',signature = 'ProfileParameters',
-          function(x){
-            x@technique
+          function(x,value){
+            x@technique <- value
+            return(x)
           })
 
 #' @rdname parameters
