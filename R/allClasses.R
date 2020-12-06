@@ -8,7 +8,8 @@ setClass('ProfileParameters',
          slots = list(
            technique = 'character',
            processingParameters = 'list'
-         )
+         ),
+         validity = checkParameters
 )
 
 #' MetaboProfile
