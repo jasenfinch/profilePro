@@ -60,6 +60,16 @@ setGeneric('sampleInfo<-',function(x,value)
 
 #' @rdname processed
 
+setGeneric('processingResults',function(x) 
+  standardGeneric('processingResults'))
+
+#' @rdname processed
+
+setGeneric('processingResults<-',function(x,value) 
+  standardGeneric('processingResults<-'))
+
+#' @rdname processed
+
 setGeneric('processedData',function(x) 
   standardGeneric('processedData'))
 

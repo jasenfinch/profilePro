@@ -7,6 +7,8 @@
 \alias{files<-}
 \alias{sampleInfo}
 \alias{sampleInfo<-}
+\alias{processingResults}
+\alias{processingResults<-}
 \alias{processedData}
 \alias{processedData<-}
 \alias{extractProcObject}
@@ -17,6 +19,8 @@
 \alias{files<-,MetaboProfile-method}
 \alias{sampleInfo,MetaboProfile-method}
 \alias{sampleInfo<-,MetaboProfile-method}
+\alias{processingResults,MetaboProfile-method}
+\alias{processingResults<-,MetaboProfile-method}
 \alias{processedData,MetaboProfile-method}
 \alias{processedData<-,MetaboProfile-method}
 \alias{extractProcObject,MetaboProfile-method}
@@ -34,6 +38,10 @@ files(x) <- value
 sampleInfo(x)
 
 sampleInfo(x) <- value
+
+processingResults(x)
+
+processingResults(x) <- value
 
 processedData(x)
 
@@ -54,6 +62,10 @@ peakInfo(x)
 \S4method{sampleInfo}{MetaboProfile}(x)
 
 \S4method{sampleInfo}{MetaboProfile}(x) <- value
+
+\S4method{processingResults}{MetaboProfile}(x)
+
+\S4method{processingResults}{MetaboProfile}(x) <- value
 
 \S4method{processedData}{MetaboProfile}(x)
 
