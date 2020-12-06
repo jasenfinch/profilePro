@@ -6,7 +6,7 @@
 
 setMethod('show',signature = 'ProfileParameters',
           function(object){
-            cat('Processing parameters for technique',object@technique)
+            cat('Processing parameters for technique',technique(object))
           }
 )
 
@@ -19,10 +19,10 @@ setMethod('show',signature = 'ProfileParameters',
 
 setMethod('show',signature = 'MetaboProfile',
           function(object){
-            cat('\nprofilePro MetaboProfile\n')
-            cat('Analysed by package version',bold(red(object@log$version[1])))
-            cat('\n',object@log$date,'\n',sep = '')
-            cat('Technique:',bold(blue(object@processingParameters@technique)),'\n')
+            cat('\n',blue('profilePro'),' MetaboProfile\n',sep = '')
+            cat('Analysed by package version',bold(red(version(object))))
+            cat('\n',creationDate(object),'\n',sep = '')
+            cat('Technique:',bold(blue(technique(object))),'\n')
             cat('No. Samples:',sum(map_dbl(object@files,length)), '\n\n')
           }
 )
