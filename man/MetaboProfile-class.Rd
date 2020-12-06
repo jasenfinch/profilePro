@@ -10,11 +10,13 @@ An S4 class to store the profile processing results
 \section{Slots}{
 
 \describe{
-\item{\code{log}}{date and time of the initiation of processing}
+\item{\code{version}}{package version}
+
+\item{\code{creation_date}}{date and time of the initiation of processing}
 
 \item{\code{files}}{list of file paths to used for processing. Vectors of files form different aquisition modes should be labelled accordingly.}
 
-\item{\code{processingParameters}}{object of class ProfileParameters containing the parameters for processing}
+\item{\code{processing_parameters}}{object of class ProfileParameters containing the parameters for processing}
 
 \item{\code{Info}}{tibble containing runinfo data}
 
