@@ -40,6 +40,16 @@ setGeneric('creationDate',function(x)
 
 #' @rdname processed
 
+setGeneric('files',function(x) 
+  standardGeneric('files'))
+
+#' @rdname processed
+
+setGeneric('files<-',function(x,value) 
+  standardGeneric('files<-'))
+
+#' @rdname processed
+
 setGeneric('sampleInfo',function(x) 
   standardGeneric('sampleInfo'))
 

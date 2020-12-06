@@ -16,6 +16,7 @@ setMethod('technique',signature = 'ProfileParameters',
 setMethod('technique<-',signature = 'ProfileParameters',
           function(x,value){
             x@technique <- value
+            validObject(x)
             return(x)
           })
 
@@ -59,9 +60,26 @@ setMethod('creationDate',signature = 'MetaboProfile',
 #' @rdname processed
 #' @export
 
+setMethod('files',signature = 'MetaboProfile',
+          function(x){
+            x@file_paths
+          })
+
+#' @rdname processed
+#' @export
+
+setMethod('files<-',signature = 'MetaboProfile',
+          function(x,value){
+            x@file_paths <- value
+            return(x)
+          })
+
+#' @rdname processed
+#' @export
+
 setMethod('sampleInfo',signature = 'MetaboProfile',
           function(x){
-            x@Info
+            x@sample_info
           }
 )
 
@@ -70,7 +88,8 @@ setMethod('sampleInfo',signature = 'MetaboProfile',
 
 setMethod('sampleInfo<-',signature = 'MetaboProfile',
           function(x,value){
-            x@Info <- value
+            x@sample_info <- value
+            validObject(x)
             return(x)
           }
 )
@@ -80,7 +99,7 @@ setMethod('sampleInfo<-',signature = 'MetaboProfile',
 
 setMethod('processedData',signature = 'MetaboProfile',
           function(x){
-            x@Data
+            x@data
           }
 )
 
@@ -89,7 +108,7 @@ setMethod('processedData',signature = 'MetaboProfile',
 
 setMethod('processedData<-',signature = 'MetaboProfile',
           function(x,value){
-            x@Data <- value
+            x@data <- value
             return(x)
           }
 )
