@@ -8,9 +8,18 @@ setClass('ProfileParameters',
          slots = list(
            technique = 'character',
            processingParameters = 'list'
-         ),
-         validity = checkParameters
+         )
 )
+
+setValidity('ProfileParameters',function(object){
+  if (!(object@technique %in% availableTechinques())) {
+    str_c('Technique should be one of ',
+          str_c(availableTechinques(),collapse = ', '),
+          '.')
+  } else {
+    return(TRUE)
+}
+})
 
 #' MetaboProfile
 #' @description An S4 class to store the profile processing results
