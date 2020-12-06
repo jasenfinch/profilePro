@@ -23,7 +23,6 @@
 #' }
 #' @importFrom tibble tibble
 #' @importFrom methods new
-#' @importFrom utils packageVersion
 #' @importFrom dplyr arrange
 #' @export
 
@@ -33,16 +32,13 @@ profileProcess <- function(files,info,parameters) {
   info <- info %>%
     arrange(injOrder)
   
-  x <- new('MetaboProfile',
-           log = list(date = date(),version = packageVersion('profilePro')),
-           files = files,
-           processingParameters = parameters,
-           Info = info,
-           Data = tibble(),
-           processingResults = list()
-           )
+  x <- new('MetaboProfile',parameters)
+  files(x) <- files
+  sampleInfo(x) <- info
   
-  method <- profilingMethods(parameters@technique)
+  method <- parameters %>%
+    technique() %>%
+    profilingMethods()
   
   x <- method(x)
   
