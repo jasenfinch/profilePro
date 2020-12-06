@@ -4,10 +4,6 @@ test_that("available techniques returned", {
   expect_length(techniques,4)
 })
 
-test_that('available techniques printed by profileParameters',{
-  expect_output(profileParameters(),'Available Techniques:')
-})
-
 test_that('profileParamters errors if incorrect technique specified',{
   expect_error(new('ProfileParameters',technique = 'incorrect'))
 })
