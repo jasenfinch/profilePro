@@ -11,6 +11,17 @@ setGeneric("erahProcessing", function(x) {
   standardGeneric('erahProcessing')
 })
 
+#' @rdname parameters
+
+setGeneric('technique',function(x){
+  standardGeneric('technique')
+})
+
+#' @rdname parameters
+
+setGeneric('technique<-',function(x,value){
+  standardGeneric('technique<-')
+})
 
 #' @rdname sampleInfo
 #' @export
