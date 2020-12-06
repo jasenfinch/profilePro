@@ -6,7 +6,7 @@
 
 setMethod('show',signature = 'ProfileParameters',
           function(object){
-            cat('Processing parameters for techinque',object@technique)
+            cat('Processing parameters for technique',object@technique)
           }
 )
 
