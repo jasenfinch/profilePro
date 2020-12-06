@@ -23,6 +23,6 @@ setMethod('show',signature = 'MetaboProfile',
             cat('Analysed by package version',bold(red(version(object))))
             cat('\n',creationDate(object),'\n',sep = '')
             cat('Technique:',bold(blue(technique(object))),'\n')
-            cat('No. Samples:',sum(map_dbl(object@files,length)), '\n\n')
+            cat('No. Samples:',length(files(object)), '\n\n')
           }
 )
