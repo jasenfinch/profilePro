@@ -23,40 +23,50 @@ setGeneric('technique<-',function(x,value){
   standardGeneric('technique<-')
 })
 
-#' @rdname sampleInfo
-#' @export
-
-setGeneric('sampleInfo',function(x){
-  standardGeneric('sampleInfo')
-})
-
-#' @rdname processedData
-#' @export
-
-setGeneric('processedData',function(x){
-  standardGeneric('processedData')
-})
-
-#' @rdname processingParameters
+#' @rdname parameters
 
 setGeneric('processingParameters',function(x){
   standardGeneric('processingParameters')
 })
 
-#' @rdname processingParameters
+#' @rdname parameters
 
 setGeneric('processingParameters<-',function(x,value){
   standardGeneric('processingParameters<-')
 })
 
-#' @rdname extractProcObject
+#' @rdname processed
+
+setGeneric('sampleInfo',function(x){
+  standardGeneric('sampleInfo')
+})
+
+#' @rdname processed
+
+setGeneric('sampleInfo<-',function(x,value){
+  standardGeneric('sampleInfo<-')
+})
+
+#' @rdname processed
+
+setGeneric('processedData',function(x){
+  standardGeneric('processedData')
+})
+
+#' @rdname processed
+
+setGeneric('processedData<-',function(x,value){
+  standardGeneric('processedData<-')
+})
+
+#' @rdname processed
 #' @export
 
 setGeneric('extractProcObject',function(x){
   standardGeneric('extractProcObject')
 })
 
-#' @rdname peakInfo
+#' @rdname processed
 #' @export
 
 setGeneric('peakInfo',function(x){

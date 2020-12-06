@@ -36,10 +36,12 @@ setMethod('processingParameters<-',signature = 'ProfileParameters',
             return(x)
           })
 
-#' sampleInfo
-#' @description Extract sample info from an object of class MetaboProfile.
+#' MetaboProfile class get and set methods.
+#' @rdname processed
+#' @description Retrieve or set information for a MetaboProfile object.
 #' @param x S4 object of class MetaboProfile
-#' @rdname sampleInfo
+#' @param value value to set
+#' @export
 
 setMethod('sampleInfo',signature = 'MetaboProfile',
           function(x){
@@ -47,10 +49,18 @@ setMethod('sampleInfo',signature = 'MetaboProfile',
           }
 )
 
-#' processedData
-#' @description Extract processed data from an object of class MetaboProfile
-#' @param x S4 object of class MetaboProfile
-#' @rdname processedData
+#' @rdname processed
+#' @export
+
+setMethod('sampleInfo<-',signature = 'MetaboProfile',
+          function(x,value){
+            x@Info <- value
+            return(x)
+          }
+)
+
+#' @rdname processed
+#' @export
 
 setMethod('processedData',signature = 'MetaboProfile',
           function(x){
@@ -58,10 +68,18 @@ setMethod('processedData',signature = 'MetaboProfile',
           }
 )
 
-#' extractProcObject
-#' @description Extract processing package object from an object of class MetaboProfile
-#' @param x S4 object of class MetaboProfile
-#' @rdname extractProcObject
+#' @rdname processed
+#' @export
+
+setMethod('processedData<-',signature = 'MetaboProfile',
+          function(x,value){
+            x@Data <- value
+            return(x)
+          }
+)
+
+#' @rdname processed
+#' @export
 
 setMethod('extractProcObject',signature = 'MetaboProfile',
           function(x){
@@ -69,22 +87,21 @@ setMethod('extractProcObject',signature = 'MetaboProfile',
           }
 )
 
-#' peakInfo
-#' @description Extract peak information from an object of class MetaboProfile
-#' @param x S4 object of class MetaboProfile
-#' @rdname peakInfo
+#' @rdname processed
+#' @export
 
 setMethod('peakInfo',signature = 'MetaboProfile',
           function(x){
             
-            if (str_detect(x@processingParameters@technique,'eRah')) {
-              x@processingResults$processed %>%
+            if (technique(x) == 'GCMS-eRah') {
+              x %>%
+                extractProcObject() %>%
                 idList(
-                  id.database = importGMD(filename = x@processingParameters@processingParameters$identification$path, 
-                                          DB.name = x@processingParameters@processingParameters$identification$DBname, 
-                                          DB.version = x@processingParameters@processingParameters$identification$DBversion, 
-                                          DB.info = x@processingParameters@processingParameters$identification$DBinfo, 
-                                          type = x@processingParameters@processingParameters$identification$type)
+                  id.database = importGMD(filename = processingParameters(x)@processingParameters$identification$path, 
+                                          DB.name = processingParameters(x)@processingParameters$identification$DBname, 
+                                          DB.version = processingParameters(x)@processingParameters$identification$DBversion, 
+                                          DB.info = processingParameters(x)@processingParameters$identification$DBinfo, 
+                                          type = processingParameters(x)@processingParameters$identification$type)
                 )
             } else {
               map(x@processingResults$peakInfo,~{
