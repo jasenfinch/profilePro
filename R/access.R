@@ -16,6 +16,7 @@ setMethod('technique',signature = 'ProfileParameters',
 setMethod('technique<-',signature = 'ProfileParameters',
           function(x,value){
             x@technique <- value
+            processingParameters(x) <- value
             validObject(x)
             return(x)
           })
