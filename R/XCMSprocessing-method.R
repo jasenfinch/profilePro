@@ -90,14 +90,21 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             pt <- map(names(processed),
                       createXCMSpeakTable,
                       processed = processed) %>%
-              set_names(ms)
+              set_names(ms) 
+            
+            
             
             processedData(x) <- map(pt,~{
               .$values
             })
             
+            peak_info <- map(pt,~{
+              .$definitions
+            }) %>%
+              bind_rows(.id = 'polarity')
+            
             processingResults(x) <- list(processed = processed,
-                                        peakInfo = pt
+                                        peak_info = peak_info
             )
             return(x)
           }
@@ -135,8 +142,8 @@ createXCMSpeakTable <- function(processed,mode = NA){
   values[is.na(values)] <- 0
   
   definitions <- definitions %>%
-    mutate(Feature = !!ID) %>%
-    select(Feature,mzmin:ID)
+    mutate(feature = !!ID) %>%
+    select(feature,mzmin:ID)
   
   return(list(values = values, definitions = definitions))
 }

@@ -27,4 +27,7 @@ test_that("profileProcess works for LC data", {
   processed_data <- profileProcess(file_paths,sample_info,parameters)
 
   expect_s4_class(processed_data,'MetaboProfile')
+  expect_equal(class(processedData(processed_data)),'list')
+  expect_s3_class(peakInfo(processed_data),'tbl_df')
+  expect_equal(class(extractProcObject(processed_data)),'list')
 })

@@ -95,6 +95,7 @@ setMethod('processingResults<-',signature = 'MetaboProfile',
 )
 
 #' @rdname processed
+#' @export
 
 setMethod('processedData',signature = 'MetaboProfile',
           function(x){
@@ -137,9 +138,7 @@ setMethod('peakInfo',signature = 'MetaboProfile',
                                           type = processingParameters(x)@processingParameters$identification$type)
                 )
             } else {
-              map(processingResults(x)$peakInfo,~{
-                .$definitions
-              }) 
+              processingResults(x)$peak_info
             }
           }
 )
