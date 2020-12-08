@@ -4,10 +4,12 @@
 \alias{profileParameters}
 \title{profileParameters}
 \usage{
-profileParameters(technique)
+profileParameters(technique, nCores = detectCores() * 0.75)
 }
 \arguments{
 \item{technique}{the profiling technique for which to initiate parameters}
+
+\item{nCores}{number of cores to use for parallel processing}
 }
 \description{
 Initiate default processing parameters for a given profiling technique.
