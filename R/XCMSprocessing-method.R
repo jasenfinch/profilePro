@@ -2,7 +2,7 @@
 #' @importFrom MSnbase readMSData
 #' @importMethodsFrom MSnbase polarity filterPolarity
 #' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
-#' @importFrom BiocParallel bpparam register
+#' @importFrom BiocParallel bpparam register bpworkers
 #' @importFrom utils capture.output
 #' @importFrom crayon green
 
@@ -23,7 +23,7 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
               nCores <- parameters@processingParameters$nCores
             }
             para <- bpparam()
-            para@.xData$workers <- nCores
+            bpworkers(para) <- nCores
             register(para)
             
             message('Reading data')

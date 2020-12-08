@@ -6,7 +6,6 @@
 \alias{filePaths}
 \alias{filePaths<-}
 \alias{sampleInfo}
-\alias{sampleInfo<-}
 \alias{processingResults}
 \alias{processingResults<-}
 \alias{processedData}
@@ -18,7 +17,6 @@
 \alias{filePaths,MetaboProfile-method}
 \alias{filePaths<-,MetaboProfile-method}
 \alias{sampleInfo,MetaboProfile-method}
-\alias{sampleInfo<-,MetaboProfile-method}
 \alias{processingResults,MetaboProfile-method}
 \alias{processingResults<-,MetaboProfile-method}
 \alias{processedData,MetaboProfile-method}
@@ -36,8 +34,6 @@ filePaths(x)
 filePaths(x) <- value
 
 sampleInfo(x)
-
-sampleInfo(x) <- value
 
 processingResults(x)
 
@@ -60,8 +56,6 @@ peakInfo(x)
 \S4method{filePaths}{MetaboProfile}(x) <- value
 
 \S4method{sampleInfo}{MetaboProfile}(x)
-
-\S4method{sampleInfo}{MetaboProfile}(x) <- value
 
 \S4method{processingResults}{MetaboProfile}(x)
 

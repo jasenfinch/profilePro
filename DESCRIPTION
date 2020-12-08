@@ -20,7 +20,8 @@ Imports: readr,
     patchwork,
     ggplot2,
     tidyr,
-    MSnbase
+    MSnbase,
+    parallel
 Remotes: xdomingoal/erah-devel
 Suggests: 
     faahKO,
