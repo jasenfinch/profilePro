@@ -55,11 +55,6 @@ setGeneric('sampleInfo',function(x)
 
 #' @rdname processed
 
-setGeneric('sampleInfo<-',function(x,value) 
-  standardGeneric('sampleInfo<-'))
-
-#' @rdname processed
-
 setGeneric('processingResults',function(x) 
   standardGeneric('processingResults'))
 

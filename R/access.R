@@ -88,17 +88,6 @@ setMethod('sampleInfo',signature = 'MetaboProfile',
 #' @rdname processed
 #' @export
 
-setMethod('sampleInfo<-',signature = 'MetaboProfile',
-          function(x,value){
-            x@sample_info <- value
-            validObject(x)
-            return(x)
-          }
-)
-
-#' @rdname processed
-#' @export
-
 setMethod('processingResults',signature = 'MetaboProfile',
           function(x){
             x@processing_results
