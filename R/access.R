@@ -69,16 +69,6 @@ setMethod('filePaths',signature = 'MetaboProfile',
 #' @rdname processed
 #' @export
 
-setMethod('filePaths<-',signature = 'MetaboProfile',
-          function(x,value){
-            x@file_paths <- value
-            validObject(x)
-            return(x)
-          })
-
-#' @rdname processed
-#' @export
-
 setMethod('sampleInfo',signature = 'MetaboProfile',
           function(x){
             x@sample_info

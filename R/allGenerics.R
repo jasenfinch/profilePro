@@ -45,11 +45,6 @@ setGeneric('filePaths',function(x)
 
 #' @rdname processed
 
-setGeneric('filePaths<-',function(x,value) 
-  standardGeneric('filePaths<-'))
-
-#' @rdname processed
-
 setGeneric('sampleInfo',function(x) 
   standardGeneric('sampleInfo'))
 
