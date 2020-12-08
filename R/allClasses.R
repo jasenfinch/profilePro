@@ -78,6 +78,24 @@ setValidity('MetaboProfile',function(object){
   } else {
     TRUE
   }
+})
+
+setValidity('MetaboProfile',function(object){
+  file_path_names <- object %>%
+    filePaths() %>%
+    basename()
+  
+  info_file_names <- object %>%
+    sampleInfo() %>%
+    .$fileName
+  
+  matching <- file_path_names == info_file_names
+  
+  if (FALSE %in% matching) {
+    'File names in paths do not match file names in the sample information.'
+  } else {
+    TRUE
+  }
   
   
 })
