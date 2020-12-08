@@ -9,8 +9,8 @@
 profileParameters <- function(technique,
                               nCores = detectCores() * 0.75) {
   
-  parameters <- new('ProfileParameters')
-  technique(parameters) <- technique
+  parameters <- new('ProfileParameters',
+                    technique = technique)
   
   if (technique == 'GCMS-eRah') {
    processingParameters(parameters) <-erahParameters(nCores)
