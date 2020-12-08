@@ -1,6 +1,6 @@
 #' ProfileParameters
 #' @description An S4 class to store profile processing parameters.
-#' @slot technique the profiling technique to use
+#' @slot technique the profiling technique to use. Defaults to the result of \code{availableTechniques()[1]}
 #' @slot  processing_parameters a list containing the parameters to use for processing
 #' @export
 
@@ -8,6 +8,9 @@ setClass('ProfileParameters',
          slots = list(
            technique = 'character',
            processing_parameters = 'list'
+         ),
+         prototype = list(
+           technique = availableTechinques()[1]
          )
 )
 
