@@ -25,7 +25,8 @@ Imports: readr,
 Remotes: xdomingoal/erah-devel
 Suggests: 
     faahKO,
-    testthat
+    testthat,
+    tools
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -38,7 +39,6 @@ Collate:
       profileProcess.R
       profilingMethods.R
       XCMSprocessing-method.R
-      createXCMSpeakTable.R
       access.R
       profilePro.R
       show-method.R

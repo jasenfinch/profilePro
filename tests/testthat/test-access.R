@@ -14,10 +14,19 @@ test_that('processingParameters can be set and returned',{
 })
 
 d <- new('MetaboProfile',
-         technique = 'LCMS-RP')
+         technique = 'LCMS-RP',
+         file_paths = 'test.mzML',
+         sample_info = tibble(
+           fileOrder = 1,
+           injOrder = 1,
+           fileName = 'test.mzML',
+           batch = 1,
+           block = 1,
+           name = 'test',
+           class = 'test'
+         ))
 
 test_that('file paths can be set and returned',{
-  filePaths(d) <- 'test.mzML'
   expect_equal(filePaths(d),'test.mzML')
 })
 

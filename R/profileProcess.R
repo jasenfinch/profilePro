@@ -1,7 +1,7 @@
 #' profileProcess
 #' @description process metabolomic profiling data
-#' @param files character vector of file paths to use for processing
-#' @param info tibble containing sample info
+#' @param file_paths character vector of file paths to use for processing
+#' @param sample_info tibble containing sample info
 #' @param parameters object of class ProfileParameters containing the parameters for processing
 #' @examples 
 #' \dontrun{
@@ -26,15 +26,15 @@
 #' @importFrom dplyr arrange
 #' @export
 
-profileProcess <- function(files,info,parameters) {
+profileProcess <- function(file_paths,sample_info,parameters) {
   
-  files <- files[order(info$injOrder)]
-  info <- info %>%
+  file_paths <- file_paths[order(sample_info$injOrder)]
+  sample_info <- sample_info %>%
     arrange(injOrder)
   
-  x <- new('MetaboProfile',parameters)
-  files(x) <- files
-  sampleInfo(x) <- info
+  x <- new('MetaboProfile',parameters,
+           file_paths = file_paths,
+           sample_info = sample_info)
   
   method <- parameters %>%
     technique() %>%

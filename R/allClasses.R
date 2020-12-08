@@ -91,11 +91,9 @@ setValidity('MetaboProfile',function(object){
   
   matching <- file_path_names == info_file_names
   
-  if (FALSE %in% matching) {
+  if (length(matching) == 0 | FALSE %in% matching) {
     'File names in paths do not match file names in the sample information.'
   } else {
     TRUE
   }
-  
-  
 })

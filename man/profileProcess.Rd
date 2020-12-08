@@ -4,12 +4,12 @@
 \alias{profileProcess}
 \title{profileProcess}
 \usage{
-profileProcess(files, info, parameters)
+profileProcess(file_paths, sample_info, parameters)
 }
 \arguments{
-\item{files}{character vector of file paths to use for processing}
+\item{file_paths}{character vector of file paths to use for processing}
 
-\item{info}{tibble containing sample info}
+\item{sample_info}{tibble containing sample info}
 
 \item{parameters}{object of class ProfileParameters containing the parameters for processing}
 }
