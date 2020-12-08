@@ -25,15 +25,7 @@ test_that('error given when incorrect sample information specified',{
   expect_error({sampleInfo(d) <- tibble()})
 })
 
-test_that('sample information can be set and returned',{
-  sampleInfo(d) <- tibble(fileOrder = 1, 
-                          injOrder = 1, 
-                          fileName = 'test.mzML', 
-                          batch = 1, 
-                          block = 1, 
-                          name = 'test', 
-                          class = 'test')
-  
+test_that('sample information can be set',{
   expect_s3_class(sampleInfo(d),'tbl_df')
 })
 

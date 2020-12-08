@@ -121,7 +121,7 @@ erahParameters <- function(nCores){
   cr <- formals(recMissComp)[-1]
   cr$min.samples <- 1
   
-  processingParameters(parameters) <- list(
+  list(
     cls = 'class',
     parallel = list(nCores = nCores,clusterType = cltype()),
     info = list(cls = 'class'),
