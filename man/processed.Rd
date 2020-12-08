@@ -3,8 +3,8 @@
 \name{version}
 \alias{version}
 \alias{creationDate}
-\alias{files}
-\alias{files<-}
+\alias{filePaths}
+\alias{filePaths<-}
 \alias{sampleInfo}
 \alias{sampleInfo<-}
 \alias{processingResults}
@@ -15,8 +15,8 @@
 \alias{peakInfo}
 \alias{version,MetaboProfile-method}
 \alias{creationDate,MetaboProfile-method}
-\alias{files,MetaboProfile-method}
-\alias{files<-,MetaboProfile-method}
+\alias{filePaths,MetaboProfile-method}
+\alias{filePaths<-,MetaboProfile-method}
 \alias{sampleInfo,MetaboProfile-method}
 \alias{sampleInfo<-,MetaboProfile-method}
 \alias{processingResults,MetaboProfile-method}
@@ -31,9 +31,9 @@ version(x)
 
 creationDate(x)
 
-files(x)
+filePaths(x)
 
-files(x) <- value
+filePaths(x) <- value
 
 sampleInfo(x)
 
@@ -55,9 +55,9 @@ peakInfo(x)
 
 \S4method{creationDate}{MetaboProfile}(x)
 
-\S4method{files}{MetaboProfile}(x)
+\S4method{filePaths}{MetaboProfile}(x)
 
-\S4method{files}{MetaboProfile}(x) <- value
+\S4method{filePaths}{MetaboProfile}(x) <- value
 
 \S4method{sampleInfo}{MetaboProfile}(x)
 

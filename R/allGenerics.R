@@ -40,13 +40,13 @@ setGeneric('creationDate',function(x)
 
 #' @rdname processed
 
-setGeneric('files',function(x) 
-  standardGeneric('files'))
+setGeneric('filePaths',function(x) 
+  standardGeneric('filePaths'))
 
 #' @rdname processed
 
-setGeneric('files<-',function(x,value) 
-  standardGeneric('files<-'))
+setGeneric('filePaths<-',function(x,value) 
+  standardGeneric('filePaths<-'))
 
 #' @rdname processed
 

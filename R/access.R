@@ -61,7 +61,7 @@ setMethod('creationDate',signature = 'MetaboProfile',
 #' @rdname processed
 #' @export
 
-setMethod('files',signature = 'MetaboProfile',
+setMethod('filePaths',signature = 'MetaboProfile',
           function(x){
             x@file_paths
           })
@@ -69,7 +69,7 @@ setMethod('files',signature = 'MetaboProfile',
 #' @rdname processed
 #' @export
 
-setMethod('files<-',signature = 'MetaboProfile',
+setMethod('filePaths<-',signature = 'MetaboProfile',
           function(x,value){
             x@file_paths <- value
             validObject(x)
@@ -106,7 +106,6 @@ setMethod('processingResults',signature = 'MetaboProfile',
 )
 
 #' @rdname processed
-#' @export
 
 setMethod('processingResults<-',signature = 'MetaboProfile',
           function(x,value){
@@ -117,7 +116,6 @@ setMethod('processingResults<-',signature = 'MetaboProfile',
 )
 
 #' @rdname processed
-#' @export
 
 setMethod('processedData',signature = 'MetaboProfile',
           function(x){
@@ -126,7 +124,6 @@ setMethod('processedData',signature = 'MetaboProfile',
 )
 
 #' @rdname processed
-#' @export
 
 setMethod('processedData<-',signature = 'MetaboProfile',
           function(x,value){
@@ -140,7 +137,7 @@ setMethod('processedData<-',signature = 'MetaboProfile',
 
 setMethod('extractProcObject',signature = 'MetaboProfile',
           function(x){
-            x@processingResults$processed
+            processingResults(x)$processed
           }
 )
 
@@ -154,14 +151,14 @@ setMethod('peakInfo',signature = 'MetaboProfile',
               x %>%
                 extractProcObject() %>%
                 idList(
-                  id.database = importGMD(filename = processingParameters(x)@processingParameters$identification$path, 
-                                          DB.name = processingParameters(x)@processingParameters$identification$DBname, 
-                                          DB.version = processingParameters(x)@processingParameters$identification$DBversion, 
-                                          DB.info = processingParameters(x)@processingParameters$identification$DBinfo, 
+                  id.database = importGMD(filename = processingParameters(x)$identification$path, 
+                                          DB.name = processingParameters(x)$identification$DBname, 
+                                          DB.version = processingParameters(x)$identification$DBversion, 
+                                          DB.info = processingParameters(x)$identification$DBinfo, 
                                           type = processingParameters(x)@processingParameters$identification$type)
                 )
             } else {
-              map(x@processingResults$peakInfo,~{
+              map(processingResults(x)$peakInfo,~{
                 .$definitions
               }) 
             }
