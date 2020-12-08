@@ -17,10 +17,28 @@ d <- new('MetaboProfile',
          technique = 'LCMS-RP')
 
 test_that('file paths can be set and returned',{
-  files(d) <- 'test.mzML'
-  expect_equal(files(d),'test.mzML')
+  filePaths(d) <- 'test.mzML'
+  expect_equal(filePaths(d),'test.mzML')
 })
 
-test_that('Error given when incorrect sample information specified',{
+test_that('error given when incorrect sample information specified',{
   expect_error({sampleInfo(d) <- tibble()})
+})
+
+test_that('sample information can be set and returned',{
+  sampleInfo(d) <- tibble(fileOrder = 1, 
+                          injOrder = 1, 
+                          fileName = 'test.mzML', 
+                          batch = 1, 
+                          block = 1, 
+                          name = 'test', 
+                          class = 'test')
+  
+  expect_s3_class(sampleInfo(d),'tbl_df')
+})
+
+test_that('processing results can be set and returned',{
+  processingResults(d) <- list()
+  
+  expect_equal(class(processingResults(d)),'list')
 })
