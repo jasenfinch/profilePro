@@ -84,7 +84,7 @@ setGeneric('peakInfo',function(x)
 #' @export
 
 setGeneric('plotChromatogram',
-           function(processed, 
+           function(processed_data, 
                     cls = NULL, 
                     group = FALSE, 
                     alpha = 1, 

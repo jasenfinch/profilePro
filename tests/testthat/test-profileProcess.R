@@ -1,3 +1,6 @@
+library(erah)
+library(gcspikelite)
+data('targets')
 
 test_that("profileProcess works for LC data", {
   file_paths <- list.files(
@@ -31,14 +34,11 @@ test_that("profileProcess works for LC data", {
   expect_s3_class(peakInfo(processed_data),'tbl_df')
   expect_equal(class(extractProcObject(processed_data)),'list')
   
-  # expect_s3_class(plotChromatogram(processed_data),'ggplot')
+  expect_s3_class(plotChromatogram(processed_data),'ggplot')
   expect_s3_class(plotTIC(processed_data),'ggplot')
 })
 
 test_that('profileProcess works for GC data using eRah',{
-  library(erah)
-  library(gcspikelite)
-  data('targets')
   
   file_paths <- list.files(
     system.file('data',
@@ -67,14 +67,11 @@ test_that('profileProcess works for GC data using eRah',{
   expect_s3_class(peakInfo(processed_data),'tbl_df')
   expect_s4_class(extractProcObject(processed_data),'MetaboSet')
   
-  # expect_null(plotChromatogram(processed_data),'ggplot')
+  expect_null(plotChromatogram(processed_data))
   expect_s3_class(plotTIC(processed_data),'ggplot')
   })
 
 test_that('profileProcess works for GC data using eRah',{
-  library(erah)
-  library(gcspikelite)
-  data('targets')
   
   file_paths <- list.files(
     system.file('data',
@@ -99,7 +96,7 @@ test_that('profileProcess works for GC data using eRah',{
   expect_s4_class(processed_data,'MetaboProfile')
   expect_s3_class(processedData(processed_data),'tbl_df')
   expect_s3_class(peakInfo(processed_data),'tbl_df')
-  expect_s4_class(extractProcObject(processed_data),'MetaboSet')
+  expect_s4_class(extractProcObject(processed_data),'XCMSnExp')
   
   # expect_null(plotChromatogram(processed_data),'ggplot')
   expect_s3_class(plotTIC(processed_data),'ggplot')

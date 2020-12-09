@@ -16,27 +16,33 @@
 #' @importFrom erah plotChr
 
 setMethod('plotChromatogram',signature = 'MetaboProfile',
-          function(processed, 
+          function(processed_data, 
                    cls = NULL, 
                    group = FALSE, 
                    alpha = 1, 
                    aggregationFun = 'max', 
                    ...){
             
-            if (str_detect(technique(processed),'eRah')) {
-              processed %>%
+            if (str_detect(technique(processed_data),'eRah')) {
+              processed_data %>%
                 extractProcObject() %>%
                 plotChr(...)
             } else {
-              x <- processed %>%
+              x <- processed_data %>%
                 extractProcObject()
               
               if (is.list(x)) {
                 pls <- names(x) %>%
                   map(~{
-                    m <- .
+                    
+                    if (is.na(.x)){
+                      m <- 1
+                    } else {
+                      m <- .x  
+                    }
+                    
                     chromPlot(x[[m]],
-                              processed %>%
+                              processed_data %>%
                                 sampleInfo(),
                               mode = m,
                               cls = cls, 
