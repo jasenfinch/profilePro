@@ -3,7 +3,7 @@
 \docType{class}
 \name{ProfileParameters-class}
 \alias{ProfileParameters-class}
-\title{ProfileParameters}
+\title{Profile processing parameters class}
 \description{
 An S4 class to store profile processing parameters.
 }

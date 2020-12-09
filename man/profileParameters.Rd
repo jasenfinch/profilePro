@@ -2,7 +2,7 @@
 % Please edit documentation in R/profileParameters.R
 \name{profileParameters}
 \alias{profileParameters}
-\title{profileParameters}
+\title{Profiling paramters}
 \usage{
 profileParameters(technique, nCores = detectCores() * 0.75)
 }
@@ -11,6 +11,15 @@ profileParameters(technique, nCores = detectCores() * 0.75)
 
 \item{nCores}{number of cores to use for parallel processing}
 }
+\value{
+An S4 object of class ProfileParameters.
+}
 \description{
 Initiate default processing parameters for a given profiling technique.
+}
+\examples{
+profileParameters('LCMS-RP')
+}
+\seealso{
+\code{\link{availableTechniques}}, \code{\link{ProfileParameters-class}}, \code{\link{profileProcess}}
 }

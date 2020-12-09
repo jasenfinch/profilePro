@@ -3,7 +3,7 @@
 \name{plotChromatogram}
 \alias{plotChromatogram}
 \alias{plotChromatogram,MetaboProfile-method}
-\title{plotChromatogram}
+\title{Plot ion chromatogram}
 \usage{
 plotChromatogram(
   processed_data,

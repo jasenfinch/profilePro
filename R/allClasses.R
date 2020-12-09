@@ -1,7 +1,7 @@
-#' ProfileParameters
+#' Profile processing parameters class
 #' @description An S4 class to store profile processing parameters.
 #' @slot technique the profiling technique to use. Defaults to the result of \code{availableTechniques()[1]}
-#' @slot  processing_parameters a list containing the parameters to use for processing
+#' @slot processing_parameters a list containing the parameters to use for processing
 #' @export
 
 setClass('ProfileParameters',
@@ -10,21 +10,21 @@ setClass('ProfileParameters',
            processing_parameters = 'list'
          ),
          prototype = list(
-           technique = availableTechinques()[1]
+           technique = availableTechniques()[1]
          )
 )
 
 setValidity('ProfileParameters',function(object){
-  if (!(object@technique %in% availableTechinques())) {
+  if (!(object@technique %in% availableTechniques())) {
     str_c('Technique should be one of ',
-          str_c(availableTechinques(),collapse = ', '),
+          str_c(availableTechniques(),collapse = ', '),
           '.')
   } else {
     return(TRUE)
 }
 })
 
-#' MetaboProfile
+#' Profiling processing results class
 #' @description An S4 class to store the profile processing results
 #' @slot version package version
 #' @slot creation_date date and time of the initiation of processing

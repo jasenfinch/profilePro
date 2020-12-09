@@ -1,4 +1,4 @@
-#' ProfileParameters getters and setters
+#' ProfileParameters get and set methods
 #' @rdname parameters
 #' @description Get and set profile processing parameters
 #' @param x S4 object of class ProfileParameters

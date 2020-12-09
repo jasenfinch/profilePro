@@ -1,4 +1,4 @@
-#' plotChromatogram
+#' Plot ion chromatogram
 #' @rdname plotChromatogram
 #' @description Plot ion chromatogram from MetaboProfile.
 #' @param processed_data S4 object of class MetaboProfile
@@ -142,7 +142,7 @@ chromPlot <- function(x,info,mode = NA,cls = NULL, group = F, alpha = 1, aggrega
   return(pl)
 }
 
-#' plotTIC
+#' Plot total ion counts
 #' @rdname plotTIC
 #' @description Plot sample total ion counts.
 #' @param processed S4 object of class MetaboProfile

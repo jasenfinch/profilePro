@@ -1,7 +1,11 @@
-#' profileParameters
+#' Profiling paramters
 #' @description Initiate default processing parameters for a given profiling technique.
 #' @param technique the profiling technique for which to initiate parameters
 #' @param nCores number of cores to use for parallel processing
+#' @examples 
+#' profileParameters('LCMS-RP')
+#' @return An S4 object of class ProfileParameters.
+#' @seealso \code{\link{availableTechniques}}, \code{\link{ProfileParameters-class}}, \code{\link{profileProcess}}
 #' @importFrom xcms CentWaveParam ObiwarpParam PeakDensityParam MatchedFilterParam PeakGroupsParam FillChromPeaksParam
 #' @importFrom erah setDecPar setAlPar
 #' @export

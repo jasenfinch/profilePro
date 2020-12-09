@@ -13,25 +13,95 @@ profileProcess(file_paths, sample_info, parameters)
 
 \item{parameters}{object of class ProfileParameters containing the parameters for processing}
 }
+\value{
+An S4 object of class MetaboProfile
+}
 \description{
 process metabolomic profiling data
 }
 \examples{
 \dontrun{
-# Get sample information and use only the three injection for this example
-info <- metaboData::runinfo('RP-UHPLC-HRMS','BdistachyonEcotypes') \%>\%
-  dplyr::filter(injOrder \%in\% seq_len(3))
+# LCMS-RP example using the faahKO package data
+## Retrieve file paths
+file_paths <- list.files(
+  system.file("cdf", 
+            package = "faahKO"),
+  full.names = TRUE,
+  recursive = TRUE)[1:2]
+  file_names <- basename(file_paths)
+sample_names <- tools::file_path_sans_ext(file_names)
 
-# Retrieve file paths
-files <- metaboData::filePaths('RP-UHPLC-HRMS','BdistachyonEcotypes') \%>\%
-  {
-    .[base::basename(.) \%in\% info$fileName] 
-  }
+## Generate sample information table
+sample_info <- tibble(fileOrder = seq_along(file_paths),
+                      injOrder = seq_along(file_paths),
+                      fileName = file_names,
+                      batch = 1,
+                      block = 1,
+                      name = sample_names,
+                      class = substr(sample_names,1,2))
 
-# Prepare parameters
-parameters <- profileParameters('LCMS-RP')
+## Generate profiling parameters
+parameters <- profileParameters('LCMS-RP',nCores = 2)
+processingParameters(parameters)$peakDetection <- CentWaveParam(snthresh = 20, 
+                                                                noise = 1000)
+processingParameters(parameters)$retentionTimeCorrection <- ObiwarpParam()
+processingParameters(parameters)$grouping <- PeakDensityParam(sampleGroups = sample_info$class,
+                                                              maxFeatures = 300,
+                                                              minFraction = 2/3)
+## Process data
+processed_data <- profileProcess(file_paths,sample_info,parameters)
 
-# Run processing
-pd <- profileProcess(files,info,parameters)
+# GCMS-XCMS example using the gcspikelite package data
+## Retrieve file paths
+file_paths <- list.files(
+  system.file('data',
+            package = 'gcspikelite'),
+  pattern = '.CDF',
+  full.names = TRUE)[1:2]
+file_names <- basename(file_paths)
+sample_names <- tools::file_path_sans_ext(file_names)
+
+## Generate sample information table
+sample_info <- tibble(fileOrder = seq_along(file_paths),
+                      injOrder = seq_along(file_paths),
+                      fileName = file_names,
+                      batch = 1,
+                      block = 1,
+                      name = sample_names,
+                      class = targets$Group[1:2])
+
+## Generate profiling parameters
+parameters <- profileParameters('GCMS-XCMS',nCores = 2)
+
+## Process data
+processed_data <- profileProcess(file_paths,sample_info,parameters)
+
+# GCMS-eRah example using the gcspikelite package data
+## Retrieve file paths
+file_paths <- list.files(
+  system.file('data',
+            package = 'gcspikelite'),
+  pattern = '.CDF',
+  full.names = TRUE)[1:2]
+file_names <- basename(file_paths)
+sample_names <- tools::file_path_sans_ext(file_names)
+
+## Generate sample information table
+sample_info <- tibble(fileOrder = seq_along(file_paths),
+                      injOrder = seq_along(file_paths),
+                      fileName = file_names,
+                      batch = 1,
+                      block = 1,
+                      name = sample_names,
+                      class = targets$Group[1:2])
+
+## Generate profiling parameters
+parameters <- profileParameters('GCMS-eRah',nCores = 2)
+
+## Process data
+processed_data <- profileProcess(file_paths,sample_info,parameters)
 }
+}
+\seealso{
+\code{\link{profileParameters}}
 }

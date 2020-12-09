@@ -9,7 +9,7 @@
 \alias{technique<-,ProfileParameters-method}
 \alias{processingParameters,ProfileParameters-method}
 \alias{processingParameters<-,ProfileParameters-method}
-\title{ProfileParameters getters and setters}
+\title{ProfileParameters get and set methods}
 \usage{
 technique(x)
 

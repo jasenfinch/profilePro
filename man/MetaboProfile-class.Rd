@@ -3,7 +3,7 @@
 \docType{class}
 \name{MetaboProfile-class}
 \alias{MetaboProfile-class}
-\title{MetaboProfile}
+\title{Profiling processing results class}
 \description{
 An S4 class to store the profile processing results
 }
