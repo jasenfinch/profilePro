@@ -129,22 +129,8 @@ setMethod('peakInfo',signature = 'MetaboProfile',
             
             if (technique(x) == 'GCMS-eRah') {
               proc_object <- x %>%
-                extractProcObject()
-              
-              if (processingParameters(x)$identification$DB == 'golm') {
-                proc_object %>%
-                  idList(
-                    id.database = importGMD(filename = processingParameters(x)$identification$path, 
-                                            DB.name = processingParameters(x)$identification$DBname, 
-                                            DB.version = processingParameters(x)$identification$DBversion, 
-                                            DB.info = processingParameters(x)$identification$DBinfo, 
-                                            type = processingParameters(x)@processingParameters$identification$type)
-                  )
-              } else {
-                proc_object %>%
-                  idList(id.database = processingParameters(x)$identification$compound_database)
-              }
-              
+                extractProcObject() %>%
+                idList(id.database = processingParameters(x)$identification$compound_database)
             } else {
               processingResults(x)$peak_info
             }
