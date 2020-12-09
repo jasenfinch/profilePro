@@ -1,5 +1,5 @@
 test_that("available techniques returned", {
-  techniques <- availableTechinques()
+  techniques <- availableTechniques()
   
   expect_length(techniques,4)
 })
