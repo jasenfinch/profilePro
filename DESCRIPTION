@@ -26,7 +26,8 @@ Remotes: xdomingoal/erah-devel
 Suggests: 
     faahKO,
     testthat,
-    tools
+    tools,
+    gcspikelite
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
