@@ -44,3 +44,22 @@ profileProcess <- function(file_paths,sample_info,parameters) {
   
   return(x)
 }
+
+
+profilingMethods <- function(method = NULL){
+  
+  methods <- list(
+    
+    `GCMS-eRah` = erahProcessing,
+    
+    `GCMS-XCMS` = GCMSprocessing,
+    
+    `LCMS-RP` = XCMSprocessing,
+    
+    `LCMS-NP` = XCMSprocessing
+  )
+  
+  method <- methods[[method]]
+  
+  return(method)
+}
