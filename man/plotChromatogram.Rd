@@ -6,7 +6,7 @@
 \title{plotChromatogram}
 \usage{
 plotChromatogram(
-  processed,
+  processed_data,
   cls = NULL,
   group = FALSE,
   alpha = 1,
@@ -15,16 +15,16 @@ plotChromatogram(
 )
 
 \S4method{plotChromatogram}{MetaboProfile}(
-  processed,
+  processed_data,
   cls = NULL,
-  group = F,
+  group = FALSE,
   alpha = 1,
   aggregationFun = "max",
   ...
 )
 }
 \arguments{
-\item{processed}{S4 object of class MetaboProfile}
+\item{processed_data}{S4 object of class MetaboProfile}
 
 \item{cls}{sample information column to use for plot colours.}
 

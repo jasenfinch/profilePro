@@ -1,7 +1,7 @@
 #' plotChromatogram
 #' @rdname plotChromatogram
 #' @description Plot ion chromatogram from MetaboProfile.
-#' @param processed S4 object of class MetaboProfile
+#' @param processed_data S4 object of class MetaboProfile
 #' @param cls sample information column to use for plot colours. 
 #' @param group average samples within groups. If cls is NULL, plot average chromatogram across all samples.
 #' @param alpha plot line transparancy alpha
@@ -56,7 +56,7 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
                 pls <- pls + plot_layout(ncol = 1)
               } else {
                 pls  <- x %>%
-                  chromPlot(info = processed %>%
+                  chromPlot(info = processed_data %>%
                               sampleInfo(),
                             cls = cls, 
                             group = group, 

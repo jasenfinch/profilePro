@@ -2,7 +2,7 @@
 #' @importFrom MSnbase readMSData
 #' @importMethodsFrom MSnbase polarity filterPolarity
 #' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
-#' @importFrom BiocParallel bpparam register bpworkers
+#' @importFrom BiocParallel bpparam register bpworkers<-
 #' @importFrom utils capture.output
 #' @importFrom crayon green
 #' @importFrom tibble deframe

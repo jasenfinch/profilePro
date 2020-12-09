@@ -30,7 +30,7 @@ setValidity('ProfileParameters',function(object){
 #' @slot creation_date date and time of the initiation of processing
 #' @slot file_paths list of file paths to used for processing. Vectors of files form different aquisition modes should be labelled accordingly. 
 #' @slot processing_parameters object of class ProfileParameters containing the parameters for processing
-#' @slot sample_information tibble containing runinfo data
+#' @slot sample_info tibble containing runinfo data
 #' @slot data list containing tibbles of processed data
 #' @slot processing_results list containing processing results
 #' @importFrom utils packageVersion

@@ -18,7 +18,7 @@ An S4 class to store the profile processing results
 
 \item{\code{processing_parameters}}{object of class ProfileParameters containing the parameters for processing}
 
-\item{\code{sample_information}}{tibble containing runinfo data}
+\item{\code{sample_info}}{tibble containing runinfo data}
 
 \item{\code{data}}{list containing tibbles of processed data}
 
