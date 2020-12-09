@@ -16,10 +16,15 @@
 #' @importFrom erah plotChr
 
 setMethod('plotChromatogram',signature = 'MetaboProfile',
-          function(processed, cls = NULL, group = F, alpha = 1, aggregationFun = 'max', ...){
+          function(processed, 
+                   cls = NULL, 
+                   group = FALSE, 
+                   alpha = 1, 
+                   aggregationFun = 'max', 
+                   ...){
             
-            if (str_detect(processed@processingParameters@technique,'eRah')) {
-            processed %>%
+            if (str_detect(technique(processed),'eRah')) {
+              processed %>%
                 extractProcObject() %>%
                 plotChr(...)
             } else {
@@ -147,7 +152,7 @@ setMethod('plotTIC',signature = 'MetaboProfile',
             info <- processed %>%
               sampleInfo()
             
-            if (str_detect(processed@processingParameters@technique,'GCMS')) {
+            if (str_detect(technique(processed),'GCMS')) {
               d <- processed %>%
                 processedData() %>%
                 {tibble(TIC = rowSums(.),
@@ -181,37 +186,36 @@ setMethod('plotTIC',signature = 'MetaboProfile',
                           UpperOut = Q3 + IQR(TIC) * 1.5)  
             }
             
-                TICmedian[TICmedian < 0] <- 0
-                
-                pl <- ggplot(d,aes(x = Index,y = TIC,fill = Colour)) +
-                  geom_hline(data = TICmedian,aes(yintercept = Median)) +
-                  geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
-                  geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
-                  geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
-                  geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
-                  geom_point(shape = 21) +
-                  theme_bw() +
-                  theme(plot.title = element_text(face = 'bold'),
-                        axis.title = element_text(face = 'bold'),
-                        legend.title = element_text(face = 'bold')) +
-                  labs(title = 'Sample TICs',
-                       caption = 'The solid line shows the median TIC across the sample set. 
+            TICmedian[TICmedian < 0] <- 0
+            
+            pl <- ggplot(d,aes(x = Index,y = TIC,fill = Colour)) +
+              geom_hline(data = TICmedian,aes(yintercept = Median)) +
+              geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
+              geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
+              geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
+              geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
+              geom_point(shape = 21) +
+              theme_bw() +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold')) +
+              labs(title = 'Sample TICs',
+                   caption = 'The solid line shows the median TIC across the sample set. 
 The dashed line shows the inter-quartile range (IQR) and 
 the dotted line shows the outlier boundary (1.5 X IQR).',
-                       y = 'Total Ion Count',
-                       x = by) +
-                  guides(colour = guide_legend(title = colour))
-                
-                if (!str_detect(processed@processingParameters@technique,'GCMS')) {
-                  pl <- pl +
-                    facet_wrap(~Mode)
-                }
-                
-                if (length(unique(d$Colour)) <= 12) {
-                  pl <- pl +
-                    scale_fill_ptol()
-                }
-                return(pl)
-          }
-              )
+                   y = 'Total Ion Count',
+                   x = by) +
+              guides(colour = guide_legend(title = colour))
             
+            if (!str_detect(technique(processed),'GCMS')) {
+              pl <- pl +
+                facet_wrap(~Mode)
+            }
+            
+            if (length(unique(d$Colour)) <= 12) {
+              pl <- pl +
+                scale_fill_ptol()
+            }
+            return(pl)
+          }
+)
