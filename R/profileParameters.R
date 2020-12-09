@@ -13,7 +13,7 @@ profileParameters <- function(technique,
                     technique = technique)
   
   if (technique == 'GCMS-eRah') {
-   processingParameters(parameters) <-erahParameters(nCores)
+    processingParameters(parameters) <-erahParameters(nCores)
   }
   
   if (technique == 'GCMS-XCMS') {
@@ -128,17 +128,6 @@ erahParameters <- function(nCores){
     deconvolution = setDecPar(min.peak.width = 1.2, avoid.processing.mz = c(73:75,147:149)),
     alignment = setAlPar(min.spectra.cor = 0.90, max.time.dist = 3, mz.range = 70:600),
     compoundRecovery = cr,
-    identification = list(DB = 'golm',
-                          path = 'GMD_20111121_VAR5_ALK_MSP.txt',
-                          DBname = 'GMD', 
-                          DBversion = 'GMD_20111121',
-                          DBinfo = "GOLM Metabolome Database
-                              ------------------------
-                              Kopka, J., Schauer, N., Krueger, S., Birkemeyer, C., Usadel, B., Bergmuller, E., Dor-
-                              mann, P., Weckwerth, W., Gibon, Y., Stitt, M., Willmitzer, L., Fernie, A.R. and Stein-
-                              hauser, D. (2005) GMD.CSB.DB: the Golm Metabolome Database, Bioinformatics, 21, 1635-
-                              1638.",
-                          type = 'VAR5.ALK'
-    )
+    identification = list(compound_database = erah::mslib)
   )
 }

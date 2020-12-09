@@ -47,7 +47,7 @@ setMethod('processingParameters<-',signature = 'ProfileParameters',
 
 setMethod('version',signature = 'MetaboProfile',
           function(x){
-           x@version 
+            x@version 
           })
 
 #' @rdname processed
@@ -128,15 +128,23 @@ setMethod('peakInfo',signature = 'MetaboProfile',
           function(x){
             
             if (technique(x) == 'GCMS-eRah') {
-              x %>%
-                extractProcObject() %>%
-                idList(
-                  id.database = importGMD(filename = processingParameters(x)$identification$path, 
-                                          DB.name = processingParameters(x)$identification$DBname, 
-                                          DB.version = processingParameters(x)$identification$DBversion, 
-                                          DB.info = processingParameters(x)$identification$DBinfo, 
-                                          type = processingParameters(x)@processingParameters$identification$type)
-                )
+              proc_object <- x %>%
+                extractProcObject()
+              
+              if (processingParameters(x)$identification$DB == 'golm') {
+                proc_object %>%
+                  idList(
+                    id.database = importGMD(filename = processingParameters(x)$identification$path, 
+                                            DB.name = processingParameters(x)$identification$DBname, 
+                                            DB.version = processingParameters(x)$identification$DBversion, 
+                                            DB.info = processingParameters(x)$identification$DBinfo, 
+                                            type = processingParameters(x)@processingParameters$identification$type)
+                  )
+              } else {
+                proc_object %>%
+                  idList(id.database = processingParameters(x)$identification$compound_database)
+              }
+              
             } else {
               processingResults(x)$peak_info
             }
