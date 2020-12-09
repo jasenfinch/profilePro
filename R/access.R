@@ -1,57 +1,138 @@
-#' sampleInfo
-#' @description Extract sample info from an object of class MetaboProfile.
+#' ProfileParameters get and set methods
+#' @rdname parameters
+#' @description Get and set profile processing parameters
+#' @param x S4 object of class ProfileParameters
+#' @param value value to set
+#' @export
+
+setMethod('technique',signature = 'ProfileParameters',
+          function(x){
+            x@technique
+          })
+
+#' @rdname parameters
+#' @export
+
+setMethod('technique<-',signature = 'ProfileParameters',
+          function(x,value){
+            x <- profileParameters(value)
+            validObject(x)
+            return(x)
+          })
+
+#' @rdname parameters
+#' @export
+
+setMethod('processingParameters',signature = 'ProfileParameters',
+          function(x){
+            x@processing_parameters
+          })
+
+#' @rdname parameters
+#' @export
+
+setMethod('processingParameters<-',signature = 'ProfileParameters',
+          function(x,value){
+            x@processing_parameters <- value
+            validObject(x)
+            return(x)
+          })
+
+#' MetaboProfile class get and set methods.
+#' @rdname processed
+#' @description Retrieve or set information for a MetaboProfile object.
 #' @param x S4 object of class MetaboProfile
-#' @rdname sampleInfo
+#' @param value value to set
+#' @export
+
+setMethod('version',signature = 'MetaboProfile',
+          function(x){
+            x@version 
+          })
+
+#' @rdname processed
+#' @export
+
+setMethod('creationDate',signature = 'MetaboProfile',
+          function(x){
+            x@creation_date
+          })
+
+#' @rdname processed
+#' @export
+
+setMethod('filePaths',signature = 'MetaboProfile',
+          function(x){
+            x@file_paths
+          })
+
+#' @rdname processed
+#' @export
 
 setMethod('sampleInfo',signature = 'MetaboProfile',
           function(x){
-            x@Info
+            x@sample_info
           }
 )
 
-#' processedData
-#' @description Extract processed data from an object of class MetaboProfile
-#' @param x S4 object of class MetaboProfile
-#' @rdname processedData
+#' @rdname processed
+#' @export
+
+setMethod('processingResults',signature = 'MetaboProfile',
+          function(x){
+            x@processing_results
+          }
+)
+
+#' @rdname processed
+
+setMethod('processingResults<-',signature = 'MetaboProfile',
+          function(x,value){
+            x@processing_results <- value
+            validObject(x)
+            return(x)
+          }
+)
+
+#' @rdname processed
+#' @export
 
 setMethod('processedData',signature = 'MetaboProfile',
           function(x){
-            x@Data
+            x@data
           }
 )
 
-#' extractProcObject
-#' @description Extract processing package object from an object of class MetaboProfile
-#' @param x S4 object of class MetaboProfile
-#' @rdname extractProcObject
+#' @rdname processed
+
+setMethod('processedData<-',signature = 'MetaboProfile',
+          function(x,value){
+            x@data <- value
+            return(x)
+          }
+)
+
+#' @rdname processed
+#' @export
 
 setMethod('extractProcObject',signature = 'MetaboProfile',
           function(x){
-            x@processingResults$processed
+            processingResults(x)$processed
           }
 )
 
-#' peakInfo
-#' @description Extract peak information from an object of class MetaboProfile
-#' @param x S4 object of class MetaboProfile
-#' @rdname peakInfo
+#' @rdname processed
+#' @export
 
 setMethod('peakInfo',signature = 'MetaboProfile',
           function(x){
             
-            if (str_detect(x@processingParameters@technique,'eRah')) {
-              x@processingResults$processed %>%
-                idList(
-                  id.database = importGMD(filename = x@processingParameters@processingParameters$identification$path, 
-                                          DB.name = x@processingParameters@processingParameters$identification$DBname, 
-                                          DB.version = x@processingParameters@processingParameters$identification$DBversion, 
-                                          DB.info = x@processingParameters@processingParameters$identification$DBinfo, 
-                                          type = x@processingParameters@processingParameters$identification$type)
-                )
+            if (technique(x) == 'GCMS-eRah') {
+              proc_object <- x %>%
+                extractProcObject() %>%
+                idList(id.database = processingParameters(x)$identification$compound_database)
             } else {
-              map(x@processingResults$peakInfo,~{
-                .$definitions
-              }) 
+              processingResults(x)$peak_info
             }
           }
 )

@@ -3,7 +3,7 @@
 \name{plotTIC}
 \alias{plotTIC}
 \alias{plotTIC,MetaboProfile-method}
-\title{plotTIC}
+\title{Plot total ion counts}
 \usage{
 plotTIC(processed, by = "injOrder", colour = "block")
 

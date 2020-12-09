@@ -6,36 +6,46 @@
 setMethod('erahProcessing',signature = 'MetaboProfile',
           function(x){
             
-            if (x@processingParameters@processingParameters$identification$DB == 'golm') {
-              golm.database <- importGMD(filename = x@processingParameters@processingParameters$identification$path, 
-                                         DB.name = x@processingParameters@processingParameters$identification$DBname, 
-                                         DB.version = x@processingParameters@processingParameters$identification$DBversion, 
-                                         DB.info = x@processingParameters@processingParameters$identification$DBinfo, 
-                                         type = x@processingParameters@processingParameters$identification$type)
-            }
+            compound_database <- processingParameters(x)$identification$compound_database
             
-            instrumental <- createInstrumentalTable(x@files)
+            instrumental <- x %>%
+              filePaths() %>%
+              createInstrumentalTable()
             
-            phenotype <- createPhenoTable(x@files,x@Info[,x@processingParameters@processingParameters$cls] %>% deframe())
+            phenotype <- createPhenoTable(filePaths(x),
+                                          sampleInfo(x)[,processingParameters(x)$cls] %>% 
+                                            deframe())
             
             ex <- newExp(instrumental = instrumental, 
-                         phenotype = phenotype) %>%
-              deconvolveComp(x@processingParameters@processingParameters$deconvolution,
-                             parallel = x@processingParameters@processingParameters$parallel) %>%
-              alignComp(x@processingParameters@processingParameters$alignment) %>%
-              recMissComp(min.samples = x@processingParameters@processingParameters$compoundRecovery$min.samples,
-                          free.model = x@processingParameters@processingParameters$compoundRecovery$free.model) %>%
-              identifyComp(id.database = golm.database)
+                         phenotype = phenotype)
             
-            Data <- dataList(ex,, id.database = golm.database) %>%
+            message(green('Deconvolution'))
+            ex <- ex %>%
+              deconvolveComp(processingParameters(x)$deconvolution,
+                             parallel = processingParameters(x)$parallel)
+            
+            message(green('Alignment'))
+            ex <- ex %>%
+              alignComp(processingParameters(x)$alignment)
+            
+            message(green('Missing compound recovery'))
+            ex <-  ex %>%
+              recMissComp(min.samples = processingParameters(x)$compoundRecovery$min.samples,
+                          free.model = processingParameters(x)$compoundRecovery$free.model)
+            
+            message(green('Compound identification'))
+            ex <- ex %>%
+              identifyComp(id.database = compound_database)
+            
+            processed_data <- dataList(ex,, id.database = compound_database) %>%
               mutate(Name = str_c('Feature ',AlignID,' ',Name.1)) %>%
               select(Name,phenotype$sampleID[1]:phenotype$sampleID[nrow(phenotype)]) %>%
               gather(Sample,Intensity,-Name) %>%
               spread(Name,Intensity) %>%
               select(-Sample)
             
-            x@Data <- Data
-            x@processingResults <- list(processed = ex)
+            processedData(x) <- processed_data
+            processingResults(x) <- list(processed = ex)
             return(x)
           }
 )

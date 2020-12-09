@@ -4,46 +4,104 @@
 \alias{profileProcess}
 \title{profileProcess}
 \usage{
-profileProcess(files, info, parameters)
+profileProcess(file_paths, sample_info, parameters)
 }
 \arguments{
-\item{files}{character vector of file paths to use for processing}
+\item{file_paths}{character vector of file paths to use for processing}
 
-\item{info}{tibble containing sample info}
+\item{sample_info}{tibble containing sample info}
 
 \item{parameters}{object of class ProfileParameters containing the parameters for processing}
+}
+\value{
+An S4 object of class MetaboProfile
 }
 \description{
 process metabolomic profiling data
 }
 \examples{
 \dontrun{
-library(stringr)
-library(faahKO)
-library(tibble)
-library(readr)
+# LCMS-RP example using the faahKO package data
+## Retrieve file paths
+file_paths <- list.files(
+  system.file("cdf", 
+            package = "faahKO"),
+  full.names = TRUE,
+  recursive = TRUE)[1:2]
+  file_names <- basename(file_paths)
+sample_names <- tools::file_path_sans_ext(file_names)
 
-files <- list.files(system.file("cdf", package = "faahKO"),full.names = TRUE,recursive = T)
+## Generate sample information table
+sample_info <- tibble(fileOrder = seq_along(file_paths),
+                      injOrder = seq_along(file_paths),
+                      fileName = file_names,
+                      batch = 1,
+                      block = 1,
+                      name = sample_names,
+                      class = substr(sample_names,1,2))
 
-# make runinfo file
-filesSplit <- str_split_fixed(files,'/',str_count(files[1],'/') + 1) 
-info <- tibble(fileOrder = 1:length(files),
-              injOrder = 1:length(files),
-              fileName = filesSplit[,ncol(filesSplit)], 
-              batch = rep(1,length(files)), 
-              block = rep(1,length(files)), 
-              name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
-              class = filesSplit[,ncol(filesSplit)-1])
+## Generate profiling parameters
+parameters <- profileParameters('LCMS-RP',nCores = 2)
+processingParameters(parameters)$peakDetection <- CentWaveParam(snthresh = 20, 
+                                                                noise = 1000)
+processingParameters(parameters)$retentionTimeCorrection <- ObiwarpParam()
+processingParameters(parameters)$grouping <- PeakDensityParam(sampleGroups = sample_info$class,
+                                                              maxFeatures = 300,
+                                                              minFraction = 2/3)
+## Process data
+processed_data <- profileProcess(file_paths,sample_info,parameters)
 
-# prepare parameters
-parameters <- profileParameters('LCMS-RP')
-parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
-parameters@processingParameters$retentionTimeCorrection <- ObiwarpParam()
-parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,
-                                                             maxFeatures = 300,
-                                                             minFraction = 2/3)
-# run processing
-processedData <- profileProcess(files,info,parameters)
+# GCMS-XCMS example using the gcspikelite package data
+## Retrieve file paths
+file_paths <- list.files(
+  system.file('data',
+            package = 'gcspikelite'),
+  pattern = '.CDF',
+  full.names = TRUE)[1:2]
+file_names <- basename(file_paths)
+sample_names <- tools::file_path_sans_ext(file_names)
 
+## Generate sample information table
+sample_info <- tibble(fileOrder = seq_along(file_paths),
+                      injOrder = seq_along(file_paths),
+                      fileName = file_names,
+                      batch = 1,
+                      block = 1,
+                      name = sample_names,
+                      class = targets$Group[1:2])
+
+## Generate profiling parameters
+parameters <- profileParameters('GCMS-XCMS',nCores = 2)
+
+## Process data
+processed_data <- profileProcess(file_paths,sample_info,parameters)
+
+# GCMS-eRah example using the gcspikelite package data
+## Retrieve file paths
+file_paths <- list.files(
+  system.file('data',
+            package = 'gcspikelite'),
+  pattern = '.CDF',
+  full.names = TRUE)[1:2]
+file_names <- basename(file_paths)
+sample_names <- tools::file_path_sans_ext(file_names)
+
+## Generate sample information table
+sample_info <- tibble(fileOrder = seq_along(file_paths),
+                      injOrder = seq_along(file_paths),
+                      fileName = file_names,
+                      batch = 1,
+                      block = 1,
+                      name = sample_names,
+                      class = targets$Group[1:2])
+
+## Generate profiling parameters
+parameters <- profileParameters('GCMS-eRah',nCores = 2)
+
+## Process data
+processed_data <- profileProcess(file_paths,sample_info,parameters)
 }
+}
+\seealso{
+\code{\link{profileParameters}}
 }

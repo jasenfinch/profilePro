@@ -1,62 +1,131 @@
 #' profileProcess
 #' @description process metabolomic profiling data
-#' @param files character vector of file paths to use for processing
-#' @param info tibble containing sample info
+#' @param file_paths character vector of file paths to use for processing
+#' @param sample_info tibble containing sample info
 #' @param parameters object of class ProfileParameters containing the parameters for processing
+#' @return An S4 object of class MetaboProfile
+#' @seealso \code{\link{profileParameters}}
 #' @examples 
 #' \dontrun{
-#' library(stringr)
-#' library(faahKO)
-#' library(tibble)
-#' library(readr)
-#'
-#' files <- list.files(system.file("cdf", package = "faahKO"),full.names = TRUE,recursive = T)
-#'
-#' # make runinfo file
-#' filesSplit <- str_split_fixed(files,'/',str_count(files[1],'/') + 1) 
-#' info <- tibble(fileOrder = 1:length(files),
-#'               injOrder = 1:length(files),
-#'               fileName = filesSplit[,ncol(filesSplit)], 
-#'               batch = rep(1,length(files)), 
-#'               block = rep(1,length(files)), 
-#'               name = str_replace_all(filesSplit[,ncol(filesSplit)],'.CDF',''), 
-#'               class = filesSplit[,ncol(filesSplit)-1])
-#'
-#' # prepare parameters
-#' parameters <- profileParameters('LCMS-RP')
-#' parameters@processingParameters$peakDetection <- CentWaveParam(snthresh = 20, noise = 1000)
-#' parameters@processingParameters$retentionTimeCorrection <- ObiwarpParam()
-#' parameters@processingParameters$grouping <- PeakDensityParam(sampleGroups = info$class,
-#'                                                              maxFeatures = 300,
-#'                                                              minFraction = 2/3)
-#' # run processing
-#' processedData <- profileProcess(files,info,parameters)
-#'
+#' # LCMS-RP example using the faahKO package data
+#' ## Retrieve file paths
+#' file_paths <- list.files(
+#'   system.file("cdf", 
+#'             package = "faahKO"),
+#'   full.names = TRUE,
+#'   recursive = TRUE)[1:2]
+#'   file_names <- basename(file_paths)
+#' sample_names <- tools::file_path_sans_ext(file_names)
+#' 
+#' ## Generate sample information table
+#' sample_info <- tibble(fileOrder = seq_along(file_paths),
+#'                       injOrder = seq_along(file_paths),
+#'                       fileName = file_names,
+#'                       batch = 1,
+#'                       block = 1,
+#'                       name = sample_names,
+#'                       class = substr(sample_names,1,2))
+#' 
+#' ## Generate profiling parameters
+#' parameters <- profileParameters('LCMS-RP',nCores = 2)
+#' processingParameters(parameters)$peakDetection <- CentWaveParam(snthresh = 20, 
+#'                                                                 noise = 1000)
+#' processingParameters(parameters)$retentionTimeCorrection <- ObiwarpParam()
+#' processingParameters(parameters)$grouping <- PeakDensityParam(sampleGroups = sample_info$class,
+#'                                                               maxFeatures = 300,
+#'                                                               minFraction = 2/3)
+#' ## Process data
+#' processed_data <- profileProcess(file_paths,sample_info,parameters)
+#' 
+#' # GCMS-XCMS example using the gcspikelite package data
+#' ## Retrieve file paths
+#' file_paths <- list.files(
+#'   system.file('data',
+#'             package = 'gcspikelite'),
+#'   pattern = '.CDF',
+#'   full.names = TRUE)[1:2]
+#' file_names <- basename(file_paths)
+#' sample_names <- tools::file_path_sans_ext(file_names)
+#' 
+#' ## Generate sample information table
+#' sample_info <- tibble(fileOrder = seq_along(file_paths),
+#'                       injOrder = seq_along(file_paths),
+#'                       fileName = file_names,
+#'                       batch = 1,
+#'                       block = 1,
+#'                       name = sample_names,
+#'                       class = targets$Group[1:2])
+#' 
+#' ## Generate profiling parameters
+#' parameters <- profileParameters('GCMS-XCMS',nCores = 2)
+#' 
+#' ## Process data
+#' processed_data <- profileProcess(file_paths,sample_info,parameters)
+#' 
+#' # GCMS-eRah example using the gcspikelite package data
+#' ## Retrieve file paths
+#' file_paths <- list.files(
+#'   system.file('data',
+#'             package = 'gcspikelite'),
+#'   pattern = '.CDF',
+#'   full.names = TRUE)[1:2]
+#' file_names <- basename(file_paths)
+#' sample_names <- tools::file_path_sans_ext(file_names)
+#' 
+#' ## Generate sample information table
+#' sample_info <- tibble(fileOrder = seq_along(file_paths),
+#'                       injOrder = seq_along(file_paths),
+#'                       fileName = file_names,
+#'                       batch = 1,
+#'                       block = 1,
+#'                       name = sample_names,
+#'                       class = targets$Group[1:2])
+#' 
+#' ## Generate profiling parameters
+#' parameters <- profileParameters('GCMS-eRah',nCores = 2)
+#' 
+#' ## Process data
+#' processed_data <- profileProcess(file_paths,sample_info,parameters)
 #' }
 #' @importFrom tibble tibble
 #' @importFrom methods new
-#' @importFrom utils packageVersion
 #' @importFrom dplyr arrange
 #' @export
 
-profileProcess <- function(files,info,parameters) {
+profileProcess <- function(file_paths,sample_info,parameters) {
   
-  files <- files[order(info$injOrder)]
-  info <- info %>%
+  file_paths <- file_paths[order(sample_info$injOrder)]
+  sample_info <- sample_info %>%
     arrange(injOrder)
   
-  x <- new('MetaboProfile',
-           log = list(date = date(),version = packageVersion('profilePro')),
-           files = files,
-           processingParameters = parameters,
-           Info = info,
-           Data = tibble(),
-           processingResults = list()
-           )
+  x <- new('MetaboProfile',parameters,
+           file_paths = file_paths,
+           sample_info = sample_info)
   
-  method <- profilingMethods(parameters@technique)
+  method <- parameters %>%
+    technique() %>%
+    profilingMethods()
   
   x <- method(x)
   
   return(x)
+}
+
+
+profilingMethods <- function(method = NULL){
+  
+  methods <- list(
+    
+    `GCMS-eRah` = erahProcessing,
+    
+    `GCMS-XCMS` = GCMSprocessing,
+    
+    `LCMS-RP` = XCMSprocessing,
+    
+    `LCMS-NP` = XCMSprocessing
+  )
+  
+  method <- methods[[method]]
+  
+  return(method)
 }

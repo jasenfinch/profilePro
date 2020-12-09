@@ -3,28 +3,28 @@
 \name{plotChromatogram}
 \alias{plotChromatogram}
 \alias{plotChromatogram,MetaboProfile-method}
-\title{plotChromatogram}
+\title{Plot ion chromatogram}
 \usage{
 plotChromatogram(
-  processed,
+  processed_data,
   cls = NULL,
-  group = F,
+  group = FALSE,
   alpha = 1,
   aggregationFun = "max",
   ...
 )
 
 \S4method{plotChromatogram}{MetaboProfile}(
-  processed,
+  processed_data,
   cls = NULL,
-  group = F,
+  group = FALSE,
   alpha = 1,
   aggregationFun = "max",
   ...
 )
 }
 \arguments{
-\item{processed}{S4 object of class MetaboProfile}
+\item{processed_data}{S4 object of class MetaboProfile}
 
 \item{cls}{sample information column to use for plot colours.}
 

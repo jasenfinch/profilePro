@@ -3,15 +3,15 @@
 \docType{class}
 \name{ProfileParameters-class}
 \alias{ProfileParameters-class}
-\title{ProfileParameters}
+\title{Profile processing parameters class}
 \description{
 An S4 class to store profile processing parameters.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{technique}}{the profiling technique to use}
+\item{\code{technique}}{the profiling technique to use. Defaults to the result of \code{availableTechniques()[1]}}
 
-\item{\code{processingParameters}}{a list containing the parameters to use for processing}
+\item{\code{processing_parameters}}{a list containing the parameters to use for processing}
 }}
 

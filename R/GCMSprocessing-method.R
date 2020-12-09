@@ -1,39 +1,58 @@
 
 setMethod('GCMSprocessing',signature = 'MetaboProfile',
           function(x){
-            parameters <- x@processingParameters
             
             info <- new('NAnnotatedDataFrame',
-                        data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),
-                                   sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),
-                                   stringsAsFactors = F))
+                        data.frame(
+                          sample_name = sampleInfo(x)[,processingParameters(x)$info$name] %>%
+                            deframe(),
+                          sample_groups = sampleInfo(x)[,processingParameters(x)$info$cls] %>%
+                            deframe(),
+                          stringsAsFactors = FALSE))
             
-            parameters@processingParameters$grouping@sampleGroups <- info$sample_groups
+            processingParameters(x)$grouping@sampleGroups <- info$sample_groups
             
-            if (length(x@files) < parameters@processingParameters$nCores) {
-              nCores <- length(x@files)
+            if (length(filePaths(x)) < processingParameters(x)$nCores) {
+              nCores <- x %>%
+                filePaths() %>%
+                length()
             } else {
-              nCores <- parameters@processingParameters$nCores
+              nCores <- x %>%
+                processingParameters() %>%
+                .$nCores
             }
+            
             para <- bpparam()
-            para@.xData$workers <- nCores
-            register(para)
+            bpworkers(para) <- nCores
+            register(para) 
             
-            rawData <- readMSData(x@files,pdata = info, mode = 'onDisk')
+            message('Reading data')
+            d <- readMSData(filePaths(x),pdata = info, mode = 'onDisk')
             
-            processed <- rawData %>%
-              findChromPeaks(parameters@processingParameters$peakDetection) %>%
-              adjustRtime(parameters@processingParameters$retentionTimeCorrection) %>%
-              groupChromPeaks(parameters@processingParameters$grouping) %>%
-              fillChromPeaks(parameters@processingParameters$infilling)
+            message(green('Peak picking'))
+            d <- d %>%
+              findChromPeaks(processingParameters(x)$peakDetection)
             
-            pt <- createXCMSpeakTable(processed)
+            message(green('Retention time correction'))
+            d <- d %>%
+              adjustRtime(processingParameters(x)$retentionTimeCorrection)
             
-            Data <- pt$values
+            message(green('Grouping'))
+            d <- d %>%
+              groupChromPeaks(processingParameters(x)$grouping)
             
-            x@Data <- Data
-            x@processingResults <- list(processed = processed,
-                                        peakInfo = pt
+            message(green('Infilling'))
+            d <- d %>%
+              fillChromPeaks(processingParameters(x)$infilling)
+            
+            peak_info <- d %>%
+              list() %>%
+              createXCMSpeakTable()
+            
+            processedData(x) <- peak_info$values
+            
+            processingResults(x) <- list(processed = d,
+                                        peak_info = peak_info$definitions
             )
             return(x)
           }

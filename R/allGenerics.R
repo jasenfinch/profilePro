@@ -1,56 +1,102 @@
 
-setGeneric("XCMSprocessing", function(x) {
-  standardGeneric('XCMSprocessing')
-})
+setGeneric("XCMSprocessing", function(x) 
+  standardGeneric('XCMSprocessing'))
 
-setGeneric("GCMSprocessing", function(x) {
-  standardGeneric('GCMSprocessing')
-})
+setGeneric("GCMSprocessing", function(x) 
+  standardGeneric('GCMSprocessing'))
 
-setGeneric("erahProcessing", function(x) {
-  standardGeneric('erahProcessing')
-})
+setGeneric("erahProcessing", function(x) 
+  standardGeneric('erahProcessing'))
 
+#' @rdname parameters
 
-#' @rdname sampleInfo
+setGeneric('technique',function(x)
+  standardGeneric('technique'))
+
+#' @rdname parameters
+
+setGeneric('technique<-',function(x,value) 
+  standardGeneric('technique<-'))
+
+#' @rdname parameters
+
+setGeneric('processingParameters',function(x) 
+  standardGeneric('processingParameters'))
+
+#' @rdname parameters
+
+setGeneric('processingParameters<-',function(x,value) 
+  standardGeneric('processingParameters<-'))
+
+#' @rdname processed
+
+setGeneric('version',function(x) 
+  standardGeneric('version'))
+
+#' @rdname processed
+
+setGeneric('creationDate',function(x) 
+  standardGeneric('creationDate'))
+
+#' @rdname processed
+
+setGeneric('filePaths',function(x) 
+  standardGeneric('filePaths'))
+
+#' @rdname processed
+
+setGeneric('sampleInfo',function(x) 
+  standardGeneric('sampleInfo'))
+
+#' @rdname processed
+
+setGeneric('processingResults',function(x) 
+  standardGeneric('processingResults'))
+
+#' @rdname processed
+
+setGeneric('processingResults<-',function(x,value) 
+  standardGeneric('processingResults<-'))
+
+#' @rdname processed
+
+setGeneric('processedData',function(x) 
+  standardGeneric('processedData'))
+
+#' @rdname processed
+
+setGeneric('processedData<-',function(x,value) 
+  standardGeneric('processedData<-'))
+
+#' @rdname processed
 #' @export
 
-setGeneric('sampleInfo',function(x){
-  standardGeneric('sampleInfo')
-})
+setGeneric('extractProcObject',function(x) 
+  standardGeneric('extractProcObject'))
 
-#' @rdname processedData
+#' @rdname processed
 #' @export
 
-setGeneric('processedData',function(x){
-  standardGeneric('processedData')
-})
-
-#' @rdname extractProcObject
-#' @export
-
-setGeneric('extractProcObject',function(x){
-  standardGeneric('extractProcObject')
-})
-
-#' @rdname peakInfo
-#' @export
-
-setGeneric('peakInfo',function(x){
-  standardGeneric('peakInfo')
-})
+setGeneric('peakInfo',function(x) 
+  standardGeneric('peakInfo'))
 
 #' @rdname plotChromatogram
 #' @export
 
-setGeneric('plotChromatogram',function(processed, cls = NULL, group = F, alpha = 1, aggregationFun = 'max',...){
-  standardGeneric('plotChromatogram')
-})
+setGeneric('plotChromatogram',
+           function(processed_data, 
+                    cls = NULL, 
+                    group = FALSE, 
+                    alpha = 1, 
+                    aggregationFun = 'max',...) 
+             standardGeneric('plotChromatogram'))
 
 #' @rdname plotTIC
 #' @export
 
-setGeneric('plotTIC',function(processed,by = 'injOrder', colour = 'block'){
-  standardGeneric('plotTIC')
-})
+setGeneric('plotTIC',
+           function(processed,
+                    by = 'injOrder', 
+                    colour = 'block') 
+             standardGeneric('plotTIC'))
 

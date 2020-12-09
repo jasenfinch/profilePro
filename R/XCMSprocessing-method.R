@@ -2,30 +2,41 @@
 #' @importFrom MSnbase readMSData
 #' @importMethodsFrom MSnbase polarity filterPolarity
 #' @importFrom xcms findChromPeaks adjustRtime groupChromPeaks fillChromPeaks
-#' @importFrom BiocParallel bpparam register
+#' @importFrom BiocParallel bpparam register bpworkers<-
 #' @importFrom utils capture.output
+#' @importFrom crayon green
+#' @importFrom tibble deframe
 
 setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
-            parameters <- x@processingParameters
-            
+
             info <- new('NAnnotatedDataFrame',
-                        data.frame(sample_name = x@Info[,parameters@processingParameters$info$names] %>% unlist(),
-                                   sample_groups = x@Info[,parameters@processingParameters$info$cls] %>% unlist(),
-                                   stringsAsFactors = F))
+                        data.frame(
+                          sample_name = sampleInfo(x)[,processingParameters(x)$info$name] %>%
+                            deframe(),
+                          sample_groups = sampleInfo(x)[,processingParameters(x)$info$cls] %>%
+                            deframe(),
+                          stringsAsFactors = FALSE))
             
-            parameters@processingParameters$grouping@sampleGroups <- info$sample_groups
+            processingParameters(x)$grouping@sampleGroups <- info$sample_groups
             
-            if (length(x@files) < parameters@processingParameters$nCores) {
-              nCores <- length(x@files)
+            if (length(filePaths(x)) < processingParameters(x)$nCores) {
+              nCores <- x %>%
+                filePaths() %>%
+                length()
             } else {
-              nCores <- parameters@processingParameters$nCores
+              nCores <- x %>%
+                processingParameters() %>%
+                .$nCores
             }
+            
             para <- bpparam()
-            para@.xData$workers <- nCores
+            bpworkers(para) <- nCores
             register(para)
             
-            rawData <- readMSData(x@files,pdata = info, mode = 'onDisk')
+            message('Reading data')
+            
+            rawData <- readMSData(filePaths(x),pdata = info, mode = 'onDisk')
             
             modes <- rawData %>%
               polarity() %>%
@@ -33,13 +44,41 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
               {.[. != -1]}
             
             processed <- map(modes, ~{
-              m <- .
-              rawData %>%
-                filterPolarity(polarity = m) %>%
-                findChromPeaks(parameters@processingParameters$peakDetection) %>%
-                adjustRtime(parameters@processingParameters$retentionTimeCorrection) %>%
-                groupChromPeaks(parameters@processingParameters$grouping) %>%
-                fillChromPeaks(parameters@processingParameters$infilling)
+              
+              if (!is.na(.x)){
+                message()
+                
+                if (.x == 0) {
+                  message(blue('Negative mode'))
+                } 
+                
+                if (.x == 1) {
+                  message(red('Positive mode'))
+                }
+                
+                d <- rawData %>%
+                  filterPolarity(polarity = .x)
+              } else {
+                d <- rawData
+              }
+              
+              message(green('Peak picking'))
+              d <- d %>%
+                findChromPeaks(processingParameters(x)$peakDetection)
+              
+              message(green('Retention time correction'))
+              d <- d %>%
+                adjustRtime(processingParameters(x)$retentionTimeCorrection)
+              
+              message(green('Grouping'))
+              d <- d %>%
+                groupChromPeaks(processingParameters(x)$grouping)
+              
+              message(green('Infilling'))
+              d <- d %>%
+                fillChromPeaks(processingParameters(x)$infilling)
+              
+              return(d)
             }) 
             
             ms <- modes
@@ -48,17 +87,63 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             
             names(processed) <- ms
             
-            pt <- map(ms,createXCMSpeakTable,Data = processed) %>%
-              set_names(ms)
+            pt <- map(names(processed),
+                      createXCMSpeakTable,
+                      processed = processed) %>%
+              set_names(ms) 
             
-            Data <- map(pt,~{
+            
+            
+            processedData(x) <- map(pt,~{
               .$values
             })
             
-            x@Data <- Data
-            x@processingResults <- list(processed = processed,
-                                        peakInfo = pt
+            peak_info <- map(pt,~{
+              .$definitions
+            }) %>%
+              bind_rows(.id = 'polarity')
+            
+            processingResults(x) <- list(processed = processed,
+                                        peak_info = peak_info
             )
             return(x)
           }
 )
+
+#' @importFrom xcms featureValues featureDefinitions
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr mutate select bind_cols
+#' @importFrom stringr str_c
+#' @importFrom magrittr %>%
+
+createXCMSpeakTable <- function(processed,mode = NA){
+  
+  if (is.na(mode)) {
+    d <- processed[[1]]
+    m <- ''
+  } else {
+    d <- processed[[mode]]
+    m <- mode
+  }
+  
+    values <- featureValues(d,value = 'into') %>% 
+      t() %>% 
+      as_tibble()   
+    definitions <- featureDefinitions(d) %>% 
+      as_tibble() %>% 
+      mutate(ID = colnames(values),
+             rtmed = rtmed/60, 
+             rtmin = rtmin/60, 
+             rtmax = rtmax/60)
+  
+  ID <- str_c(m, round(definitions$mzmed,5), '@', round(definitions$rtmed,3))
+  
+  colnames(values) <- ID
+  values[is.na(values)] <- 0
+  
+  definitions <- definitions %>%
+    mutate(feature = !!ID) %>%
+    select(feature,mzmin:ID)
+  
+  return(list(values = values, definitions = definitions))
+}

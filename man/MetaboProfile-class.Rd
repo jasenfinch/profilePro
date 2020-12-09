@@ -3,23 +3,25 @@
 \docType{class}
 \name{MetaboProfile-class}
 \alias{MetaboProfile-class}
-\title{MetaboProfile}
+\title{Profiling processing results class}
 \description{
 An S4 class to store the profile processing results
 }
 \section{Slots}{
 
 \describe{
-\item{\code{log}}{date and time of the initiation of processing}
+\item{\code{version}}{package version}
 
-\item{\code{files}}{list of file paths to used for processing. Vectors of files form different aquisition modes should be labelled accordingly.}
+\item{\code{creation_date}}{date and time of the initiation of processing}
 
-\item{\code{processingParameters}}{object of class ProfileParameters containing the parameters for processing}
+\item{\code{file_paths}}{list of file paths to used for processing. Vectors of files form different aquisition modes should be labelled accordingly.}
 
-\item{\code{Info}}{tibble containing runinfo data}
+\item{\code{processing_parameters}}{object of class ProfileParameters containing the parameters for processing}
 
-\item{\code{Data}}{list containing tibbles of processed data}
+\item{\code{sample_info}}{tibble containing runinfo data}
 
-\item{\code{processingResults}}{list containing processing results}
+\item{\code{data}}{list containing tibbles of processed data}
+
+\item{\code{processing_results}}{list containing processing results}
 }}
 
