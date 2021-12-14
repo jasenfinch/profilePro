@@ -34,58 +34,54 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
               x <- processed_data %>%
                 extractProcObject()
               
-              if (is.list(x)) {
-                chrom <- x %>%
-                  map(~{
-                    .x %>%
-                      as.MSnExp.OnDiskMSnExp() %>% 
-                      chromatogram(aggregationFun = aggregationFun) %>%
-                      map(~{
-                        tibble(rtime = .@rtime,
-                               intensity = .@intensity)
-                      }) %>%
-                      set_names(info$name) %>%
-                      bind_rows(.id = 'Sample') %>%
-                      mutate(rtime = rtime/60)
-                  }) %>% 
-                  set_names(names(x)) %>% 
-                  bind_rows(.id = 'mode')
-                
+              if (!is.list(x)) {
+                x <- list(x)
+              }
+              
+              chrom <- x %>%
+                map(~{
+                  .x %>%
+                    as.MSnExp.OnDiskMSnExp() %>% 
+                    chromatogram(aggregationFun = aggregationFun) %>%
+                    map(~{
+                      tibble(rtime = .@rtime,
+                             intensity = .@intensity)
+                    }) %>%
+                    set_names(info$name) %>%
+                    bind_rows(.id = 'Sample') %>%
+                    mutate(rtime = rtime/60)
+                }) %>% 
+                set_names(names(x)) %>% 
+                bind_rows(.id = 'mode')
+              
+              if (group == TRUE) {
+                chrom <- chrom %>%
+                  mutate(rtime = round(rtime,1))
+              }
+              
+              if (!is.null(cls)) {
+                chrom <- chrom %>%
+                  left_join(info %>%
+                              select(name,Class = cls),by = c('Sample' = 'name'))
                 if (group == TRUE) {
                   chrom <- chrom %>%
-                    mutate(rtime = round(rtime,1))
+                    group_by(mode,Class,rtime) %>%
+                    summarise(intensity = mean(intensity))
                 }
-                
-                if (!is.null(cls)) {
-                  chrom <- chrom %>%
-                    left_join(info %>%
-                                select(name,Class = cls),by = c('Sample' = 'name'))
-                  if (group == TRUE) {
-                    chrom <- chrom %>%
-                      group_by(mode,Class,rtime) %>%
-                      summarise(intensity = mean(intensity))
-                  }
-                } else {
-                  if (group == TRUE) {
-                    chrom <- chrom %>%
-                      group_by(mode,rtime) %>%
-                      summarise(intensity = mean(intensity)) %>%
-                      mutate(Sample = 1)
-                  }
-                }
-                    
-                pls <- chromPlot(chrom,
-                                 cls = cls,
-                                 group = group,
-                                 alpha = alpha,
-                                 mode = mode)
-                
               } else {
-                pls  <- x %>%
-                  chromPlot(cls = cls, 
-                            group = group, 
-                            alpha = alpha)
+                if (group == TRUE) {
+                  chrom <- chrom %>%
+                    group_by(mode,rtime) %>%
+                    summarise(intensity = mean(intensity)) %>%
+                    mutate(Sample = 1)
+                }
               }
+              
+              pls <- chromPlot(chrom,
+                               cls = cls,
+                               group = group,
+                               alpha = alpha,
+                               mode = mode)
               
               return(pls)
             }
@@ -106,7 +102,13 @@ chromPlot <- function(chrom,
                                   'n',
                                   'Negative Mode') %>% 
              str_replace_all('p',
-                             'Positive Mode'))
+                             'Positive Mode') %>% 
+             str_replace_all('1',
+                             ''))
+  
+  title <- ifelse(length(unique(chrom$mode)) > 1,
+                  'Ion Chromatograms',
+                  'Ion Chromatogram')
   
   if (!is.null(cls) & group == TRUE) {
     pl <- ggplot(chrom,aes(x = rtime,
@@ -120,7 +122,7 @@ chromPlot <- function(chrom,
   
   pl <- pl +
     theme_bw() +
-    labs(title = 'Ion Chromatograms',
+    labs(title = title,
          x = 'Retention Time (minutes)',
          y = 'Intensity') +
     theme(plot.title = element_text(face = 'bold',
