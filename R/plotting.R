@@ -14,7 +14,7 @@
 #' @importFrom ggplot2 ggplot geom_line theme_bw aes labs theme element_text
 #' @importFrom dplyr bind_rows group_by summarise
 #' @importFrom erah plotChr
-#' @importFrom MSnbase as.MSnExp.OnDiskMSnExp()
+#' @importFrom MSnbase as.MSnExp.OnDiskMSnExp
 
 setMethod('plotChromatogram',signature = 'MetaboProfile',
           function(processed_data, 
