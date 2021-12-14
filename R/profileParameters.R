@@ -127,7 +127,6 @@ erahParameters <- function(nCores){
   
   list(
     cls = 'class',
-    parallel = list(nCores = nCores,clusterType = cltype()),
     info = list(cls = 'class'),
     deconvolution = setDecPar(min.peak.width = 1.2, avoid.processing.mz = c(73:75,147:149)),
     alignment = setAlPar(min.spectra.cor = 0.90, max.time.dist = 3, mz.range = 70:600),

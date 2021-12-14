@@ -21,8 +21,7 @@ setMethod('erahProcessing',signature = 'MetaboProfile',
             
             message(green('Deconvolution'))
             ex <- ex %>%
-              deconvolveComp(processingParameters(x)$deconvolution,
-                             parallel = processingParameters(x)$parallel)
+              deconvolveComp(processingParameters(x)$deconvolution)
             
             message(green('Alignment'))
             ex <- ex %>%
