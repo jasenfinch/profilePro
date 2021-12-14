@@ -46,7 +46,19 @@ test_that('The processing object can be extracted from the LC data',{
 })
   
 test_that('Chromatogram can be plotted for LC data',{
-  expect_s3_class(plotChromatogram(LC_processed_data),'ggplot')
+  pl <- plotChromatogram(LC_processed_data,
+                         cls = 'class',
+                         group = TRUE)
+  
+  expect_s3_class(pl,'ggplot')
+})
+
+test_that('Chromatogram can be plotted when cls = NULL and group = TRUE',{
+  pl <- plotChromatogram(LC_processed_data,
+                         cls = NULL,
+                         group = TRUE)
+  
+  expect_s3_class(pl,'ggplot')
 })
   
 test_that('TIC can be plotted for LC data',{
