@@ -12,7 +12,8 @@ setMethod('show',signature = 'ProfileParameters',
                   blue(),
                 '\n\n')
             
-            object %>%  processingParameters()
+            params <- object %>%  
+              processingParameters()
             
             out <- params %>% 
               names() %>% 
