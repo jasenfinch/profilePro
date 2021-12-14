@@ -23,6 +23,9 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
                    aggregationFun = 'max', 
                    ...){
             
+            info <- processed_data %>% 
+              sampleInfo()
+            
             if (str_detect(technique(processed_data),'eRah')) {
               processed_data %>%
                 extractProcObject() %>%
@@ -32,36 +35,56 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
                 extractProcObject()
               
               if (is.list(x)) {
-                pls <- names(x) %>%
+                chrom <- x %>%
                   map(~{
-                    
-                    if (is.na(.x)){
-                      m <- 1
-                    } else {
-                      m <- .x  
-                    }
-                    
-                    chromPlot(x[[m]],
-                              processed_data %>%
-                                sampleInfo(),
-                              mode = m,
-                              cls = cls, 
-                              group = group,
-                              alpha = alpha,
-                              aggregationFun = aggregationFun)
-                  })
+                    .x %>%
+                      as.MSnExp.OnDiskMSnExp() %>% 
+                      chromatogram(aggregationFun = aggregationFun) %>%
+                      map(~{
+                        tibble(rtime = .@rtime,
+                               intensity = .@intensity)
+                      }) %>%
+                      set_names(info$name) %>%
+                      bind_rows(.id = 'Sample') %>%
+                      mutate(rtime = rtime/60)
+                  }) %>% 
+                  set_names(names(x)) %>% 
+                  bind_rows(.id = 'mode')
                 
-                pls <- wrap_plots(pls)
+                if (group == TRUE) {
+                  chrom <- chrom %>%
+                    mutate(rtime = round(rtime,1))
+                }
                 
-                pls <- pls + plot_layout(ncol = 1)
+                if (!is.null(cls)) {
+                  chrom <- chrom %>%
+                    left_join(info %>%
+                                select(name,Class = cls),by = c('Sample' = 'name'))
+                  if (group == TRUE) {
+                    chrom <- chrom %>%
+                      group_by(mode,Class,rtime) %>%
+                      summarise(intensity = mean(intensity))
+                  }
+                } else {
+                  if (group == TRUE) {
+                    chrom <- chrom %>%
+                      group_by(mode,rtime) %>%
+                      summarise(intensity = mean(intensity)) %>%
+                      mutate(Sample = 1)
+                  }
+                }
+                    
+                pls <- chromPlot(chrom,
+                                 cls = cls,
+                                 group = group,
+                                 alpha = alpha,
+                                 mode = mode)
+                
               } else {
                 pls  <- x %>%
-                  chromPlot(info = processed_data %>%
-                              sampleInfo(),
-                            cls = cls, 
+                  chromPlot(cls = cls, 
                             group = group, 
-                            alpha = alpha,
-                            aggregationFun = aggregationFun)
+                            alpha = alpha)
               }
               
               return(pls)
@@ -70,61 +93,52 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
           }
 )
 
-chromPlot <- function(x,info,mode = NA,cls = NULL, group = F, alpha = 1, aggregationFun = 'max') {
-  chrom <- x %>%
-    chromatogram(aggregationFun = aggregationFun) %>%
-    map(~{
-      tibble(rtime = .@rtime,
-             intensity = .@intensity)
-    }) %>%
-    set_names(info$name) %>%
-    bind_rows(.id = 'Sample') %>%
-    mutate(rtime = rtime/60)
+#' @importFrom ggplot2 element_blank element_line scale_x_continuous scale_y_continuous
+#' @importFrom stringr str_replace_all
+chromPlot <- function(chrom,
+                      cls,
+                      group,
+                      alpha,
+                      mode = NA){
   
-  if (group == TRUE) {
-    chrom <- chrom %>%
-      mutate(rtime = round(rtime,1))
-  }
-  
-  if (!is.null(cls)) {
-    chrom <- chrom %>%
-      left_join(info %>%
-                  select(name,Class = cls),by = c('Sample' = 'name'))
-    if (group == TRUE) {
-      chrom <- chrom %>%
-        group_by(Class,rtime) %>%
-        summarise(intensity = mean(intensity))
-    }
-  } else {
-    if (group == TRUE) {
-      chrom <- chrom %>%
-        group_by(rtime) %>%
-        summarise(intensity = mean(intensity)) %>%
-        mutate(Sample = 1)
-    }
-  }
+  chrom <- chrom %>% 
+    mutate(mode = str_replace_all(mode,
+                                  'n',
+                                  'Negative Mode') %>% 
+             str_replace_all('p',
+                             'Positive Mode'))
   
   if (!is.null(cls) & group == TRUE) {
-    pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Class))
+    pl <- ggplot(chrom,aes(x = rtime,
+                           y = intensity,
+                           group = Class))
   } else {
-    pl <- ggplot(chrom,aes(x = rtime,y = intensity,group = Sample))
-  }
-  
-  if (is.na(mode)) {
-    title <- ''  
-  } else {
-    title <- mode
+    pl <- ggplot(chrom,aes(x = rtime,
+                           y = intensity,
+                           group = Sample))
   }
   
   pl <- pl +
     theme_bw() +
-    labs(title = title,
+    labs(title = 'Ion Chromatograms',
          x = 'Retention Time (minutes)',
          y = 'Intensity') +
-    theme(plot.title = element_text(face = 'bold'),
+    theme(plot.title = element_text(face = 'bold',
+                                    hjust = 0.5),
+          panel.border = element_blank(),
+          panel.grid = element_blank(),
+          axis.line = element_line(),
           axis.title = element_text(face = 'bold'),
           legend.title = element_text(face = 'bold'),
-          legend.position = 'bottom')
+          legend.position = 'bottom',
+          strip.background = element_blank(),
+          strip.text = element_text(face = 'bold',
+                                    size = 10)) +
+    scale_x_continuous(expand = c(0,0)) +
+    scale_y_continuous(expand = c(0,0)) +
+    facet_wrap(~mode,
+               ncol = 1,
+               scales = 'free')
   
   if (!is.null(cls)) {
     pl <- pl +
