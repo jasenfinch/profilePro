@@ -144,7 +144,8 @@ chromPlot <- function(chrom,
   
   if (!is.null(cls)) {
     pl <- pl +
-      geom_line(aes(colour = Class),alpha = alpha)
+      geom_line(aes(colour = Class),alpha = alpha) +
+      guides(colour = guide_legend(title = cls))
     
     if (length(unique(chrom$Class)) < 12) {
       pl <- pl +
