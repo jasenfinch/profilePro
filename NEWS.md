@@ -1,3 +1,15 @@
+# profilePro 0.7.1
+
+* Removed parallel arguments from [`erah`](https://github.com/xdomingoal/erah-devel) processing routine as these now support the use of the [`future`](https://future.futureverse.org/) package.
+
+* Fixed LC-MS processing routine when on a single ionisation mode is present.
+
+* Fixed [`plotChromatogram()`](https://jasenfinch.github.io/profilePro/reference/plotChromatogram.html) for single ionisation mode data.
+
+* Added unit tests for GC-MS processing using [`xcms`](https://github.com/sneumann/xcms).
+
+* Improved plotting aesthetics of [`plotChromatogram()`](https://jasenfinch.github.io/profilePro/reference/plotChromatogram.html) and [`plotTIC()`](https://jasenfinch.github.io/profilePro/reference/plotTIC.html).
+
 # profilePro 0.7.0
 
 * Added a `NEWS.md` file to track changes to the package.

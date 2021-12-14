@@ -43,6 +43,10 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
               unique() %>%
               {.[. != -1]}
             
+            if (length(modes) == 0){
+              modes <- NA
+            }
+            
             processed <- map(modes, ~{
               
               if (!is.na(.x)){
