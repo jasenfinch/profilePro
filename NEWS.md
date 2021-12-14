@@ -1,3 +1,7 @@
+# profilePro 0.7.2
+
+* Added missing import of `MSnbase::as.MSnExp.OnDiskMSnExp()`.
+
 # profilePro 0.7.1
 
 * Removed parallel arguments from [`erah`](https://github.com/xdomingoal/erah-devel) processing routine as these now support the use of the [`future`](https://future.futureverse.org/) package.
