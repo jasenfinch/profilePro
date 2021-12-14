@@ -14,6 +14,7 @@
 #' @importFrom ggplot2 ggplot geom_line theme_bw aes labs theme element_text
 #' @importFrom dplyr bind_rows group_by summarise
 #' @importFrom erah plotChr
+#' @importFrom MSnbase as.MSnExp.OnDiskMSnExp()
 
 setMethod('plotChromatogram',signature = 'MetaboProfile',
           function(processed_data, 
@@ -91,6 +92,7 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
 
 #' @importFrom ggplot2 element_blank element_line scale_x_continuous scale_y_continuous
 #' @importFrom stringr str_replace_all
+
 chromPlot <- function(chrom,
                       cls,
                       group,
