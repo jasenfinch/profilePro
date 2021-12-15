@@ -4,6 +4,6 @@
 magrittr::`%>%`
 
 #' @rdname reexports
-#' @importFrom parallel detectCores
+#' @importFrom future plan
 #' @export
-parallel::detectCores
+future::plan
