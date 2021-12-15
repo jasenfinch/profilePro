@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">profilePro</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
       </span>
     </div>
 
@@ -47,6 +47,14 @@
       <small>Source: <a href="https://github.com/jasenfinch/profilePro/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.8.0" id="profilepro-080">profilePro 0.8.0<a class="anchor" aria-label="anchor" href="#profilepro-080"></a></h2>
+<ul><li><p>Added missing import of <code><a href="https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.html" class="external-link">MSnbase::as.MSnExp.OnDiskMSnExp()</a></code>.</p></li>
+<li><p>Re-export <a href="https://future.futureverse.org/reference/plan.html" class="external-link"><code>plan()</code></a> from the <a href="https://future.futureverse.org/" class="external-link"><code>future</code></a> package.</p></li>
+<li><p>The parallel processing back-end for xcms processing is now specified using <a href="https://future.futureverse.org/reference/plan.html" class="external-link"><code>plan()</code></a> from <a href="https://future.futureverse.org/" class="external-link"><code>future</code></a> package. This is enabled by the <a href="https://biocparallel.futureparam.futureverse.org/" class="external-link"><code>BiocParallel.FutureParam</code></a> package.</p></li>
+<li><p>Removed the <code>nCores</code> argument from <a href="https://jasenfinch.github.io/profilePro/reference/profileParameters.html" class="external-link"><code>profileParameters()</code></a>.</p></li>
+<li><p>Removed <a href="https://patchwork.data-imaginist.com/" class="external-link"><code>patchwork</code></a> as a dependency.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.7.1" id="profilepro-071">profilePro 0.7.1<a class="anchor" aria-label="anchor" href="#profilepro-071"></a></h2>
 <ul><li><p>Removed parallel arguments from <a href="https://github.com/xdomingoal/erah-devel" class="external-link"><code>erah</code></a> processing routine as these now support the use of the <a href="https://future.futureverse.org/" class="external-link"><code>future</code></a> package.</p></li>

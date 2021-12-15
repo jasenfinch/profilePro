@@ -4,12 +4,10 @@
 \alias{profileParameters}
 \title{Profiling paramters}
 \usage{
-profileParameters(technique, nCores = detectCores() * 0.75)
+profileParameters(technique)
 }
 \arguments{
 \item{technique}{the profiling technique for which to initiate parameters}
-
-\item{nCores}{number of cores to use for parallel processing}
 }
 \value{
 An S4 object of class ProfileParameters.

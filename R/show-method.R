@@ -6,7 +6,33 @@
 
 setMethod('show',signature = 'ProfileParameters',
           function(object){
-            cat('Processing parameters for technique',technique(object))
+            cat('Processing parameters for technique',
+                object %>% 
+                  technique() %>% 
+                  blue(),
+                '\n\n')
+            
+            params <- object %>%  
+              processingParameters()
+            
+            out <- params %>% 
+              names() %>% 
+              map(~{
+                cat(blue(.x),':\n',sep = '')
+                
+                current <- params[[.x]] 
+                
+                if (is.list(current)){
+                  current <- unlist(current)
+                }
+                
+                if (isS4(current)) {
+                  print(current)
+                } else {
+                  cat(current,'\n')  
+                }
+                cat('\n')
+              })
           }
 )
 

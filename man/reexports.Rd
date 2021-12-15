@@ -4,7 +4,7 @@
 \name{reexports}
 \alias{reexports}
 \alias{\%>\%}
-\alias{detectCores}
+\alias{plan}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -12,8 +12,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
+  \item{future}{\code{\link[future]{plan}}}
 
-  \item{parallel}{\code{\link[parallel]{detectCores}}}
+  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 }}
 

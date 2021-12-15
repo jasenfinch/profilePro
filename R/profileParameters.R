@@ -1,7 +1,6 @@
 #' Profiling paramters
 #' @description Initiate default processing parameters for a given profiling technique.
 #' @param technique the profiling technique for which to initiate parameters
-#' @param nCores number of cores to use for parallel processing
 #' @examples 
 #' profileParameters('LCMS-RP')
 #' @return An S4 object of class ProfileParameters.
@@ -10,41 +9,23 @@
 #' @importFrom erah setDecPar setAlPar
 #' @export
 
-profileParameters <- function(technique,
-                              nCores = detectCores() * 0.75) {
+profileParameters <- function(technique) {
   
   parameters <- new('ProfileParameters',
                     technique = technique)
   
-  if (technique == 'GCMS-eRah') {
-    processingParameters(parameters) <-erahParameters(nCores)
-  }
-  
-  if (technique == 'GCMS-XCMS') {
-    processingParameters(parameters) <- xcmsGCparameters(nCores)
-  }
-  
-  if (technique == 'LCMS-RP') {
-    processingParameters(parameters) <- xcmsRPparameters(nCores)
-  } 
-  
-  if (technique == 'LCMS-NP') {
-    processingParameters(parameters) <- xcmsNPparameters(nCores)
-  }
+  processingParameters(parameters) <- switch(
+    technique,
+    `GCMS-eRah` = erahParameters(),
+    `GCMS-XCMS` = xcmsGCparameters(),
+    `LCMS-RP` = xcmsRPparameters(),
+    `LCMS-NP` = xcmsNPparameters()
+    )
   
   return(parameters)
 }
 
-cltype <- function(){
-  if (.Platform$OS.type == 'windows') {
-    type <- 'PSOCK'
-  } else {
-    type <- 'FORK'
-  }
-  return(type)
-}
-
-xcmsRPparameters <- function(nCores){
+xcmsRPparameters <- function(){
   list(
     info = list(names = 'name', cls = 'class'),
     peakDetection = CentWaveParam(
@@ -67,12 +48,11 @@ xcmsRPparameters <- function(nCores){
       binSize = 0.00775, 
       minFraction = 2/3
     ),
-    infilling = FillChromPeaksParam(),
-    nCores = nCores
+    infilling = FillChromPeaksParam()
   )
 } 
 
-xcmsNPparameters <- function(nCores){
+xcmsNPparameters <- function(){
   list(
     info = list(names = 'name', cls = 'class'),
     peakDetection = CentWaveParam(
@@ -95,12 +75,11 @@ xcmsNPparameters <- function(nCores){
       binSize = 0.00685, 
       minFraction = 2/3
     ),
-    infilling = FillChromPeaksParam(),
-    nCores = nCores
+    infilling = FillChromPeaksParam()
   )
 } 
 
-xcmsGCparameters <- function(nCores){
+xcmsGCparameters <- function(){
   list(
     info = list(names = 'name', cls = 'class'),
     peakDetection = MatchedFilterParam(
@@ -115,12 +94,11 @@ xcmsGCparameters <- function(nCores){
       minFraction = 0,
       maxFeatures = 62
     ),
-    infilling = FillChromPeaksParam(),
-    nCores = nCores
+    infilling = FillChromPeaksParam()
   )
 } 
 
-erahParameters <- function(nCores){
+erahParameters <- function(){
   
   cr <- formals(recMissComp)[-1]
   cr$min.samples <- 1
@@ -128,8 +106,13 @@ erahParameters <- function(nCores){
   list(
     cls = 'class',
     info = list(cls = 'class'),
-    deconvolution = setDecPar(min.peak.width = 1.2, avoid.processing.mz = c(73:75,147:149)),
-    alignment = setAlPar(min.spectra.cor = 0.90, max.time.dist = 3, mz.range = 70:600),
+    deconvolution = setDecPar(
+      min.peak.width = 1.2, 
+      avoid.processing.mz = c(73:75,
+                              147:149)),
+    alignment = setAlPar(min.spectra.cor = 0.90, 
+                         max.time.dist = 3, 
+                         mz.range = 70:600),
     compoundRecovery = cr,
     identification = list(compound_database = erah::mslib)
   )

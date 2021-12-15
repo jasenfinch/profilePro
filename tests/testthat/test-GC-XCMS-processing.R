@@ -17,7 +17,9 @@ GC_sample_info <- tibble(
   mutate(name = tools::file_path_sans_ext(fileName),
          class = targets$Group[1:2])
 
-GC_parameters <- profileParameters('GCMS-XCMS',nCores = 2)
+GC_parameters <- profileParameters('GCMS-XCMS')
+
+plan('sequential')
 
 GC_processed_data <- profileProcess(GC_file_paths,
                                     GC_sample_info,

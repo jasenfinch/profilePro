@@ -41,13 +41,16 @@ sample_info <- tibble(fileOrder = seq_along(file_paths),
                       class = substr(sample_names,1,2))
 
 ## Generate profiling parameters
-parameters <- profileParameters('LCMS-RP',nCores = 2)
+parameters <- profileParameters('LCMS-RP')
 processingParameters(parameters)$peakDetection <- CentWaveParam(snthresh = 20, 
                                                                 noise = 1000)
 processingParameters(parameters)$retentionTimeCorrection <- ObiwarpParam()
 processingParameters(parameters)$grouping <- PeakDensityParam(sampleGroups = sample_info$class,
                                                               maxFeatures = 300,
                                                               minFraction = 2/3)
+## Specify parallel processing plan
+plan('sequential')
+
 ## Process data
 processed_data <- profileProcess(file_paths,sample_info,parameters)
 
@@ -71,7 +74,10 @@ sample_info <- tibble(fileOrder = seq_along(file_paths),
                       class = targets$Group[1:2])
 
 ## Generate profiling parameters
-parameters <- profileParameters('GCMS-XCMS',nCores = 2)
+parameters <- profileParameters('GCMS-XCMS')
+
+## Specify parallel processing plan
+plan('sequential')
 
 ## Process data
 processed_data <- profileProcess(file_paths,sample_info,parameters)
@@ -96,7 +102,10 @@ sample_info <- tibble(fileOrder = seq_along(file_paths),
                       class = targets$Group[1:2])
 
 ## Generate profiling parameters
-parameters <- profileParameters('GCMS-eRah',nCores = 2)
+parameters <- profileParameters('GCMS-eRah')
+
+## Specify parallel processing plan
+plan('sequential')
 
 ## Process data
 processed_data <- profileProcess(file_paths,sample_info,parameters)

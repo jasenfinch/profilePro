@@ -14,7 +14,7 @@ LC_sample_info <- tibble(
   mutate(name = tools::file_path_sans_ext(fileName),
          class = substr(name,1,2))
 
-LC_parameters <- profileParameters('LCMS-RP',nCores = 2)
+LC_parameters <- profileParameters('LCMS-RP')
 processingParameters(LC_parameters)$peakDetection <- CentWaveParam(
   snthresh = 20, 
   noise = 1000)
@@ -23,6 +23,8 @@ processingParameters(LC_parameters)$grouping <- PeakDensityParam(
   sampleGroups = LC_sample_info$class,
   maxFeatures = 300,
   minFraction = 2/3)
+
+plan('sequential')
 
 LC_processed_data <- profileProcess(
   LC_file_paths,

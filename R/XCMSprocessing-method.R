@@ -6,6 +6,7 @@
 #' @importFrom utils capture.output
 #' @importFrom crayon green
 #' @importFrom tibble deframe
+#' @importFrom BiocParallel.FutureParam FutureParam
 
 setMethod('XCMSprocessing',signature = 'MetaboProfile',
           function(x){
@@ -20,19 +21,7 @@ setMethod('XCMSprocessing',signature = 'MetaboProfile',
             
             processingParameters(x)$grouping@sampleGroups <- info$sample_groups
             
-            if (length(filePaths(x)) < processingParameters(x)$nCores) {
-              nCores <- x %>%
-                filePaths() %>%
-                length()
-            } else {
-              nCores <- x %>%
-                processingParameters() %>%
-                .$nCores
-            }
-            
-            para <- bpparam()
-            bpworkers(para) <- nCores
-            register(para)
+            register(FutureParam())
             
             message('Reading data')
             
