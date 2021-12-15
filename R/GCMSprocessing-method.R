@@ -12,19 +12,7 @@ setMethod('GCMSprocessing',signature = 'MetaboProfile',
             
             processingParameters(x)$grouping@sampleGroups <- info$sample_groups
             
-            if (length(filePaths(x)) < processingParameters(x)$nCores) {
-              nCores <- x %>%
-                filePaths() %>%
-                length()
-            } else {
-              nCores <- x %>%
-                processingParameters() %>%
-                .$nCores
-            }
-            
-            para <- bpparam()
-            bpworkers(para) <- nCores
-            register(para) 
+            register(FutureParam()) 
             
             message('Reading data')
             d <- readMSData(filePaths(x),pdata = info, mode = 'onDisk')
