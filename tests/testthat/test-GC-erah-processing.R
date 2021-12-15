@@ -18,10 +18,12 @@ GC_sample_info <- tibble(
   mutate(name = tools::file_path_sans_ext(fileName),
          class = targets$Group[1:2])
 
-GC_parameters <- profileParameters('GCMS-eRah',nCores = 2)
+GC_parameters <- profileParameters('GCMS-eRah')
 processingParameters(GC_parameters)$identification <- list(
   DB = 'MassBank',
   compound_database = mslib)
+
+plan('multisession',workers = 2)
 
 GC_processed_data <- profileProcess(GC_file_paths,
                                     GC_sample_info,
