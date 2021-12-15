@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">profilePro</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
       </span>
     </div>
 
@@ -53,15 +53,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">profileParameters</span><span class="op">(</span><span class="va">technique</span>, nCores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.75</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">profileParameters</span><span class="op">(</span><span class="va">technique</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>technique</dt>
 <dd><p>the profiling technique for which to initiate parameters</p></dd>
-<dt>nCores</dt>
-<dd><p>number of cores to use for parallel processing</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -75,7 +73,64 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">profileParameters</span><span class="op">(</span><span class="st">'LCMS-RP'</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Processing parameters for technique LCMS-RP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Processing parameters for technique <span style="color: #0000BB;">LCMS-RP</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">info</span>:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> name class </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">peakDetection</span>:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class:  CentWaveParam </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Parameters:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - ppm: [1] 8.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - peakwidth: [1] 16 43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - snthresh: [1] 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - prefilter: [1]   3 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - mzCenterFun: [1] "apex"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - integrate: [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - mzdiff: [1] 0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - fitgauss: [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - noise: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - verboseColumns: [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - roiList: list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - firstBaselineCheck: [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - roiScales: numeric(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - extendLengthMSW: [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">retentionTimeCorrection</span>:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class:  ObiwarpParam </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Parameters:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - binSize: [1] 0.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - centerSample: integer(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - response: [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - distFun: [1] "cor_opt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - gapInit: [1] 2.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - gapExtend: [1] 2.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - factorDiag: [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - factorGap: [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - localAlignment: [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - initPenalty: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - subset: integer(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - subsetAdjust: [1] "average"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">grouping</span>:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class:  PeakDensityParam </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Parameters:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - sampleGroups: [1] "class"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - bw: [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - minFraction: [1] 0.6666667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - minSamples: [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - binSize: [1] 0.00775</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - maxFeatures: [1] 50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">infilling</span>:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class:  FillChromPeaksParam </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Parameters:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - expandMz: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - expandRt: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - ppm: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - fixedMz: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - fixedRt: [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </div>
