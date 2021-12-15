@@ -1,6 +1,13 @@
-# profilePro 0.7.2
+# profilePro 0.8.0
 
 * Added missing import of `MSnbase::as.MSnExp.OnDiskMSnExp()`.
+
+* Re-export [`plan()`](https://future.futureverse.org/reference/plan.html) from the [`future`](https://future.futureverse.org/) package.
+
+* The parallel processing back-end for xcms processing is now specified using [`plan()`](https://future.futureverse.org/reference/plan.html) from [`future`](https://future.futureverse.org/) package.
+This is enabled by the [`BiocParallel.FutureParam`](https://biocparallel.futureparam.futureverse.org/) package.
+
+* Removed the `nCores` argument from [`profileParameters()`](https://jasenfinch.github.io/profilePro/reference/profileParameters.html).
 
 # profilePro 0.7.1
 
