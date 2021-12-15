@@ -9,6 +9,8 @@ This is enabled by the [`BiocParallel.FutureParam`](https://biocparallel.futurep
 
 * Removed the `nCores` argument from [`profileParameters()`](https://jasenfinch.github.io/profilePro/reference/profileParameters.html).
 
+* Removed [`patchwork`](https://patchwork.data-imaginist.com/) as a dependency.
+
 # profilePro 0.7.1
 
 * Removed parallel arguments from [`erah`](https://github.com/xdomingoal/erah-devel) processing routine as these now support the use of the [`future`](https://future.futureverse.org/) package.
