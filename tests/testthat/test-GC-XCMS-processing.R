@@ -19,7 +19,7 @@ GC_sample_info <- tibble(
 
 GC_parameters <- profileParameters('GCMS-XCMS')
 
-plan('multisession',workers = 2)
+plan('sequential')
 
 GC_processed_data <- profileProcess(GC_file_paths,
                                     GC_sample_info,

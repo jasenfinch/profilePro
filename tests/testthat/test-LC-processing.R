@@ -24,7 +24,7 @@ processingParameters(LC_parameters)$grouping <- PeakDensityParam(
   maxFeatures = 300,
   minFraction = 2/3)
 
-plan('multisession',workers = 2)
+plan('sequential')
 
 LC_processed_data <- profileProcess(
   LC_file_paths,

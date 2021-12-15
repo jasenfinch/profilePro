@@ -49,7 +49,7 @@ processingParameters(parameters)$grouping <- PeakDensityParam(sampleGroups = sam
                                                               maxFeatures = 300,
                                                               minFraction = 2/3)
 ## Specify parallel processing plan
-plan('multisession',workers = 2)
+plan('sequential')
 
 ## Process data
 processed_data <- profileProcess(file_paths,sample_info,parameters)
@@ -77,7 +77,7 @@ sample_info <- tibble(fileOrder = seq_along(file_paths),
 parameters <- profileParameters('GCMS-XCMS')
 
 ## Specify parallel processing plan
-plan('multisession',workers = 2)
+plan('sequential')
 
 ## Process data
 processed_data <- profileProcess(file_paths,sample_info,parameters)
@@ -105,7 +105,7 @@ sample_info <- tibble(fileOrder = seq_along(file_paths),
 parameters <- profileParameters('GCMS-eRah')
 
 ## Specify parallel processing plan
-plan('multisession',workers = 2)
+plan('sequential')
 
 ## Process data
 processed_data <- profileProcess(file_paths,sample_info,parameters)

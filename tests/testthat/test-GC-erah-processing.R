@@ -23,7 +23,7 @@ processingParameters(GC_parameters)$identification <- list(
   DB = 'MassBank',
   compound_database = mslib)
 
-plan('multisession',workers = 2)
+plan('sequential')
 
 GC_processed_data <- profileProcess(GC_file_paths,
                                     GC_sample_info,
