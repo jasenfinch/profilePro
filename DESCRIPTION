@@ -26,7 +26,7 @@ Imports: readr,
     tidyselect,
     MSnbase
 Remotes: jasenfinch/erah,
-        HenrikBengtsson/BiocParallel.FutureParam
+        jasenfinch/BiocParallel.FutureParam
 Suggests: 
     faahKO,
     testthat,
