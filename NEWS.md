@@ -1,3 +1,9 @@
+# profilePro 0.8.1
+
+* Temporarily use `jasenfinch/BiocParallel.FutureParam` until the [pull request](https://github.com/HenrikBengtsson/BiocParallel.FutureParam/pull/8) for the package installation error due to the update of `BiocParallel` to version 1.30.0.
+
+* Removed `readr` from the `Imports` field the package DESCRIPTION.
+
 # profilePro 0.8.0
 
 * Added missing import of `MSnbase::as.MSnExp.OnDiskMSnExp()`.
