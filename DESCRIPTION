@@ -8,8 +8,7 @@ BugReports: https://github.com/jasenfinch/profilePro/issues
 biocViews: MassSpectrometry, Metabolomics
 Depends: R (>= 3.4.0),
     xcms
-Imports: readr,
-    tibble,
+Imports: tibble,
     methods,
     purrr,
     BiocParallel,
