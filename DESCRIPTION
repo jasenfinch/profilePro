@@ -25,9 +25,9 @@ Imports: tibble,
     tidyselect,
     MSnbase
 Remotes: jasenfinch/erah,
-        jasenfinch/BiocParallel.FutureParam
+        jasenfinch/BiocParallel.FutureParam,
         bioc::BiocParallel,
-        bioc::MSnbase
+        bioc::MSnbase,
         bioc::xcms
 Suggests: 
     faahKO,
