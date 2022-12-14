@@ -62,7 +62,9 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
               if (!is.null(cls)) {
                 chrom <- chrom %>%
                   left_join(info %>%
-                              select(name,Class = cls),by = c('Sample' = 'name'))
+                              dplyr::mutate(name = as.character(name)) %>% 
+                              select(name,Class = cls),
+                            by = c('Sample' = 'name'))
                 if (group == TRUE) {
                   chrom <- chrom %>%
                     group_by(mode,Class,rtime) %>%
