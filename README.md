@@ -4,6 +4,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R-CMD-check](https://github.com/jasenfinch/profilePro/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasenfinch/profilePro/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/jasenfinch/profilePro/branch/master/graph/badge.svg)](https://codecov.io/gh/jasenfinch/profilePro?branch=master)
+[![GitHub release](https://img.shields.io/github/release/jasenfinch/profilePro.svg)](https://GitHub.com/jasenfinch/profilePro/releases/)
 <!-- badges: end -->
 
 > Unified Input and Output for Processing of Metabolomic Profiling Experiments
