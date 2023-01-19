@@ -1,6 +1,6 @@
 Package: profilePro
 Title: Unified Input and Output for Processing of Metabolomic Profiling Experiments
-Version: 0.8.1
+Version: 0.8.2
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Wrapper methods to allow consistent input and output of data processing results from multiple metabolomic profiling techniques.
 URL: https://jasenfinch.github.io/profilePro/
@@ -25,7 +25,10 @@ Imports: tibble,
     tidyselect,
     MSnbase
 Remotes: jasenfinch/erah,
-        jasenfinch/BiocParallel.FutureParam
+        jasenfinch/BiocParallel.FutureParam,
+        bioc::BiocParallel,
+        bioc::MSnbase,
+        bioc::xcms
 Suggests: 
     faahKO,
     testthat,

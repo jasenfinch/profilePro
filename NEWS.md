@@ -1,3 +1,9 @@
+# profilePro 0.8.2
+
+* Add Bioconductor dependencies to the remote field in DESCRIPTION to ensure that these can be installed when installing the package using [`pak`](https://pak.r-lib.org/) or [`renv`](https://rstudio.github.io/renv/articles/renv.html).
+
+* Fix for [`plotChromatogram`](https://jasenfinch.github.io/profilePro/reference/plotChromatogram.html) when the specified sample classes using the `cls` argument is not a character vector.
+
 # profilePro 0.8.1
 
 * Temporarily use `jasenfinch/BiocParallel.FutureParam` until the [pull request](https://github.com/HenrikBengtsson/BiocParallel.FutureParam/pull/8) for the package installation error due to the update of `BiocParallel` to version 1.30.0.
