@@ -11,7 +11,7 @@
 #' @importFrom xcms chromatogram
 #' @importFrom magrittr set_names
 #' @importFrom ggplot2 ggplot geom_line theme_bw aes labs theme element_text
-#' @importFrom dplyr bind_rows group_by summarise
+#' @importFrom dplyr bind_rows group_by summarise all_of
 #' @importFrom erah plotChr
 #' @importFrom MSnbase as.MSnExp.OnDiskMSnExp
 
@@ -43,6 +43,7 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
                   .x %>%
                     as.MSnExp.OnDiskMSnExp() %>% 
                     chromatogram(aggregationFun = aggregationFun) %>%
+                    .@.Data %>% 
                     map(~{
                       tibble(rtime = .@rtime,
                              intensity = .@intensity)
@@ -63,7 +64,7 @@ setMethod('plotChromatogram',signature = 'MetaboProfile',
                 chrom <- chrom %>%
                   left_join(info %>%
                               dplyr::mutate(name = as.character(name)) %>% 
-                              select(name,Class = cls),
+                              select(name,Class = all_of(cls)),
                             by = c('Sample' = 'name'))
                 if (group == TRUE) {
                   chrom <- chrom %>%

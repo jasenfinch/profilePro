@@ -2,7 +2,9 @@
 
 * Add Bioconductor dependencies to the remote field in DESCRIPTION to ensure that these can be installed when installing the package using [`pak`](https://pak.r-lib.org/) or [`renv`](https://rstudio.github.io/renv/articles/renv.html).
 
-* Fix for [`plotChromatogram`](https://jasenfinch.github.io/profilePro/reference/plotChromatogram.html) when the specified sample classes using the `cls` argument is not a character vector.
+* Fix for [`plotChromatogram()`](https://jasenfinch.github.io/profilePro/reference/plotChromatogram.html) when the specified sample classes using the `cls` argument is not a character vector.
+
+* Fix for [`plotChromatogram()`](https://jasenfinch.github.io/profilePro/reference/plotChromatogram.html) with the now returned [`MChromatograms`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.html) class object from `xcms::chromatogram()`.
 
 # profilePro 0.8.1
 
